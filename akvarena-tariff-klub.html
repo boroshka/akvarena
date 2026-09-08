@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Тарифы — АквАренА</title>
+<title>Клубные карты — Тарифы АквАренА</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -197,24 +197,8 @@
   .note{ margin-top:14px; font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.5; }
 
   footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
-  .hub-grid{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
-  }
-  @media (max-width:820px){ .hub-grid{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:560px){ .hub-grid{grid-template-columns:1fr;} }
-  .hub-card{
-    display:block; background:var(--white); border-radius:18px;
-    padding:26px 24px; box-shadow:0 10px 26px rgba(5,15,26,0.10);
-    transition:transform .15s ease, box-shadow .15s ease;
-  }
-  .hub-card:hover{ transform:translateY(-3px); box-shadow:0 16px 34px rgba(5,15,26,0.16); }
-  .hub-card h3{ font-size:20px; margin-bottom:8px; color:var(--deep); }
-  .hub-card p{ font-size:14px; color:#3B4A55; line-height:1.5; margin:0 0 16px; }
-  .hub-card .from{
-    font-size:13px; font-weight:700; color:var(--petrol);
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .hub-card .from strong{ font-family:'Fraunces',serif; font-size:20px; color:var(--deep); font-weight:600; }
+  .subnav a.active{ background:var(--deep); color:var(--white); box-shadow:none; }
+  .highlight-row-cards{ margin-bottom:8px; }
 </style>
 </head>
 <body>
@@ -244,44 +228,97 @@
 </header>
 
 <div class="wrap page-hero">
-  <h1>Тарифы</h1>
-  <span class="updated">Действуют с 27 августа 2026 г.</span>
+  <h1>Клубные карты</h1>
 </div>
 
-<main class="wrap" style="padding-top:32px;">
-
-  <div class="hub-grid">
-      <a class="hub-card" href="akvarena-tariff-bassein.html">
-        <h3>Бассейн</h3>
-        <p>Разовые визиты и пакеты для взрослых, детей, пенсионеров и студентов.</p>
-        <div class="from"><span>Подробнее</span><strong>от 650 ₽</strong></div>
-      </a>
-      <a class="hub-card" href="akvarena-tariff-klub.html">
-        <h3>Клубные карты</h3>
-        <p>Абонементы на месяц, полгода или год с доступом к нескольким зонам сразу.</p>
-        <div class="from"><span>Подробнее</span><strong>от 1 500 ₽</strong></div>
-      </a>
-      <a class="hub-card" href="akvarena-tariff-semya.html">
-        <h3>Семейные тарифы</h3>
-        <p>Совместные визиты и клубные карты для родителей с детьми.</p>
-        <div class="from"><span>Подробнее</span><strong>от 1 700 ₽</strong></div>
-      </a>
-      <a class="hub-card" href="akvarena-tariff-fitnes-spa.html">
-        <h3>Фитнес и СПА</h3>
-        <p>Разовые посещения тренажёрного зала и SPA-зоны — вне клубных карт.</p>
-        <div class="from"><span>Подробнее</span><strong>от 400 ₽</strong></div>
-      </a>
-      <a class="hub-card" href="akvarena-tariff-obuchenie.html">
-        <h3>Обучение и группы</h3>
-        <p>Аквааэробика, обучение детей и взрослых плаванию по расписанию.</p>
-        <div class="from"><span>Подробнее</span><strong>от 600 ₽</strong></div>
-      </a>
-      <a class="hub-card" href="akvarena-tariff-dop.html">
-        <h3>Доп. услуги</h3>
-        <p>Солнечная лужайка, коллагенарий, жироанализатор — отдельные процедуры.</p>
-        <div class="from"><span>Подробнее</span><strong>от 50 ₽</strong></div>
-      </a>
+<div class="subnav-shell">
+  <div class="wrap subnav">
+    <a href="akvarena-tariff-bassein.html">Бассейн</a>
+    <a href="akvarena-tariff-klub.html" class="active">Клубные карты</a>
+    <a href="akvarena-tariff-semya.html">Семейные тарифы</a>
+    <a href="akvarena-tariff-fitnes-spa.html">Фитнес и СПА</a>
+    <a href="akvarena-tariff-obuchenie.html">Обучение и группы</a>
+    <a href="akvarena-tariff-dop.html">Доп. услуги</a>
   </div>
+</div>
+
+<main class="wrap">
+
+  <div class="highlight-row-cards">
+    <div class="simple-cards">
+      <div class="simple-card">
+        <div class="name">Гостевой визит</div>
+        <div class="meta">Бассейн + Фитнес + SPA</div>
+        <div class="price">1 800 ₽</div>
+      </div>
+      <div class="simple-card">
+        <div class="name">Клуб на месяц</div>
+        <div class="meta">Любое время</div>
+        <div class="price">7 700 ₽</div>
+      </div>
+      <div class="simple-card">
+        <div class="name">Клуб на год</div>
+        <div class="meta">Любое время</div>
+        <div class="price">33 000 ₽</div>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="group">
+      <h3>Разовый визит</h3>
+      <div class="simple-cards">
+        <div class="simple-card">
+          <div class="name">Гостевой визит</div>
+          <div class="meta">Бассейн + Фитнес + SPA комплекс</div>
+          <div class="price">1 800 ₽</div>
+        </div>
+        <div class="simple-card">
+          <div class="name">Бассейн + SPA комплекс</div>
+          <div class="meta">Любое время</div>
+          <div class="price">1 500 ₽</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>Клуб (бассейн + фитнес + SPA)</h3>
+      <div class="table-scroll">
+        <table>
+          <tr><th>Срок карты</th><th>Дневная карта</th><th>Любое время</th></tr>
+          <tr><td>1 год</td><td class="price">24 000 ₽</td><td class="price">33 000 ₽</td></tr>
+          <tr><td>Полгода (180 дней)</td><td class="price">18 000 ₽</td><td class="price">22 000 ₽</td></tr>
+          <tr><td>1 месяц (30 дней)</td><td class="muted">—</td><td class="price">7 700 ₽</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>Комбинации без фитнеса или без SPA</h3>
+      <div class="table-scroll">
+        <table>
+          <tr><th>Карта</th><th>Срок</th><th>Стоимость</th></tr>
+          <tr><td>Бассейн + SPA комплекс</td><td>1 год</td><td class="price">28 500 ₽</td></tr>
+          <tr><td>Бассейн + SPA комплекс</td><td>Полгода (180 дней)</td><td class="price">19 000 ₽</td></tr>
+          <tr><td>Бассейн + Фитнес</td><td>Полгода (180 дней)</td><td class="price">18 000 ₽</td></tr>
+          <tr><td>Фитнес + SPA комплекс</td><td>Полгода (180 дней)</td><td class="price">16 000 ₽</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>Только фитнес</h3>
+      <div class="table-scroll">
+        <table>
+          <tr><th>Срок карты</th><th>Дневная карта (будни/выходные до 17:00)</th><th>Любое время</th></tr>
+          <tr><td>Полгода (180 дней)</td><td class="price">7 500 ₽</td><td class="price">9 000 ₽</td></tr>
+          <tr><td>3 месяца (90 дней)</td><td class="price">4 000 ₽</td><td class="price">5 000 ₽</td></tr>
+          <tr><td>30 дней</td><td class="price">2 100 ₽</td><td class="price">2 800 ₽</td></tr>
+        </table>
+      </div>
+    </div>
+    <p class="note">* Клубные карты не действуют на групповые занятия, персональные тренировки, коллагенарий и солнечную лужайку — они оплачиваются отдельно.</p>
+
 
 </main>
 

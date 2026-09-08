@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>АквАрена — бассейн, спа и фитнес в Казани</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #12212E;
+    --deep: #0B3554;
+    --petrol: #146B8C;
+    --mist: #EAF4F9;
+    --paper: #F3F9FC;
+    --amber: #3FA9DA;
+    --amber-deep: #1E7FB0;
+    --line: rgba(11,53,84,0.14);
+    --white: #FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,
+      #FFFFFF 0px,
+      #F8FBFB 10px,
+      #F0FAF9 29px,
+      #E8F8F5 56px,
+      #DEF5F2 89px,
+      #D2F2EF 127px,
+      #C4EFEE 170px,
+      #B6EBEC 218px,
+      #A6E3E8 269px,
+      #97D8E3 325px,
+      #87CDDF 385px,
+      #76C0DA 448px,
+      #67B3D6 515px,
+      #57A7D0 586px,
+      #489ACA 659px,
+      #3A8CC5 736px,
+      #357DB5 816px,
+      #306FA5 900px,
+      #2B6298 986px,
+      #26588D 1075px,
+      #224E83 1167px,
+      #1F4579 1262px,
+      #1B3D6F 1359px,
+      #183565 1459px,
+      #152D5B 1562px,
+      #122650 1667px,
+      #0F2046 1775px,
+      #0D1A3C 1886px,
+      #0B1633 1999px,
+      #09122A 2114px,
+      #071022 2232px,
+      #060D1A 2353px,
+      #050B16 2475px,
+      #050A11 2600px,
+      #050A11 100%);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background:
+      radial-gradient(600px 500px at 85% 8%, rgba(255,255,255,0.18), transparent 62%),
+      radial-gradient(500px 600px at 6% 40%, rgba(120,210,235,0.12), transparent 60%),
+      radial-gradient(700px 700px at 92% 70%, rgba(63,169,218,0.10), transparent 60%);
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    line-height:1.05;
+    margin:0;
+    color:var(--deep);
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{
+    max-width:1160px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(234,246,251,0.9);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-row{
+    display:flex; align-items:center; justify-content:space-between;
+    height:76px;
+  }
+  .logo{
+    display:flex; align-items:center;
+  }
+  .logo-img{ height:44px; width:auto; display:block; }
+  @media (max-width:640px){ .logo-img{ height:36px; } }
+  nav.primary-nav{display:flex; gap:28px;}
+  nav.primary-nav a{
+    font-size:15px; font-weight:600; color:var(--ink);
+    padding:6px 0; border-bottom:2px solid transparent;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  nav.primary-nav a:hover{border-color:var(--amber); color:var(--deep);}
+
+  /* ---------- Nav dropdown ---------- */
+  .nav-dropdown{ position:relative; display:inline-block; }
+  .nav-dropdown > a{ display:inline-flex; align-items:center; gap:5px; }
+  .nav-dropdown > a::after{
+    content:''; width:6px; height:6px;
+    border-right:2px solid currentColor; border-bottom:2px solid currentColor;
+    transform:rotate(45deg); opacity:.55;
+    transition:transform .15s ease;
+  }
+  .nav-dropdown.open > a::after{ transform:rotate(-135deg); }
+  .nav-dropdown-panel{
+    position:absolute; top:100%; left:50%;
+    transform:translate(-50%,-6px);
+    margin-top:18px;
+    background:var(--white);
+    border-radius:16px;
+    box-shadow:0 20px 44px rgba(5,15,26,0.30);
+    min-width:270px;
+    padding:8px;
+    opacity:0; visibility:hidden;
+    transition:opacity .18s ease, transform .18s ease, visibility .18s;
+    z-index:80;
+  }
+  .nav-dropdown-panel::before{
+    content:''; position:absolute; top:-6px; left:50%;
+    transform:translateX(-50%) rotate(45deg);
+    width:12px; height:12px; background:var(--white);
+    border-radius:3px;
+  }
+  .nav-dropdown-panel a{
+    position:relative; display:flex; align-items:center; gap:10px;
+    padding:11px 14px; border-radius:10px;
+    font-size:14px; font-weight:600; color:var(--deep);
+  }
+  .nav-dropdown-panel a::before{
+    content:''; width:6px; height:6px; border-radius:50%;
+    background:var(--amber); flex:0 0 auto;
+  }
+  .nav-dropdown-panel a:hover{ background:var(--mist); }
+  @media (hover:hover){
+    .nav-dropdown:hover .nav-dropdown-panel{
+      opacity:1; visibility:visible; transform:translate(-50%,0);
+    }
+  }
+  .nav-dropdown.open .nav-dropdown-panel{
+    opacity:1; visibility:visible; transform:translate(-50%,0);
+  }
+  @media (max-width:900px){
+    .nav-dropdown-panel{
+      position:static; transform:none; margin-top:6px; margin-left:14px;
+      box-shadow:none; border-left:2px solid var(--line);
+      border-radius:0; padding:4px 0 4px 12px;
+      display:none; opacity:1; visibility:visible;
+    }
+    .nav-dropdown-panel::before{ display:none; }
+    .nav-dropdown.open .nav-dropdown-panel{ display:block; }
+  }
+  .header-actions{display:flex; align-items:center; gap:18px;}
+  .phone-block{text-align:right; font-size:14px; line-height:1.3;}
+  .phone-block a{font-weight:700; color:var(--deep); font-size:15px;}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:12px 22px; border-radius:999px;
+    font-weight:700; font-size:14.5px;
+    border:1px solid transparent;
+    cursor:pointer;
+  }
+  .btn-primary{background:var(--amber); color:var(--ink);}
+  .btn-primary:hover{background:var(--amber-deep);}
+  .btn-ghost{border-color:var(--line); color:var(--deep); background:transparent;}
+  .btn-ghost:hover{border-color:var(--deep);}
+  .hero-ctas .btn-ghost{border-color:var(--line); color:var(--deep);}
+  .hero-ctas .btn-ghost:hover{border-color:var(--deep); background:rgba(11,53,84,0.05);}
+  .menu-toggle{display:none; background:none; border:none; cursor:pointer; padding:6px;}
+  .menu-toggle svg{width:24px; height:24px;}
+
+  @media (max-width:900px){
+    nav.primary-nav{display:none;}
+    .phone-block{display:none;}
+    .menu-toggle{display:block;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    padding:64px 0 0;
+  }
+  .hero-bg-waves{
+    position:absolute; inset:0; width:100%; height:100%;
+    opacity:0.5;
+  }
+  .hero-grid{
+    position:relative; z-index:1;
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:40px;
+    align-items:center;
+  }
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr; gap:36px;}
+  }
+  .hero-copy{
+    background:rgba(255,255,255,0.6);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,0.7);
+    border-radius:28px;
+    padding:36px;
+  }
+  @media (max-width:640px){ .hero-copy{padding:24px;} }
+  .hero h1{
+    font-size:clamp(34px, 4.6vw, 56px);
+    letter-spacing:-0.01em;
+    color:var(--deep);
+  }
+  .hero h1 a{
+    color:var(--deep);
+    text-decoration:underline;
+    text-decoration-color:rgba(11,53,84,0.35);
+    text-decoration-thickness:2px;
+    text-underline-offset:6px;
+    transition:text-decoration-color .15s ease;
+  }
+  .hero h1 a:hover{ text-decoration-color:var(--amber); }
+  .hero p.lede{
+    margin:22px 0 0;
+    max-width:46ch;
+    font-size:18px;
+    line-height:1.55;
+    color:#3B4A55;
+  }
+  .hero-ctas{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
+  .hero-meta{
+    margin-top:40px;
+    display:flex; gap:32px; flex-wrap:wrap;
+    padding-top:24px; border-top:1px solid var(--line);
+  }
+  .hero-meta div{font-size:14px; color:#3B4A55; line-height:1.4;}
+  .hero-meta strong{display:block; font-family:'Fraunces',serif; font-size:22px; color:var(--deep); font-weight:600;}
+
+  .hero-art{
+    position:relative;
+    aspect-ratio:4/5;
+    border-radius:28px;
+    background:linear-gradient(165deg, var(--petrol) 0%, var(--deep) 65%, #071F30 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 78% 100%, 0 100%);
+    overflow:hidden;
+  }
+  .hero-art img.pool-photo{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:center 40%;
+  }
+  .hero-art .scrim{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(7,31,48,0) 40%, rgba(7,31,48,0.85) 100%);
+  }
+  .hero-art svg{position:absolute; inset:0; width:100%; height:100%;}
+  .hero-art .caption{
+    position:absolute; left:24px; bottom:28px; right:24px;
+    color:var(--white);
+    font-size:14px; line-height:1.4;
+  }
+  .hero-art .caption b{font-family:'Fraunces',serif; font-size:19px; display:block; font-weight:600; margin-bottom:4px;}
+
+  /* wave lines animation */
+  .wave-line{
+    fill:none; stroke:rgba(255,255,255,0.35); stroke-width:2;
+    animation: drift 9s ease-in-out infinite;
+  }
+  .wave-line.w2{stroke:rgba(255,255,255,0.2); animation-duration:12s; animation-delay:-3s;}
+  .wave-line.w3{stroke:rgba(180,225,245,0.6); animation-duration:15s; animation-delay:-6s;}
+  @keyframes drift{
+    0%,100%{ transform:translateX(0) translateY(0); }
+    50%{ transform:translateX(-14px) translateY(6px); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .wave-line{ animation:none; }
+    html{ scroll-behavior:auto; }
+  }
+
+  /* ---------- Pricing strip (the whole point) ---------- */
+  .pricing{
+    margin-top:24px;
+    padding:56px 0 64px;
+  }
+  .pricing-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:24px; flex-wrap:wrap; margin-bottom:32px;
+  }
+  .pricing-head h2{color:var(--white); font-size:clamp(26px,3vw,34px); text-shadow:0 2px 14px rgba(5,15,26,0.4);}
+  .pricing-head p{color:rgba(255,255,255,0.82); margin-top:8px; font-size:15px; max-width:44ch; text-shadow:0 1px 8px rgba(5,15,26,0.3);}
+  .pricing-head a.btn-ghost{border-color:rgba(255,255,255,0.35); color:var(--white);}
+  .pricing-head a.btn-ghost:hover{border-color:var(--white);}
+  .price-cards{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:16px;
+  }
+  @media (max-width:900px){ .price-cards{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .price-cards{grid-template-columns:1fr;} }
+  .price-card{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:18px;
+    padding:24px;
+    color:var(--white);
+  }
+  .price-card .label{font-size:14px; color:rgba(255,255,255,0.68); margin-bottom:10px;}
+  .price-card .amount{font-family:'Fraunces',serif; font-size:30px; font-weight:600;}
+  .price-card .amount small{font-family:'Manrope',sans-serif; font-size:14px; font-weight:600; color:rgba(255,255,255,0.6);}
+  .price-card .note{margin-top:10px; font-size:13px; color:rgba(255,255,255,0.55); line-height:1.4;}
+  .price-card.highlight{background:var(--amber); border-color:var(--amber); color:var(--ink);}
+  .price-card.highlight .label,.price-card.highlight .note{color:rgba(22,35,31,0.65);}
+  .price-card.highlight .amount{color:var(--ink);}
+
+  /* ---------- Services ---------- */
+  .section{padding:96px 0;}
+  .section-head{max-width:60ch; margin-bottom:48px;}
+  .section-head h2{font-size:clamp(28px,3.4vw,38px); color:var(--white);}
+  .section-head p{margin-top:14px; font-size:16.5px; color:rgba(255,255,255,0.75); line-height:1.6;}
+
+  .services{
+    display:flex; flex-direction:column; gap:28px;
+  }
+  .service-banner{
+    display:grid; grid-template-columns:1fr 1fr; gap:0;
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:24px;
+    overflow:hidden;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(6px);
+    scroll-margin-top:100px;
+  }
+  .service-banner:nth-child(even){ direction:rtl; }
+  .service-banner:nth-child(even) > *{ direction:ltr; }
+  @media (max-width:820px){
+    .service-banner{ grid-template-columns:1fr; }
+    .service-banner:nth-child(even){ direction:ltr; }
+  }
+  .service-visual{
+    position:relative;
+    display:block;
+    min-height:260px;
+    overflow:hidden;
+  }
+  .service-visual img{ width:100%; height:100%; object-fit:cover; }
+  .service-visual .icon-wrap{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .service-visual .icon-wrap svg{ width:76px; height:76px; }
+  .service-body{
+    padding:38px 40px;
+    display:flex; flex-direction:column; justify-content:center;
+    background:var(--white);
+  }
+  .service-body h3{font-size:24px; margin-bottom:12px; color:var(--deep);}
+  .service-body p{font-size:15.5px; color:#3B4A45; line-height:1.6; margin:0 0 20px;}
+  .service-body a{font-weight:700; font-size:14.5px; color:var(--petrol); border-bottom:2px solid var(--amber);}
+
+  /* ---------- Stats band ---------- */
+  .stats{
+    padding:56px 0;
+    border-top:1px solid rgba(255,255,255,0.14);
+    border-bottom:1px solid rgba(255,255,255,0.14);
+  }
+  .stats-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+  }
+  @media (max-width:900px){ .stats-grid{grid-template-columns:repeat(1,1fr);} }
+  .stat strong{
+    font-family:'Fraunces',serif; font-size:clamp(28px,3.4vw,40px); font-weight:600;
+    color:var(--white); display:block;
+  }
+  .stat span{font-size:14px; color:rgba(255,255,255,0.65); display:block; margin-top:6px; line-height:1.4;}
+
+  /* ---------- Map ---------- */
+  .map-embed{
+    position:relative;
+    margin-top:24px;
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.16);
+  }
+  .map-embed iframe{ display:block; width:100%; height:400px; border:0; }
+  .map-open-btn{
+    position:absolute; left:16px; bottom:16px;
+    background:var(--white); color:var(--deep);
+    font-size:14px; font-weight:700;
+    padding:11px 18px; border-radius:999px;
+    box-shadow:0 4px 14px rgba(5,15,26,0.25);
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .map-open-btn:hover{ background:var(--mist); }
+
+  /* ---------- Contact form ---------- */
+  .contact-form{ max-width:640px; }
+  .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:560px){ .form-row{ grid-template-columns:1fr; } }
+  .form-field{ margin-bottom:16px; }
+  .form-field label{
+    display:block; font-size:13.5px; font-weight:700;
+    color:rgba(255,255,255,0.75); margin-bottom:6px;
+  }
+  .form-field input, .form-field textarea{
+    width:100%; box-sizing:border-box;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:12px;
+    padding:12px 14px;
+    font-family:'Manrope', sans-serif;
+    font-size:15px; color:var(--white);
+  }
+  .form-field input::placeholder, .form-field textarea::placeholder{ color:rgba(255,255,255,0.4); }
+  .form-field input:focus, .form-field textarea:focus{
+    outline:none; border-color:var(--amber);
+    background:rgba(255,255,255,0.1);
+  }
+  .contact-form textarea{ resize:vertical; }
+  @media (max-width:560px){ .map-embed iframe{ height:320px; } }
+
+  /* ---------- Schedule preview ---------- */
+  .schedule-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+  }
+  @media (max-width:900px){ .schedule-grid{grid-template-columns:1fr;} }
+  table.sched{width:100%; border-collapse:collapse; background:rgba(255,255,255,0.06); border-radius:14px; overflow:hidden;}
+  table.sched th{
+    text-align:left; font-size:13px; color:rgba(255,255,255,0.6); font-weight:600;
+    padding:12px 16px; border-bottom:1px solid rgba(255,255,255,0.14);
+  }
+  table.sched td{
+    padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.14);
+    font-size:15px; color:rgba(255,255,255,0.85);
+  }
+  table.sched td.time{font-weight:700; color:var(--white); width:110px;}
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--ink); color:rgba(255,255,255,0.82);
+    padding:64px 0 32px;
+  }
+  .footer-grid{
+    display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:36px;
+    padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,0.12);
+  }
+  @media (max-width:800px){ .footer-grid{grid-template-columns:1fr 1fr;} }
+  footer h4{font-family:'Fraunces',serif; color:var(--white); font-size:17px; font-weight:600; margin:0 0 16px;}
+  footer p, footer a{font-size:14.5px; line-height:1.9; color:rgba(255,255,255,0.72);}
+  footer a:hover{color:var(--amber);}
+  .foot-bottom{
+    padding-top:24px; display:flex; justify-content:space-between;
+    font-size:13px; color:rgba(255,255,255,0.5); flex-wrap:wrap; gap:8px;
+  }
+
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <a class="logo" href="#top">
+      <img src="images/akvarena-logo.png" alt="АквАренА" class="logo-img">
+    </a>
+    <nav class="primary-nav">
+      <a href="akvarena-bassein.html">Бассейн</a>
+      <a href="akvarena-spa.html">СПА</a>
+      <a href="akvarena-zal.html">Фитнес</a>
+      <a href="akvarena-raspisanie.html">Расписание</a>
+      <div class="nav-dropdown">
+        <a href="akvarena-tariffs.html">Тарифы</a>
+        <div class="nav-dropdown-panel">
+          <a href="akvarena-tariff-bassein.html">Бассейн</a>
+          <a href="akvarena-tariff-klub.html">Клубные карты</a>
+          <a href="akvarena-tariff-semya.html">Семейные тарифы</a>
+          <a href="akvarena-tariff-fitnes-spa.html">Фитнес и СПА</a>
+          <a href="akvarena-tariff-obuchenie.html">Аквааэробика и обучение</a>
+          <a href="akvarena-tariff-dop.html">Доп. услуги</a>
+        </div>
+      </div>
+      <a href="#kontakty">Контакты</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-primary" href="#ceny">Смотреть цены</a>
+      <button class="menu-toggle" aria-label="Меню">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+   <svg class="hero-bg-waves" viewBox="0 0 1200 900" preserveAspectRatio="none" aria-hidden="true">
+     <path class="wave-line w1" d="M-50,110 C 150,70 250,150 450,110 S 750,70 950,110 1150,150 1250,110"/>
+     <path class="wave-line w2" d="M-50,220 C 150,180 250,260 450,220 S 750,180 950,220 1150,260 1250,220"/>
+     <path class="wave-line w2" d="M-50,340 C 150,300 250,380 450,340 S 750,300 950,340 1150,380 1250,340"/>
+   </svg>
+   <div class="wrap">
+    <div class="hero-grid">
+      <div class="reveal in hero-copy">
+        <h1><a href="akvarena-bassein.html">Бассейн</a>, <a href="akvarena-spa.html">спа</a> и <a href="akvarena-zal.html">тренажёрный зал</a> в центре Казани</h1>
+        <p class="lede">АквАренА на улице Короленко — три зала под одной крышей. Что в каждом из них, цены и расписание — ниже, по разделам.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#ceny">Узнать стоимость</a>
+          <a class="btn btn-ghost" href="tel:+78432001024">Позвонить: 200-10-24</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>8 дорожек</strong>4×25 м и 4×50 м, глубина 2 м</div>
+          <div><strong>5,0</strong>рейтинг, 1500+ отзывов</div>
+          <div><strong>7:00–23:00</strong>без выходных</div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <img class="pool-photo" src="images/akvarena-pool-photo.jpg" alt="Бассейн АквАренА, 8 дорожек">
+        <div class="scrim"></div>
+        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+          <path class="wave-line w3" d="M-20,400 C 80,370 140,430 220,400 S 380,370 440,400"/>
+        </svg>
+        <div class="caption">
+          <b>Открытая вода круглый год</b>
+          Чаша сложной формы с зоной гидромассажа и «быстрой рекой»
+        </div>
+      </div>
+    </div>
+   </div>
+  </section>
+
+  <!-- PRICING (the actual fix) -->
+  <section class="pricing" id="ceny">
+    <div class="wrap">
+      <div class="pricing-head">
+        <div>
+          <h2>Тарифы</h2>
+        </div>
+        <a class="btn btn-ghost" href="akvarena-tariffs.html">Все тарифы</a>
+      </div>
+      <div class="price-cards">
+        <div class="price-card">
+          <div class="label">Разовое посещение</div>
+          <div class="amount">650 <small>₽</small></div>
+          <div class="note">Бассейн, 90 минут, любое время</div>
+        </div>
+        <div class="price-card highlight">
+          <div class="label">10 визитов</div>
+          <div class="amount">5 500 <small>₽</small></div>
+          <div class="note">Действует 30 дней — самый частый выбор</div>
+        </div>
+        <div class="price-card">
+          <div class="label">Клуб на месяц</div>
+          <div class="amount">7 700 <small>₽</small></div>
+          <div class="note">Бассейн + фитнес + SPA, любое время</div>
+        </div>
+        <div class="price-card">
+          <div class="label">Клуб на год</div>
+          <div class="amount">от 24 000 <small>₽</small></div>
+          <div class="note">Дневная карта — от 24 000 ₽, любое время — 33 000 ₽</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section wrap" id="uslugi">
+    <div class="section-head">
+      <h2>Три пространства под одной крышей</h2>
+    </div>
+    <div class="services">
+      <div class="service-banner" id="pool-detail">
+        <a class="service-visual" href="akvarena-bassein.html">
+          <img src="images/akvarena-pool-photo.jpg" alt="Бассейн АквАренА, 8 дорожек">
+        </a>
+        <div class="service-body">
+          <h3>Бассейн</h3>
+          <p>4 дорожки по 25 м и 4 дорожки по 50 м, глубина основного бассейна 2 м. Свободное плавание, обучение детей и взрослых, аквааэробика по расписанию, зона гидромассажа и джакузи и отдельная детская зона.</p>
+          <a href="akvarena-bassein.html">Фото зала</a> &nbsp;·&nbsp; <a href="akvarena-tariff-bassein.html">Цены и расписание</a>
+        </div>
+      </div>
+      <div class="service-banner" id="spa">
+        <a class="service-visual" href="akvarena-spa.html">
+          <img src="images/akvarena-spa-1.jpg" alt="СПА-комплекс АквАренА">
+        </a>
+        <div class="service-body">
+          <h3>СПА-комплекс</h3>
+          <p>Джакузи на несколько человек, хаммам, финская сауна и зона отдыха. Можно посетить отдельно или вместе с бассейном.</p>
+          <a href="akvarena-spa.html">Фото СПА</a> &nbsp;·&nbsp; <a href="akvarena-tariff-fitnes-spa.html">Цены на СПА</a>
+        </div>
+      </div>
+      <div class="service-banner" id="fitness">
+        <a class="service-visual" href="akvarena-zal.html">
+          <img src="images/akvarena-zal-1.jpg" alt="Тренажёрный зал АквАренА">
+        </a>
+        <div class="service-body">
+          <h3>Тренажёрный зал</h3>
+          <p>Свободные тренировки и групповые программы — можно совмещать с плаванием или СПА в одном визите, без доплаты за раздевалку.</p>
+          <a href="akvarena-zal.html">Фото зала</a> &nbsp;·&nbsp; <a href="akvarena-tariff-fitnes-spa.html">Цены на фитнес</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="wrap stats-grid">
+      <div class="stat"><strong>8 дорожек</strong><span>4×25 м и 4×50 м, глубина 2 м</span></div>
+      <div class="stat"><strong>1 500+</strong><span>отзывов на Яндекс Картах</span></div>
+      <div class="stat"><strong>13 лет</strong><span>работы клуба в Казани</span></div>
+    </div>
+  </section>
+
+  <!-- CONTACT / CTA -->
+  <section class="section wrap" id="kontakty" style="padding-top:0;">
+    <div class="section-head">
+      <h2>Как добраться</h2>
+      <p>ул. Короленко, 28а, рядом со станцией метро «Яшьлек». Звоните заранее в часы пик по вечерам и выходным.</p>
+    </div>
+    <div class="map-embed">
+      <iframe
+        src="https://yandex.ru/map-widget/v1/?ll=49.103185%2C55.830582&z=16&l=map&pt=49.103185,55.830582,pm2rdm"
+        width="100%" height="400" frameborder="0" loading="lazy"
+        title="АквАренА на карте — ул. Короленко, 28а">
+      </iframe>
+      <a class="map-open-btn" href="https://yandex.ru/maps/org/akvarena/1158296055/" target="_blank" rel="noopener">
+        Открыть в Яндекс Картах
+      </a>
+    </div>
+  </section>
+
+  <!-- FEEDBACK FORM -->
+  <section class="section wrap" id="napisat">
+    <div class="section-head">
+      <h2>Написать нам</h2>
+      <p>Вопрос по абонементу, расписанию или что-то не работает на сайте — напишите, ответим на почту или перезвоним.</p>
+    </div>
+    <form class="contact-form" action="https://formspree.io/f/ВАШ_ID_С_FORMSPREE" method="POST">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="cf-name">Имя</label>
+          <input type="text" id="cf-name" name="name" required>
+        </div>
+        <div class="form-field">
+          <label for="cf-phone">Телефон</label>
+          <input type="tel" id="cf-phone" name="phone" required>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="cf-message">Сообщение</label>
+        <textarea id="cf-message" name="message" rows="4" required></textarea>
+      </div>
+      <input type="text" name="_gotcha" style="display:none">
+      <input type="hidden" name="_subject" value="Новое сообщение с сайта АквАренА">
+      <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>АквАренА</h4>
+        <p>Бассейн, спа и фитнес-студия<br>ул. Короленко, 28а, Казань</p>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <p><a href="tel:+78432001024">+7 (843) 200-10-24</a><br>
+        <a href="tel:+78432001025">+7 (843) 200-10-25</a><br>
+        <a href="mailto:akvarena@mail.ru">akvarena@mail.ru</a></p>
+      </div>
+      <div>
+        <h4>Часы работы</h4>
+        <p>Пн–Пт: 7:00–23:00<br>Сб–Вс: 8:00–22:00</p>
+      </div>
+      <div>
+        <h4>Разделы</h4>
+        <p><a href="akvarena-bassein.html">Бассейн</a><br><a href="akvarena-spa.html">СПА</a><br><a href="akvarena-raspisanie.html">Расписание</a><br><a href="akvarena-tariffs.html">Тарифы</a></p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Черновой макет для внутреннего показа — не действующий сайт клуба</span>
+      <span>© АквАренА</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // subtle reveal for hero already visible on load; observe later sections lightly
+  const els = document.querySelectorAll('.section-head, .service-banner, .price-card');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  els.forEach(el=>{ el.classList.add('reveal'); io.observe(el); });
+
+  document.querySelector('.menu-toggle').addEventListener('click', ()=>{
+    const nav = document.querySelector('.primary-nav');
+    nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    nav.style.cssText += 'position:absolute; top:76px; left:0; right:0; background:#FBFAF6; flex-direction:column; padding:20px 32px; border-bottom:1px solid rgba(14,59,60,0.14); gap:14px; display:flex;';
+  });
+
+  document.querySelectorAll('.nav-dropdown').forEach(dd=>{
+    const trigger = dd.querySelector('a');
+    trigger.addEventListener('click', (e)=>{
+      if(window.matchMedia('(hover: none)').matches){
+        e.preventDefault();
+        dd.classList.toggle('open');
+      }
+    });
+  });
+  document.addEventListener('click', (e)=>{
+    document.querySelectorAll('.nav-dropdown.open').forEach(dd=>{
+      if(!dd.contains(e.target)) dd.classList.remove('open');
+    });
+  });
+</script>
+
+</body>
+</html>

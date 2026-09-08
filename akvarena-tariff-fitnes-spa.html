@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Тарифы — АквАренА</title>
+<title>Фитнес и СПА комплекс — Тарифы АквАренА</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -197,24 +197,8 @@
   .note{ margin-top:14px; font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.5; }
 
   footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
-  .hub-grid{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
-  }
-  @media (max-width:820px){ .hub-grid{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:560px){ .hub-grid{grid-template-columns:1fr;} }
-  .hub-card{
-    display:block; background:var(--white); border-radius:18px;
-    padding:26px 24px; box-shadow:0 10px 26px rgba(5,15,26,0.10);
-    transition:transform .15s ease, box-shadow .15s ease;
-  }
-  .hub-card:hover{ transform:translateY(-3px); box-shadow:0 16px 34px rgba(5,15,26,0.16); }
-  .hub-card h3{ font-size:20px; margin-bottom:8px; color:var(--deep); }
-  .hub-card p{ font-size:14px; color:#3B4A55; line-height:1.5; margin:0 0 16px; }
-  .hub-card .from{
-    font-size:13px; font-weight:700; color:var(--petrol);
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .hub-card .from strong{ font-family:'Fraunces',serif; font-size:20px; color:var(--deep); font-weight:600; }
+  .subnav a.active{ background:var(--deep); color:var(--white); box-shadow:none; }
+  .highlight-row-cards{ margin-bottom:8px; }
 </style>
 </head>
 <body>
@@ -244,44 +228,65 @@
 </header>
 
 <div class="wrap page-hero">
-  <h1>Тарифы</h1>
-  <span class="updated">Действуют с 27 августа 2026 г.</span>
+  <h1>Фитнес и СПА комплекс</h1>
 </div>
 
-<main class="wrap" style="padding-top:32px;">
-
-  <div class="hub-grid">
-      <a class="hub-card" href="akvarena-tariff-bassein.html">
-        <h3>Бассейн</h3>
-        <p>Разовые визиты и пакеты для взрослых, детей, пенсионеров и студентов.</p>
-        <div class="from"><span>Подробнее</span><strong>от 650 ₽</strong></div>
-      </a>
-      <a class="hub-card" href="akvarena-tariff-klub.html">
-        <h3>Клубные карты</h3>
-        <p>Абонементы на месяц, полгода или год с доступом к нескольким зонам сразу.</p>
-        <div class="from"><span>Подробнее</span><strong>от 1 500 ₽</strong></div>
-      </a>
-      <a class="hub-card" href="akvarena-tariff-semya.html">
-        <h3>Семейные тарифы</h3>
-        <p>Совместные визиты и клубные карты для родителей с детьми.</p>
-        <div class="from"><span>Подробнее</span><strong>от 1 700 ₽</strong></div>
-      </a>
-      <a class="hub-card" href="akvarena-tariff-fitnes-spa.html">
-        <h3>Фитнес и СПА</h3>
-        <p>Разовые посещения тренажёрного зала и SPA-зоны — вне клубных карт.</p>
-        <div class="from"><span>Подробнее</span><strong>от 400 ₽</strong></div>
-      </a>
-      <a class="hub-card" href="akvarena-tariff-obuchenie.html">
-        <h3>Обучение и группы</h3>
-        <p>Аквааэробика, обучение детей и взрослых плаванию по расписанию.</p>
-        <div class="from"><span>Подробнее</span><strong>от 600 ₽</strong></div>
-      </a>
-      <a class="hub-card" href="akvarena-tariff-dop.html">
-        <h3>Доп. услуги</h3>
-        <p>Солнечная лужайка, коллагенарий, жироанализатор — отдельные процедуры.</p>
-        <div class="from"><span>Подробнее</span><strong>от 50 ₽</strong></div>
-      </a>
+<div class="subnav-shell">
+  <div class="wrap subnav">
+    <a href="akvarena-tariff-bassein.html">Бассейн</a>
+    <a href="akvarena-tariff-klub.html">Клубные карты</a>
+    <a href="akvarena-tariff-semya.html">Семейные тарифы</a>
+    <a href="akvarena-tariff-fitnes-spa.html" class="active">Фитнес и СПА</a>
+    <a href="akvarena-tariff-obuchenie.html">Обучение и группы</a>
+    <a href="akvarena-tariff-dop.html">Доп. услуги</a>
   </div>
+</div>
+
+<main class="wrap">
+
+  <div class="highlight-row-cards">
+    <div class="simple-cards">
+      <div class="simple-card">
+        <div class="name">Фитнес разовое</div>
+        <div class="meta">Любое время, без ограничений</div>
+        <div class="price">400 ₽</div>
+      </div>
+      <div class="simple-card">
+        <div class="name">СПА разовое</div>
+        <div class="meta">Будни 9:00–17:00, 2 часа</div>
+        <div class="price">700 ₽</div>
+      </div>
+      <div class="simple-card">
+        <div class="name">СПА 4 визита</div>
+        <div class="meta">30 дней, любое время</div>
+        <div class="price">3 500 ₽</div>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="group">
+      <h3>Фитнес</h3>
+      <div class="simple-cards">
+        <div class="simple-card">
+          <div class="name">Разовое посещение</div>
+          <div class="meta">Любое время, без ограничений по длительности</div>
+          <div class="price">400 ₽</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>SPA комплекс</h3>
+      <div class="table-scroll">
+        <table>
+          <tr><th>Время посещения</th><th>Длительность</th><th>4 визита (30 дней)</th><th>Разовое</th></tr>
+          <tr><td>Любое время</td><td>2 часа</td><td class="price">3 500 ₽</td><td class="muted">—</td></tr>
+          <tr><td>Будни 9:00–17:00</td><td>2 часа</td><td class="muted">—</td><td class="price">700 ₽</td></tr>
+        </table>
+      </div>
+    </div>
+
 
 </main>
 
