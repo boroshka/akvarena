@@ -62,12 +62,14 @@
     color:var(--ink);
     font-family:'Manrope', sans-serif; -webkit-font-smoothing:antialiased;
     position:relative;
+    min-height:100vh;
+    background-attachment:scroll;
   }
   body::before{
     content:'';
     position:fixed;
     inset:0;
-    z-index:-1;
+    z-index:0;
     pointer-events:none;
     background:
       radial-gradient(600px 500px at 85% 8%, rgba(255,255,255,0.18), transparent 62%),
@@ -104,6 +106,8 @@
   .menu-toggle svg{ width:24px; height:24px; }
 
   @media (max-width:900px){
+    .logo-img{height:44px; width:auto;}
+
     .site-nav{
       display:none;
       position:absolute; top:76px; left:0; right:0;
@@ -312,19 +316,19 @@
   <section class="section" id="photos" style="padding-top:32px;">
     <div class="gallery">
       <div class="gallery-item wide">
-        <img src="akvarena-spa-1.jpg" alt="Джакузи с подсветкой и зелёной стеной">
+        <img src="images/akvarena-spa-1.jpg" alt="Джакузи с подсветкой и зелёной стеной">
         <div class="cap">Джакузи на несколько человек</div>
       </div>
       <div class="gallery-item">
-        <img src="akvarena-spa-2.jpg" alt="Хаммам с цветной подсветкой">
+        <img src="images/akvarena-spa-2.jpg" alt="Хаммам с цветной подсветкой">
         <div class="cap">Хаммам</div>
       </div>
       <div class="gallery-item">
-        <img src="akvarena-spa-3.jpg" alt="Финская сауна">
+        <img src="images/akvarena-spa-3.jpg" alt="Финская сауна">
         <div class="cap">Финская сауна</div>
       </div>
       <div class="gallery-item">
-        <img src="akvarena-spa-4.jpg" alt="Полки для просушки в зоне СПА">
+        <img src="images/akvarena-spa-4.jpg" alt="Полки для просушки в зоне СПА">
         <div class="cap">Зона отдыха</div>
       </div>
     </div>

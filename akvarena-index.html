@@ -63,12 +63,14 @@
     font-family:'Manrope', sans-serif;
     -webkit-font-smoothing:antialiased;
     position:relative;
+    min-height:100vh;
+    background-attachment:scroll;
   }
   body::before{
     content:'';
     position:fixed;
     inset:0;
-    z-index:-1;
+    z-index:0;
     pointer-events:none;
     background:
       radial-gradient(600px 500px at 85% 8%, rgba(255,255,255,0.18), transparent 62%),
@@ -90,6 +92,12 @@
     padding:0 32px;
   }
   @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* Keep all content above the fixed decorative background */
+  header, main, footer{
+    position:relative;
+    z-index:1;
+  }
 
   /* ---------- Header ---------- */
   header{
@@ -117,6 +125,8 @@
   .menu-toggle svg{ width:24px; height:24px; }
 
   @media (max-width:900px){
+    .logo-img{height:44px; width:auto;}
+
     .site-nav{
       display:none;
       position:absolute; top:76px; left:0; right:0;
@@ -535,7 +545,7 @@
         </div>
       </div>
       <div class="hero-art" aria-hidden="true">
-        <img class="pool-photo" src="akvarena-pool-photo.jpg" alt="Бассейн АквАренА, 8 дорожек">
+        <img class="pool-photo" src="images/akvarena-pool-photo.jpg" alt="Бассейн АквАренА, 8 дорожек">
         <div class="scrim"></div>
         <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
           <path class="wave-line w3" d="M-20,400 C 80,370 140,430 220,400 S 380,370 440,400"/>
@@ -591,7 +601,7 @@
     <div class="services">
       <div class="service-banner" id="pool-detail">
         <a class="service-visual" href="akvarena-bassein.html">
-          <img src="akvarena-pool-photo.jpg" alt="Бассейн АквАренА, 8 дорожек">
+          <img src="images/akvarena-pool-photo.jpg" alt="Бассейн АквАренА, 8 дорожек">
         </a>
         <div class="service-body">
           <h3>Бассейн</h3>
@@ -601,7 +611,7 @@
       </div>
       <div class="service-banner" id="spa">
         <a class="service-visual" href="akvarena-spa.html">
-          <img src="akvarena-spa-1.jpg" alt="СПА-комплекс АквАренА">
+          <img src="images/akvarena-spa-1.jpg" alt="СПА-комплекс АквАренА">
         </a>
         <div class="service-body">
           <h3>СПА-комплекс</h3>
@@ -611,7 +621,7 @@
       </div>
       <div class="service-banner" id="fitness">
         <a class="service-visual" href="akvarena-zal.html">
-          <img src="akvarena-zal-1.jpg" alt="Тренажёрный зал АквАренА">
+          <img src="images/akvarena-zal-1.jpg" alt="Тренажёрный зал АквАренА">
         </a>
         <div class="service-body">
           <h3>Тренажёрный зал</h3>
