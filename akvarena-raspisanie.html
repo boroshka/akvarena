@@ -23,44 +23,42 @@
   html{ overflow-x:hidden; width:100%; }
   html{scroll-behavior:smooth;}
   body{
-    margin:0; overflow-x:hidden; max-width:100vw;
+    margin:0; overflow-x:hidden; max-width:100vw; min-height:100vh;
     background:linear-gradient(180deg,
-      #FFFFFF 0px,
-      #F8FBFB 10px,
-      #F0FAF9 29px,
-      #E8F8F5 56px,
-      #DEF5F2 89px,
-      #D2F2EF 127px,
-      #C4EFEE 170px,
-      #B6EBEC 218px,
-      #A6E3E8 269px,
-      #97D8E3 325px,
-      #87CDDF 385px,
-      #76C0DA 448px,
-      #67B3D6 515px,
-      #57A7D0 586px,
-      #489ACA 659px,
-      #3A8CC5 736px,
-      #357DB5 816px,
-      #306FA5 900px,
-      #2B6298 986px,
-      #26588D 1075px,
-      #224E83 1167px,
-      #1F4579 1262px,
-      #1B3D6F 1359px,
-      #183565 1459px,
-      #152D5B 1562px,
-      #122650 1667px,
-      #0F2046 1775px,
-      #0D1A3C 1886px,
-      #0B1633 1999px,
-      #09122A 2114px,
-      #071022 2232px,
-      #060D1A 2353px,
-      #050B16 2475px,
-      #050A11 2600px,
+      #FFFFFF 0%,
+      #F8FBFB 0.38%,
+      #F0FAF9 1.12%,
+      #E8F8F5 2.15%,
+      #DEF5F2 3.42%,
+      #D2F2EF 4.88%,
+      #C4EFEE 6.54%,
+      #B6EBEC 8.38%,
+      #A6E3E8 10.35%,
+      #97D8E3 12.5%,
+      #87CDDF 14.81%,
+      #76C0DA 17.23%,
+      #67B3D6 19.81%,
+      #57A7D0 22.54%,
+      #489ACA 25.35%,
+      #3A8CC5 28.31%,
+      #357DB5 31.38%,
+      #306FA5 34.62%,
+      #2B6298 37.92%,
+      #26588D 41.35%,
+      #224E83 44.88%,
+      #1F4579 48.54%,
+      #1B3D6F 52.27%,
+      #183565 56.12%,
+      #152D5B 60.08%,
+      #122650 64.12%,
+      #0F2046 68.27%,
+      #0D1A3C 72.54%,
+      #0B1633 76.88%,
+      #09122A 81.31%,
+      #071022 85.85%,
+      #060D1A 90.5%,
+      #050B16 95.19%,
       #050A11 100%);
-    color:var(--ink);
     font-family:'Manrope', sans-serif; -webkit-font-smoothing:antialiased;
     position:relative;
   }
@@ -237,6 +235,33 @@
   .note{ margin-top:14px; font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.5; }
 
   footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
+
+  /* ---------- Mobile schedule adjustments ---------- */
+  .week-grid-mobile{ display:none; }
+  .day-tabs{ display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px; scrollbar-width:none; }
+  .day-tabs::-webkit-scrollbar{ display:none; }
+  .day-tab{ flex:0 0 auto; font-size:13.5px; font-weight:700; color:var(--deep); background:var(--white); border:none; padding:8px 15px; border-radius:999px; }
+  .day-tab.active{ background:var(--amber-deep); color:var(--white); }
+  .day-list{ display:flex; flex-direction:column; gap:10px; }
+  .day-item{ background:var(--white); border-radius:12px; padding:12px 14px; display:flex; gap:14px; }
+  .day-item .time{ font-weight:700; color:var(--deep); font-size:13.5px; white-space:nowrap; flex:0 0 auto; padding-top:1px; }
+  .day-item .info{ font-size:14px; color:var(--ink); line-height:1.45; }
+  .day-item .info .muted{ display:block; font-size:12.5px; color:#6B7A75; margin-top:2px; }
+  .day-empty{ font-size:14px; color:rgba(255,255,255,0.65); padding:10px 2px 4px; }
+
+  @media (max-width:640px){
+    /* time / activity / trainer tables become fluid, no horizontal scroll */
+    .table-scroll.compact{ overflow-x:visible; }
+    .table-scroll.compact table{ min-width:0; width:100%; table-layout:fixed; }
+    .table-scroll.compact th:nth-child(1), .table-scroll.compact td:nth-child(1){ width:27%; }
+    .table-scroll.compact th:nth-child(2), .table-scroll.compact td:nth-child(2){ width:45%; }
+    .table-scroll.compact th:nth-child(3), .table-scroll.compact td:nth-child(3){ width:28%; }
+    .table-scroll.compact th, .table-scroll.compact td{ padding:10px 8px; font-size:12.8px; word-break:break-word; }
+
+    /* wide 7-day grids: hide table, show day-switcher instead */
+    .table-scroll.week-grid{ display:none; }
+    .week-grid-mobile{ display:block; }
+  }
 </style>
 </head>
 <body>
@@ -290,7 +315,7 @@
 
     <div class="group">
       <h3>Понедельник</h3>
-      <div class="table-scroll">
+      <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr><td class="price">16:00–17:00</td><td>Совершенствование навыков плавания (с 7 лет)</td><td class="muted">Танзиля Рафиковна</td></tr>
@@ -304,7 +329,7 @@
 
     <div class="group">
       <h3>Вторник</h3>
-      <div class="table-scroll">
+      <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr><td class="price">08:00–09:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
@@ -317,7 +342,7 @@
 
     <div class="group">
       <h3>Среда</h3>
-      <div class="table-scroll">
+      <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr><td class="price">09:00–10:00</td><td>Совершенствование навыков плавания (7–18 лет)</td><td class="muted">Александр Юрьевич</td></tr>
@@ -330,7 +355,7 @@
 
     <div class="group">
       <h3>Четверг</h3>
-      <div class="table-scroll">
+      <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr><td class="price">08:00–09:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
@@ -345,7 +370,7 @@
 
     <div class="group">
       <h3>Пятница</h3>
-      <div class="table-scroll">
+      <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr><td class="price">09:00–10:00</td><td>Совершенствование навыков плавания (7–18 лет)</td><td class="muted">Александр Юрьевич</td></tr>
@@ -358,7 +383,7 @@
 
     <div class="group">
       <h3>Суббота</h3>
-      <div class="table-scroll">
+      <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr><td class="price">08:00–09:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
@@ -373,7 +398,7 @@
 
     <div class="group">
       <h3>Воскресенье</h3>
-      <div class="table-scroll">
+      <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr><td class="price">14:00–15:00</td><td>Совершенствование навыков плавания (7–16 лет)</td><td class="muted">Роман Андреевич</td></tr>
@@ -388,7 +413,7 @@
     <h2>Групповые программы «Фитнес-студии»</h2>
     <p class="sub">Актуальное расписание группового зала. Занятия отмеченные значком $ — платные, по записи.</p>
 
-    <div class="table-scroll">
+    <div class="table-scroll week-grid">
       <table>
         <tr><th>Время</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr>
         <tr>
@@ -464,7 +489,7 @@
     <h2>Аквааэробика</h2>
     <p class="sub">Расписание на 01.09.2026 — кто ведёт и в какое время по дням недели.</p>
 
-    <div class="table-scroll">
+    <div class="table-scroll week-grid">
       <table>
         <tr><th>Время</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr>
         <tr><td class="price">09:00–09:45</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td>Дарья К.</td><td class="muted">—</td></tr>
@@ -502,6 +527,49 @@
   document.addEventListener('click', (e)=>{
     document.querySelectorAll('.nav-dropdown.open').forEach(dd=>{
       if(!dd.contains(e.target)) dd.classList.remove('open');
+    });
+  });
+
+  // Build a day-by-day switcher for wide 7-day schedule grids (mobile only)
+  document.querySelectorAll('.table-scroll.week-grid').forEach(wrap=>{
+    const table = wrap.querySelector('table');
+    const rows = Array.from(table.querySelectorAll('tr'));
+    const dayNames = Array.from(rows[0].querySelectorAll('th')).slice(1).map(th=>th.textContent.trim());
+    const dataRows = rows.slice(1);
+
+    const mobile = document.createElement('div');
+    mobile.className = 'week-grid-mobile';
+
+    const tabsHTML = '<div class="day-tabs">' + dayNames.map((d,i)=>
+      `<button type="button" class="day-tab${i===0?' active':''}" data-day="${i}">${d}</button>`
+    ).join('') + '</div>';
+
+    const panelsHTML = dayNames.map((d,i)=>{
+      const items = [];
+      dataRows.forEach(tr=>{
+        const tds = tr.querySelectorAll('td');
+        const time = tds[0].textContent.trim();
+        const cell = tds[i+1];
+        const isEmpty = cell.classList.contains('muted') && cell.textContent.trim()==='—';
+        if(!isEmpty){
+          items.push(`<div class="day-item"><span class="time">${time}</span><span class="info">${cell.innerHTML}</span></div>`);
+        }
+      });
+      const body = items.length ? `<div class="day-list">${items.join('')}</div>` : '<div class="day-empty">Занятий нет</div>';
+      return `<div class="day-panel" data-day="${i}" style="${i===0?'':'display:none;'}">${body}</div>`;
+    }).join('');
+
+    mobile.innerHTML = tabsHTML + panelsHTML;
+    wrap.insertAdjacentElement('afterend', mobile);
+
+    mobile.querySelectorAll('.day-tab').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const day = btn.getAttribute('data-day');
+        mobile.querySelectorAll('.day-tab').forEach(b=>b.classList.toggle('active', b===btn));
+        mobile.querySelectorAll('.day-panel').forEach(p=>{
+          p.style.display = (p.getAttribute('data-day')===day) ? '' : 'none';
+        });
+      });
     });
   });
 </script>
