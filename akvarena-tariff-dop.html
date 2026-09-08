@@ -81,15 +81,46 @@
 
   header{
     position:sticky; top:0; z-index:60;
-    background:rgba(234,246,251,0.92); backdrop-filter:blur(8px);
+    background:rgba(234,246,251,0.92);
+    backdrop-filter:blur(8px);
     border-bottom:1px solid var(--line);
   }
-  .header-row{ display:flex; align-items:center; justify-content:space-between; height:76px; }
+  .header-row{
+    display:flex; align-items:center; justify-content:space-between;
+    height:76px;
+  }
   .logo{ display:flex; align-items:center; }
-  .logo-img{ height:38px; width:auto; display:block; }
-  .back-link{ font-size:14.5px; font-weight:600; color:var(--petrol); display:flex; align-items:center; gap:6px; }
+  .logo-img{ height:40px; width:auto; display:block; }
 
-  /* ---------- Nav dropdown ---------- */
+  .site-nav{ display:flex; align-items:center; gap:26px; }
+  .nav-link{
+    font-size:14.5px; font-weight:600; color:var(--deep);
+    padding:6px 0; border-bottom:2px solid transparent;
+    transition:border-color .15s ease;
+  }
+  .nav-link:hover{ border-color:var(--amber); }
+
+  .menu-toggle{ display:none; background:none; border:none; cursor:pointer; padding:6px; color:var(--deep); }
+  .menu-toggle svg{ width:24px; height:24px; }
+
+  @media (max-width:900px){
+    .site-nav{
+      display:none;
+      position:absolute; top:76px; left:0; right:0;
+      background:var(--paper);
+      flex-direction:column; align-items:flex-start;
+      padding:18px 24px; gap:2px;
+      border-bottom:1px solid var(--line);
+      box-shadow:0 14px 28px rgba(5,15,26,0.14);
+    }
+    .site-nav.open{ display:flex; }
+    .nav-link{ padding:12px 0; width:100%; border-bottom:1px solid var(--line); }
+    .nav-dropdown{ width:100%; }
+    .nav-dropdown > .nav-link{ width:100%; justify-content:space-between; }
+    .menu-toggle{ display:block; }
+  }
+
+  /* ---------- Nav dropdown (Тарифы) ---------- */
   .nav-dropdown{ position:relative; display:inline-block; }
   .nav-dropdown > a{ display:inline-flex; align-items:center; gap:5px; }
   .nav-dropdown > a::after{
@@ -138,7 +169,7 @@
   }
   @media (max-width:900px){
     .nav-dropdown-panel{
-      position:static; transform:none; margin-top:6px; margin-left:14px;
+      position:static; transform:none; margin-top:6px; margin-left:0;
       box-shadow:none; border-left:2px solid var(--line);
       border-radius:0; padding:4px 0 4px 12px;
       display:none; opacity:1; visibility:visible;
@@ -146,8 +177,6 @@
     .nav-dropdown-panel::before{ display:none; }
     .nav-dropdown.open .nav-dropdown-panel{ display:block; }
   }
-  .phone-block{text-align:right; font-size:14px; line-height:1.3;}
-  .phone-block a{font-weight:700; color:var(--deep); font-size:15px;}
   @media (max-width:640px){ .phone-block{display:none;} }
 
   .page-hero{ padding:56px 0 28px; }
@@ -205,14 +234,15 @@
 
 <header>
   <div class="wrap header-row">
-    <a class="logo" href="akvarena-index.html"><img src="images/akvarena-logo.png" alt="АквАренА" class="logo-img"></a>
-    <div style="display:flex; gap:20px;">
-      <a class="back-link" href="akvarena-index.html">На главную</a>
-      <a class="back-link" href="akvarena-bassein.html">Бассейн</a>
-      <a class="back-link" href="akvarena-spa.html">СПА</a>
-      <a class="back-link" href="akvarena-zal.html">Зал</a>
+    <a class="logo" href="akvarena-index.html">
+      <img src="akvarena-logo.png" alt="АквАренА" class="logo-img">
+    </a>
+    <nav class="site-nav">
+      <a class="nav-link" href="akvarena-bassein.html">Бассейн</a>
+      <a class="nav-link" href="akvarena-spa.html">СПА</a>
+      <a class="nav-link" href="akvarena-zal.html">Зал</a>
       <div class="nav-dropdown">
-        <a class="back-link" href="akvarena-tariffs.html">Тарифы</a>
+        <a class="nav-link" href="akvarena-tariffs.html">Тарифы</a>
         <div class="nav-dropdown-panel">
           <a href="akvarena-tariff-bassein.html">Бассейн</a>
           <a href="akvarena-tariff-klub.html">Клубные карты</a>
@@ -222,8 +252,11 @@
           <a href="akvarena-tariff-dop.html">Доп. услуги</a>
         </div>
       </div>
-      <a class="back-link" href="akvarena-raspisanie.html">Расписание</a>
-    </div>
+      <a class="nav-link" href="akvarena-raspisanie.html">Расписание</a>
+    </nav>
+    <button class="menu-toggle" aria-label="Меню">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
   </div>
 </header>
 
@@ -294,10 +327,15 @@
 </footer>
 
 <script>
+  document.querySelector('.menu-toggle').addEventListener('click', ()=>{
+    document.querySelector('.site-nav').classList.toggle('open');
+  });
+
   document.querySelectorAll('.nav-dropdown').forEach(dd=>{
     const trigger = dd.querySelector('a');
     trigger.addEventListener('click', (e)=>{
-      if(window.matchMedia('(hover: none)').matches){
+      const navOpen = document.querySelector('.site-nav').classList.contains('open');
+      if(window.matchMedia('(hover: none)').matches || navOpen){
         e.preventDefault();
         dd.classList.toggle('open');
       }
