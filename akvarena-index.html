@@ -6,7 +6,7 @@
 <title>АквАрена — бассейн, спа и фитнес в Казани</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink: #12212E;
@@ -75,7 +75,7 @@
       radial-gradient(700px 700px at 92% 70%, rgba(63,169,218,0.10), transparent 60%);
   }
   h1,h2,h3,.display{
-    font-family:'Cormorant Garamond', serif;
+    font-family:'Fraunces', serif;
     font-weight:600;
     line-height:1.05;
     margin:0;
@@ -269,7 +269,7 @@
     padding-top:24px; border-top:1px solid var(--line);
   }
   .hero-meta div{font-size:14px; color:#3B4A55; line-height:1.4;}
-  .hero-meta strong{display:block; font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--deep); font-weight:600;}
+  .hero-meta strong{display:block; font-family:'Fraunces',serif; font-size:22px; color:var(--deep); font-weight:600;}
 
   .hero-art{
     position:relative;
@@ -293,7 +293,7 @@
     color:var(--white);
     font-size:14px; line-height:1.4;
   }
-  .hero-art .caption b{font-family:'Cormorant Garamond',serif; font-size:19px; display:block; font-weight:600; margin-bottom:4px;}
+  .hero-art .caption b{font-family:'Fraunces',serif; font-size:19px; display:block; font-weight:600; margin-bottom:4px;}
 
   /* wave lines animation */
   .wave-line{
@@ -337,7 +337,7 @@
     color:var(--white);
   }
   .price-card .label{font-size:14px; color:rgba(255,255,255,0.68); margin-bottom:10px;}
-  .price-card .amount{font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600;}
+  .price-card .amount{font-family:'Fraunces',serif; font-size:30px; font-weight:600;}
   .price-card .amount small{font-family:'Manrope',sans-serif; font-size:14px; font-weight:600; color:rgba(255,255,255,0.6);}
   .price-card .note{margin-top:10px; font-size:13px; color:rgba(255,255,255,0.55); line-height:1.4;}
   .price-card.highlight{background:var(--amber); border-color:var(--amber); color:var(--ink);}
@@ -406,7 +406,7 @@
   }
   @media (max-width:900px){ .stats-grid{grid-template-columns:repeat(1,1fr);} }
   .stat strong{
-    font-family:'Cormorant Garamond',serif; font-size:clamp(28px,3.4vw,40px); font-weight:600;
+    font-family:'Fraunces',serif; font-size:clamp(28px,3.4vw,40px); font-weight:600;
     color:var(--white); display:block;
   }
   .stat span{font-size:14px; color:rgba(255,255,255,0.65); display:block; margin-top:6px; line-height:1.4;}
@@ -482,7 +482,7 @@
     padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,0.12);
   }
   @media (max-width:800px){ .footer-grid{grid-template-columns:1fr 1fr;} }
-  footer h4{font-family:'Cormorant Garamond',serif; color:var(--white); font-size:17px; font-weight:600; margin:0 0 16px;}
+  footer h4{font-family:'Fraunces',serif; color:var(--white); font-size:17px; font-weight:600; margin:0 0 16px;}
   footer p, footer a{font-size:14.5px; line-height:1.9; color:rgba(255,255,255,0.72);}
   footer a:hover{color:var(--amber);}
   .foot-bottom{
@@ -492,34 +492,6 @@
 
   .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
   .reveal.in{opacity:1; transform:none;}
-
-/* ===== AQUARENA WATER HERO REDESIGN ===== */
-.site-header{position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,rgba(1,14,25,.72),rgba(1,14,25,0));border-bottom:1px solid transparent;backdrop-filter:none;transition:.35s ease;z-index:100}
-.site-header.scrolled{background:rgba(2,18,30,.88);border-bottom-color:rgba(255,255,255,.12);backdrop-filter:blur(16px)}
-.site-header .nav-link,.site-header .menu-toggle{color:#fff}.site-header .nav-link:hover{border-color:#71e3ff}
-.site-header .logo-img{height:46px;filter:drop-shadow(0 3px 12px rgba(0,0,0,.25))}
-.hero{min-height:100svh;padding:0;display:flex;align-items:center;position:relative;overflow:hidden;background:#05283f}
-.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(1,17,28,.38),rgba(2,29,45,.14) 42%,rgba(1,10,18,.86) 100%),linear-gradient(90deg,rgba(1,15,25,.70),rgba(1,15,25,.12) 70%);z-index:1;pointer-events:none}
-.hero:after{content:"";position:absolute;inset:auto 0 0;height:38%;background:linear-gradient(180deg,transparent,rgba(0,8,15,.65));z-index:2;pointer-events:none}
-.hero-grid{display:block;position:relative;z-index:5}.hero-copy{max-width:850px;background:none;border:0;border-radius:0;padding:120px 0 90px;backdrop-filter:none}
-.hero h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(44px,7.4vw,88px);line-height:1.02;letter-spacing:-.01em;color:#fff;text-shadow:0 10px 40px rgba(0,0,0,.35);max-width:850px}
-.hero h1 a{color:#fff;text-decoration:none}.hero h1 a:hover{color:#82e7ff}
-.hero h1 .water-accent{color:#76e5ff;font-style:italic;}
-.hero p.lede{max-width:620px;color:rgba(255,255,255,.82);font-size:18px;line-height:1.65;margin-top:27px;text-shadow:0 2px 14px rgba(0,0,0,.25)}
-.hero-ctas{margin-top:32px;gap:13px}.hero .btn-primary{background:linear-gradient(135deg,#7ae8ff,#1baee8);color:#032033;box-shadow:0 12px 38px rgba(0,180,240,.3);border:0}.hero .btn-primary:hover{transform:translateY(-3px);background:#91edff}.hero .btn-ghost{color:#fff;border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);backdrop-filter:blur(8px)}.hero .btn-ghost:hover{border-color:#fff;background:#fff;color:#05263b}
-.hero-meta{border-top:1px solid rgba(255,255,255,.2);gap:38px;margin-top:48px;padding-top:22px}.hero-meta div{color:rgba(255,255,255,.62)}.hero-meta strong{font-family:'Cormorant Garamond',serif;font-weight:600;color:#fff;font-size:24px}
-.hero-art{display:none}
-.hero-bg-waves{z-index:3;opacity:.58;pointer-events:none;mix-blend-mode:screen;filter:blur(.2px)}
-.hero-bg-waves .wave-line{stroke:rgba(145,235,255,.34);stroke-width:2.5}.hero-bg-waves .w2{stroke:rgba(255,255,255,.16)}.hero-bg-waves .w3{stroke:rgba(180,245,255,.45)}
-.hero-water{position:absolute;inset:-15%;z-index:2;pointer-events:none;opacity:.55;mix-blend-mode:screen;background:radial-gradient(ellipse 160px 55px at 12% 35%,rgba(255,255,255,.35),transparent 68%),radial-gradient(ellipse 220px 70px at 38% 22%,rgba(125,225,255,.27),transparent 68%),radial-gradient(ellipse 180px 55px at 72% 34%,rgba(255,255,255,.28),transparent 68%),radial-gradient(ellipse 250px 75px at 88% 70%,rgba(100,220,255,.3),transparent 70%),radial-gradient(ellipse 200px 60px at 24% 82%,rgba(255,255,255,.22),transparent 68%);background-size:560px 390px,700px 470px,620px 420px,760px 510px,680px 470px;animation:caustics 13s ease-in-out infinite alternate;filter:blur(1.5px)}
-.hero-water2{position:absolute;inset:-10%;z-index:4;pointer-events:none;opacity:.20;mix-blend-mode:screen;background:repeating-radial-gradient(ellipse at 50% 50%,transparent 0 25px,rgba(255,255,255,.16) 26px 28px,transparent 29px 58px);background-size:600px 430px;animation:rippleMove 20s linear infinite;filter:blur(.5px)}
-@keyframes caustics{0%{transform:translate(-3%,-1%) scale(1)}50%{transform:translate(2%,2%) scale(1.045)}100%{transform:translate(-1%,4%) scale(1.02)}}
-@keyframes rippleMove{from{background-position:0 0;transform:rotate(0) scale(1)}to{background-position:280px 200px;transform:rotate(2deg) scale(1.06)}}
-.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 55%;z-index:0;transform:scale(1.04);animation:heroZoom 18s ease-in-out infinite alternate}.hero-photo:before{content:""}
-@keyframes heroZoom{from{transform:scale(1.04)}to{transform:scale(1.10) translate3d(-.5%,1%,0)}}
-.hero-scroll{position:absolute;bottom:25px;left:50%;transform:translateX(-50%);z-index:7;color:rgba(255,255,255,.7);font-size:10px;letter-spacing:.2em;display:flex;flex-direction:column;align-items:center;gap:9px}.hero-scroll:after{content:"";width:20px;height:32px;border:1px solid rgba(255,255,255,.42);border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.9) 0 5px,transparent 5px);animation:scrollPulse 1.8s infinite}@keyframes scrollPulse{0%,100%{background-position:0 0;opacity:.55}50%{background-position:0 8px;opacity:1}}
-@media(max-width:900px){.site-header .site-nav{top:76px;background:rgba(3,24,38,.97);color:#fff}.site-header .nav-link{color:#fff;border-bottom-color:rgba(255,255,255,.12)}.hero-copy{padding-top:105px}.hero-meta{gap:20px}.hero-meta div{font-size:12px}}
-@media(max-width:640px){.site-header .logo-img{height:38px}.hero h1{font-size:clamp(39px,12vw,62px);letter-spacing:-.06em}.hero p.lede{font-size:15px;line-height:1.55}.hero-copy{padding:98px 0 85px}.hero-meta{gap:18px;margin-top:35px}.hero-meta strong{font-size:17px}.hero-meta div{font-size:11px}.hero-bg-waves{opacity:.35}.hero-water{opacity:.36}.hero-water2{opacity:.12}}
 </style>
 </head>
 <body>
@@ -527,7 +499,7 @@
 <header>
   <div class="wrap header-row">
     <a class="logo" href="akvarena-index.html">
-      <img src="akvarena-logo.png" alt="АквАренА" class="logo-img">
+      <img src="images/akvarena-logo.png" alt="АквАренА" class="logo-img">
     </a>
     <nav class="site-nav">
       <a class="nav-link" href="akvarena-bassein.html">Бассейн</a>
@@ -552,6 +524,14 @@
           <a href="akvarena-raspisanie-aqua.html">Аквааэробика</a>
         </div>
       </div>
+      <div class="nav-dropdown">
+        <a class="nav-link" href="akvarena-trener-bassein.html">Тренеры</a>
+        <div class="nav-dropdown-panel">
+          <a href="akvarena-trener-bassein.html">Тренеры бассейна</a>
+          <a href="akvarena-trener-zal.html">Тренеры зала</a>
+          <a href="akvarena-trener-aqua.html">Тренеры аквааэробики</a>
+        </div>
+      </div>
     </nav>
     <button class="menu-toggle" aria-label="Меню">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -561,37 +541,41 @@
 
 <main id="top">
 
-  <!-- HERO: animated water design -->
+  <!-- HERO -->
   <section class="hero">
-    <img class="hero-photo" src="akvarena-pool-photo.jpg" alt="Бассейн АквАрена">
-    <div class="hero-water"></div>
-    <div class="hero-water2"></div>
-    <svg class="hero-bg-waves" viewBox="0 0 1200 900" preserveAspectRatio="none" aria-hidden="true">
-      <path class="wave-line w1" d="M-80,130 C 150,55 285,190 510,120 S 840,55 1280,135"/>
-      <path class="wave-line w2" d="M-80,250 C 170,175 300,315 540,245 S 860,170 1280,265"/>
-      <path class="wave-line w3" d="M-80,390 C 180,300 320,455 570,380 S 900,300 1280,400"/>
-      <path class="wave-line w2" d="M-80,545 C 160,470 330,620 580,545 S 920,475 1280,560"/>
-      <path class="wave-line w1" d="M-80,700 C 180,610 330,780 590,700 S 930,625 1280,720"/>
-    </svg>
-    <div class="wrap">
-      <div class="hero-grid">
-        <div class="reveal in hero-copy">
-          <div style="color:#8ceaff;font-size:12px;letter-spacing:.22em;font-weight:800;margin-bottom:22px">БАССЕЙН · СПА · ФИТНЕС</div>
-          <h1><a href="akvarena-bassein.html">Бассейн</a>, <a href="akvarena-spa.html">СПА</a> и <a href="akvarena-zal.html">фитнес</a><br><span class="water-accent">в одном пространстве</span></h1>
-          <p class="lede">АквАрена на улице Короленко — место для плавания, тренировок и полноценного отдыха в центре Казани.</p>
-          <div class="hero-ctas">
-            <a class="btn btn-primary" href="#ceny">Выбрать абонемент →</a>
-            <a class="btn btn-ghost" href="#napisat">Написать нам</a>
-          </div>
-          <div class="hero-meta">
-            <div><strong>8 дорожек</strong>4×25 м и 4×50 м</div>
-            <div><strong>7:00–23:00</strong>каждый день</div>
-            <div><strong>Короленко, 28а</strong>Казань</div>
-          </div>
+   <svg class="hero-bg-waves" viewBox="0 0 1200 900" preserveAspectRatio="none" aria-hidden="true">
+     <path class="wave-line w1" d="M-50,110 C 150,70 250,150 450,110 S 750,70 950,110 1150,150 1250,110"/>
+     <path class="wave-line w2" d="M-50,220 C 150,180 250,260 450,220 S 750,180 950,220 1150,260 1250,220"/>
+     <path class="wave-line w2" d="M-50,340 C 150,300 250,380 450,340 S 750,300 950,340 1150,380 1250,340"/>
+   </svg>
+   <div class="wrap">
+    <div class="hero-grid">
+      <div class="reveal in hero-copy">
+        <h1><a href="akvarena-bassein.html">Бассейн</a>, <a href="akvarena-spa.html">спа</a> и <a href="akvarena-zal.html">тренажёрный зал</a> в центре Казани</h1>
+        <p class="lede">АквАренА на улице Короленко — три зала под одной крышей. Что в каждом из них, цены и расписание — ниже, по разделам.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#ceny">Узнать стоимость</a>
+          <a class="btn btn-ghost" href="tel:+78432001024">Позвонить: 200-10-24</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>8 дорожек</strong>4×25 м и 4×50 м, глубина 2 м</div>
+          <div><strong>5,0</strong>рейтинг, 1500+ отзывов</div>
+          <div><strong>7:00–23:00</strong>без выходных</div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <img class="pool-photo" src="images/akvarena-pool-photo.jpg" alt="Бассейн АквАренА, 8 дорожек">
+        <div class="scrim"></div>
+        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+          <path class="wave-line w3" d="M-20,400 C 80,370 140,430 220,400 S 380,370 440,400"/>
+        </svg>
+        <div class="caption">
+          <b>Открытая вода круглый год</b>
+          Чаша сложной формы с зоной гидромассажа и «быстрой рекой»
         </div>
       </div>
     </div>
-    <a class="hero-scroll" href="#ceny">SCROLL</a>
+   </div>
   </section>
 
   <!-- PRICING (the actual fix) -->
@@ -636,7 +620,7 @@
     <div class="services">
       <a class="service-banner" id="pool-detail" href="akvarena-bassein.html">
         <div class="service-visual">
-          <img src="akvarena-pool-photo.jpg" alt="Бассейн АквАренА, 8 дорожек">
+          <img src="images/akvarena-pool-photo.jpg" alt="Бассейн АквАренА, 8 дорожек">
         </div>
         <div class="service-body">
           <h3>Бассейн</h3>
@@ -645,7 +629,7 @@
       </a>
       <a class="service-banner" id="spa" href="akvarena-spa.html">
         <div class="service-visual">
-          <img src="akvarena-spa-1.jpg" alt="СПА-комплекс АквАренА">
+          <img src="images/akvarena-spa-1.jpg" alt="СПА-комплекс АквАренА">
         </div>
         <div class="service-body">
           <h3>СПА-комплекс</h3>
@@ -654,7 +638,7 @@
       </a>
       <a class="service-banner" id="fitness" href="akvarena-zal.html">
         <div class="service-visual">
-          <img src="akvarena-zal-1.jpg" alt="Тренажёрный зал АквАренА">
+          <img src="images/akvarena-zal-1.jpg" alt="Тренажёрный зал АквАренА">
         </div>
         <div class="service-body">
           <h3>Тренажёрный зал</h3>
@@ -762,9 +746,6 @@
   document.querySelector('.menu-toggle').addEventListener('click', ()=>{
     document.querySelector('.site-nav').classList.toggle('open');
   });
-  const header=document.querySelector('.site-header');
-  const syncHeader=()=>header.classList.toggle('scrolled',window.scrollY>24);
-  syncHeader(); window.addEventListener('scroll',syncHeader,{passive:true});
 
   document.querySelectorAll('.nav-dropdown').forEach(dd=>{
     const trigger = dd.querySelector('a');
@@ -783,19 +764,5 @@
   });
 </script>
 
-<script>
-(() => {
-  const canvas=document.getElementById('waterCanvas'); if(!canvas)return;
-  const ctx=canvas.getContext('2d'); let w=0,h=0,dpr=1,t=0;
-  function resize(){dpr=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;canvas.width=w*dpr;canvas.height=h*dpr;canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
-  function draw(){
-    t+=.012;ctx.clearRect(0,0,w,h);ctx.globalCompositeOperation='screen';
-    const step=w<600?36:28;
-    for(let y=-20;y<h+30;y+=step){ctx.beginPath();for(let x=-20;x<w+30;x+=12){let yy=y+Math.sin(x*.018+t*2.1+y*.011)*10+Math.sin(x*.043-t*1.3)*5;let xx=x+Math.sin(y*.025+t*1.4)*4;if(x===-20)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy)}ctx.strokeStyle='rgba(180,245,255,.085)';ctx.lineWidth=1.1;ctx.stroke()}
-    for(let i=0;i<34;i++){let x=(i*211+t*22*(i%3+1))%(w+160)-80;let y=(i*97+Math.sin(t+i)*55)%(h+120)-60;let rx=30+(i%5)*18,ry=8+(i%4)*4;ctx.beginPath();ctx.ellipse(x,y,rx,ry,Math.sin(i)*.4,0,Math.PI*2);ctx.fillStyle='rgba(150,240,255,.04)';ctx.fill()}
-    ctx.globalCompositeOperation='source-over';requestAnimationFrame(draw)
-  }
-  addEventListener('resize',resize,{passive:true});resize();draw();
-})();
-</script></body>
+</body>
 </html>

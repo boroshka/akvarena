@@ -233,7 +233,30 @@
 
   .note{ margin-top:14px; font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.5; }
 
-  footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
+    footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
+
+  /* ---------- Mobile price tables: stacked cards ---------- */
+  @media (max-width:640px){
+    .table-scroll.stack{ overflow-x:visible; border:none; }
+    .table-scroll.stack table{ min-width:0; width:100%; border-collapse:separate; border-spacing:0; }
+    .table-scroll.stack tr{ display:block; }
+    .table-scroll.stack tr:first-child{ display:none; }
+    .table-scroll.stack tr:not(:first-child){
+      display:block; background:var(--white); border-radius:12px;
+      margin-bottom:10px; box-shadow:0 1px 4px rgba(5,15,26,0.10);
+    }
+    .table-scroll.stack tr:last-child{ margin-bottom:0; }
+    .table-scroll.stack td{
+      display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+      padding:10px 14px; font-size:13.5px; border-bottom:1px solid var(--line);
+      white-space:normal; text-align:right;
+    }
+    .table-scroll.stack td:last-child{ border-bottom:none; }
+    .table-scroll.stack td::before{
+      content:attr(data-label); font-weight:700; color:var(--deep);
+      font-size:12px; text-align:left; flex:0 0 auto; max-width:52%;
+    }
+  }
   .subnav a.active{ background:var(--deep); color:var(--white); box-shadow:none; }
   .highlight-row-cards{ margin-bottom:8px; }
 </style>
@@ -243,7 +266,7 @@
 <header>
   <div class="wrap header-row">
     <a class="logo" href="akvarena-index.html">
-      <img src="akvarena-logo.png" alt="АквАренА" class="logo-img">
+      <img src="images/akvarena-logo.png" alt="АквАренА" class="logo-img">
     </a>
     <nav class="site-nav">
       <a class="nav-link" href="akvarena-bassein.html">Бассейн</a>
@@ -266,6 +289,14 @@
           <a href="akvarena-raspisanie-plavanie.html">Обучение плаванию</a>
           <a href="akvarena-raspisanie-zal.html">Расписание зала</a>
           <a href="akvarena-raspisanie-aqua.html">Аквааэробика</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a class="nav-link" href="akvarena-trener-bassein.html">Тренеры</a>
+        <div class="nav-dropdown-panel">
+          <a href="akvarena-trener-bassein.html">Тренеры бассейна</a>
+          <a href="akvarena-trener-zal.html">Тренеры зала</a>
+          <a href="akvarena-trener-aqua.html">Тренеры аквааэробики</a>
         </div>
       </div>
     </nav>
@@ -326,7 +357,7 @@
 
     <div class="group">
       <h3>SPA комплекс</h3>
-      <div class="table-scroll">
+      <div class="table-scroll stack">
         <table>
           <tr><th>Время посещения</th><th>Длительность</th><th>4 визита (30 дней)</th><th>Разовое</th></tr>
           <tr><td>Любое время</td><td>2 часа</td><td class="price">3 500 ₽</td><td class="muted">—</td></tr>
@@ -360,6 +391,17 @@
   document.addEventListener('click', (e)=>{
     document.querySelectorAll('.nav-dropdown.open').forEach(dd=>{
       if(!dd.contains(e.target)) dd.classList.remove('open');
+    });
+  });
+
+  // Add data-label to each price-table cell (from its column header) for mobile stacked view
+  document.querySelectorAll('.table-scroll.stack table').forEach(table=>{
+    const headerCells = Array.from(table.querySelectorAll('tr:first-child th, tr:first-child td'))
+      .map(c=>c.textContent.trim());
+    Array.from(table.querySelectorAll('tr')).slice(1).forEach(tr=>{
+      Array.from(tr.querySelectorAll('td')).forEach((td,i)=>{
+        if(headerCells[i]) td.setAttribute('data-label', headerCells[i]);
+      });
     });
   });
 </script>

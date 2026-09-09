@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Бассейн — Тарифы АквАренА</title>
+<title>Тренеры бассейна — АквАренА</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -119,7 +119,7 @@
     .menu-toggle{ display:block; }
   }
 
-  /* ---------- Nav dropdown (Тарифы) ---------- */
+  /* ---------- Nav dropdown ---------- */
   .nav-dropdown{ position:relative; display:inline-block; }
   .nav-dropdown > a{ display:inline-flex; align-items:center; gap:5px; }
   .nav-dropdown > a::after{
@@ -190,7 +190,6 @@
   .page-hero{ padding:56px 0 28px; }
   .page-hero h1{ font-size:clamp(30px,4vw,44px); letter-spacing:-0.01em; color:var(--deep); }
   .page-hero p{ margin-top:14px; max-width:56ch; font-size:16.5px; color:#3B4A55; line-height:1.6; }
-  .updated{ display:inline-block; margin-top:18px; font-size:13.5px; color:var(--petrol); background:var(--white); padding:6px 14px; border-radius:999px; font-weight:600; }
 
   /* sub-nav */
   .subnav-shell{
@@ -207,58 +206,41 @@
     box-shadow:0 2px 8px rgba(5,15,26,0.12);
   }
   .subnav a:hover{ background:var(--mist); }
-
-  .section{ padding:64px 0 8px; scroll-margin-top:150px; }
-  .section h2{ font-size:clamp(24px,3vw,30px); color:var(--white); }
-  .section .sub{ margin-top:8px; margin-bottom:28px; font-size:15px; color:rgba(255,255,255,0.75); max-width:60ch; line-height:1.55;}
-
-  .group{ margin-bottom:40px; }
-  .group h3{ font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:var(--amber); margin-bottom:14px; }
-
-  table{ width:100%; border-collapse:collapse; background:var(--white); border-radius:14px; overflow:hidden; }
-  .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:14px; }
-  .table-scroll table{ border-radius:0; min-width:560px; }
-  th,td{ padding:13px 16px; font-size:14.5px; text-align:left; border-bottom:1px solid var(--line); }
-  th{ background:var(--mist); font-weight:700; color:var(--deep); font-size:13px; }
-  tr:last-child td{ border-bottom:none; }
-  td.price{ font-weight:700; color:var(--deep); white-space:nowrap; }
-  td.muted{ color:#6B7A75; font-size:13.5px; }
-  .highlight-row td{ background:#E7F3FA; }
-
-  .simple-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
-  .simple-card{ background:var(--white); border:1px solid var(--line); border-radius:14px; padding:18px 20px; }
-  .simple-card .name{ font-weight:700; font-size:14.5px; color:var(--deep); margin-bottom:4px; }
-  .simple-card .meta{ font-size:13px; color:#6B7A75; margin-bottom:10px; }
-  .simple-card .price{ font-family:'Fraunces',serif; font-size:22px; color:var(--deep); font-weight:600; }
-
-  .note{ margin-top:14px; font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.5; }
-
-    footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
-
-  /* ---------- Mobile price tables: stacked cards ---------- */
-  @media (max-width:640px){
-    .table-scroll.stack{ overflow-x:visible; border:none; }
-    .table-scroll.stack table{ min-width:0; width:100%; border-collapse:separate; border-spacing:0; }
-    .table-scroll.stack tr{ display:block; }
-    .table-scroll.stack tr:first-child{ display:none; }
-    .table-scroll.stack tr:not(:first-child){
-      display:block; background:var(--white); border-radius:12px;
-      margin-bottom:10px; box-shadow:0 1px 4px rgba(5,15,26,0.10);
-    }
-    .table-scroll.stack tr:last-child{ margin-bottom:0; }
-    .table-scroll.stack td{
-      display:flex; align-items:baseline; justify-content:space-between; gap:12px;
-      padding:10px 14px; font-size:13.5px; border-bottom:1px solid var(--line);
-      white-space:normal; text-align:right;
-    }
-    .table-scroll.stack td:last-child{ border-bottom:none; }
-    .table-scroll.stack td::before{
-      content:attr(data-label); font-weight:700; color:var(--deep);
-      font-size:12px; text-align:left; flex:0 0 auto; max-width:52%;
-    }
-  }
   .subnav a.active{ background:var(--deep); color:var(--white); box-shadow:none; }
-  .highlight-row-cards{ margin-bottom:8px; }
+
+  .section{ padding:16px 0 8px; }
+
+  /* ---------- Trainer cards ---------- */
+  .trainer-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:24px; padding-bottom:24px;
+  }
+  .trainer-card{
+    background:var(--white); border-radius:20px; overflow:hidden;
+    box-shadow:0 10px 26px rgba(5,15,26,0.10);
+  }
+  .trainer-card .photo{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--mist); }
+  .trainer-card .photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .trainer-card .info{ padding:18px 20px 22px; }
+  .trainer-card h3{ font-size:19px; color:var(--deep); margin-bottom:4px; }
+  .trainer-card .role{
+    font-size:12px; color:var(--petrol); font-weight:700;
+    text-transform:uppercase; letter-spacing:.03em; margin-bottom:10px;
+  }
+  .trainer-card p{ font-size:13.5px; color:#3B4A55; line-height:1.5; margin:0; }
+
+  /* placeholder for future trainer slots */
+  .trainer-card.placeholder{
+    display:flex; align-items:center; justify-content:center;
+    min-height:280px; background:rgba(255,255,255,0.08);
+    border:1.5px dashed rgba(255,255,255,0.28);
+    box-shadow:none;
+  }
+  .trainer-card.placeholder span{
+    font-size:13.5px; color:rgba(255,255,255,0.55); text-align:center; padding:0 20px;
+  }
+
+  footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
 </style>
 </head>
 <body>
@@ -307,111 +289,44 @@
 </header>
 
 <div class="wrap page-hero">
-  <h1>Бассейн</h1>
+  <h1>Тренеры бассейна</h1>
+  <p>Инструкторы по плаванию, которые ведут групповые и индивидуальные занятия в бассейне АквАренА.</p>
 </div>
 
 <div class="subnav-shell">
   <div class="wrap subnav">
-    <a href="akvarena-tariff-bassein.html" class="active">Бассейн</a>
-    <a href="akvarena-tariff-klub.html">Клубные карты</a>
-    <a href="akvarena-tariff-semya.html">Семейные тарифы</a>
-    <a href="akvarena-tariff-fitnes-spa.html">Фитнес и СПА</a>
-    <a href="akvarena-tariff-obuchenie.html">Обучение и группы</a>
-    <a href="akvarena-tariff-dop.html">Доп. услуги</a>
+    <a href="akvarena-trener-bassein.html" class="active">Тренеры бассейна</a>
+    <a href="akvarena-trener-zal.html">Тренеры зала</a>
+    <a href="akvarena-trener-aqua.html">Тренеры аквааэробики</a>
   </div>
 </div>
 
 <main class="wrap">
+  <section class="section">
+    <div class="trainer-grid">
 
-  <div class="highlight-row-cards">
-    <div class="simple-cards">
-      <div class="simple-card">
-        <div class="name">Разовое посещение</div>
-        <div class="meta">Взрослые, любое время</div>
-        <div class="price">650 ₽</div>
+      <div class="trainer-card">
+        <div class="photo">
+          <img src="images/akvarena-trener-bassein-kameshkova.jpg" alt="Камешкова Елена Алексеевна — тренер бассейна">
+        </div>
+        <div class="info">
+          <h3>Камешкова Елена Алексеевна</h3>
+          <div class="role">Тренер по плаванию</div>
+          <p>Ведёт занятия по обучению плаванию и совершенствованию навыков для детей и взрослых.</p>
+        </div>
       </div>
-      <div class="simple-card">
-        <div class="name">10 визитов</div>
-        <div class="meta">Взрослые, действует 30 дней</div>
-        <div class="price">5 500 ₽</div>
+
+      <!-- Чтобы добавить нового тренера бассейна, скопируйте блок .trainer-card выше -->
+      <div class="trainer-card placeholder">
+        <span>Здесь появится карточка следующего тренера бассейна</span>
       </div>
-      <div class="simple-card">
-        <div class="name">Разовое для детей</div>
-        <div class="meta">5–17 лет</div>
-        <div class="price">600 ₽</div>
-      </div>
+
     </div>
-  </div>
-
-
-    <div class="group">
-      <h3>Взрослые</h3>
-      <div class="table-scroll stack">
-        <table>
-          <tr><th>Время посещения</th><th>50 визитов (200 дней)</th><th>20 визитов (80 дней)</th><th>10 визитов (30 дней)</th><th>5 визитов (30 дней)</th><th>Разовое</th></tr>
-          <tr>
-            <td>Любое время</td>
-            <td class="price">17 500 ₽</td>
-            <td class="price">9 000 ₽</td>
-            <td class="price">5 500 ₽</td>
-            <td class="price">3 000 ₽</td>
-            <td class="price">650 ₽</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="group">
-      <h3>Дети (5–17 лет)</h3>
-      <div class="table-scroll stack">
-        <table>
-          <tr><th>Время посещения</th><th>50 визитов (200 дней)</th><th>20 визитов (80 дней)</th><th>10 визитов (30 дней)</th><th>5 визитов (30 дней)</th><th>Разовое</th></tr>
-          <tr>
-            <td>Любое время</td>
-            <td class="price">14 000 ₽</td>
-            <td class="price">8 000 ₽</td>
-            <td class="price">4 500 ₽</td>
-            <td class="price">2 750 ₽</td>
-            <td class="price">600 ₽</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="group">
-      <h3>Пенсионеры и студенты</h3>
-      <div class="table-scroll stack">
-        <table>
-          <tr><th>Время посещения</th><th>50 визитов (200 дней)</th><th>20 визитов (80 дней)</th><th>10 визитов (30 дней)</th><th>5 визитов (30 дней)</th><th>Разовое</th></tr>
-          <tr>
-            <td>Будни 7:00–13:30<br><span class="muted">выход до 15:00</span></td>
-            <td class="price">12 500 ₽</td>
-            <td class="price">7 000 ₽</td>
-            <td class="price">4 000 ₽</td>
-            <td class="price">2 250 ₽</td>
-            <td class="price">500 ₽</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="group">
-      <h3>Аренда дорожки (группа до 12 человек)</h3>
-      <div class="table-scroll stack">
-        <table>
-          <tr><th>Время посещения</th><th>Длительность</th><th>Стоимость посещения</th></tr>
-          <tr><td>Любое время</td><td>1 час 30 минут</td><td class="price">5 500 ₽</td></tr>
-          <tr><td>Будни 7:00–15:30</td><td>1 час 30 минут</td><td class="price">5 000 ₽</td></tr>
-        </table>
-      </div>
-      <p class="note">* Время дороги (выход из воды) включено в длительность посещения согласно регламенту клуба.</p>
-    </div>
-
-
+  </section>
 </main>
 
 <footer>
-  Черновой макет для внутреннего показа — цены актуальны на 27 августа 2026 г., уточняйте у администратора
+  Черновой макет для внутреннего показа — уточняйте актуальный состав тренеров у администратора
 </footer>
 
 <script>
@@ -432,17 +347,6 @@
   document.addEventListener('click', (e)=>{
     document.querySelectorAll('.nav-dropdown.open').forEach(dd=>{
       if(!dd.contains(e.target)) dd.classList.remove('open');
-    });
-  });
-
-  // Add data-label to each price-table cell (from its column header) for mobile stacked view
-  document.querySelectorAll('.table-scroll.stack table').forEach(table=>{
-    const headerCells = Array.from(table.querySelectorAll('tr:first-child th, tr:first-child td'))
-      .map(c=>c.textContent.trim());
-    Array.from(table.querySelectorAll('tr')).slice(1).forEach(tr=>{
-      Array.from(tr.querySelectorAll('td')).forEach((td,i)=>{
-        if(headerCells[i]) td.setAttribute('data-label', headerCells[i]);
-      });
     });
   });
 </script>
