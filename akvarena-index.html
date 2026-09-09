@@ -361,6 +361,12 @@
     background:rgba(255,255,255,0.05);
     backdrop-filter:blur(6px);
     scroll-margin-top:100px;
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  }
+  .service-banner:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 34px rgba(5,15,26,0.22);
+    border-color:rgba(255,255,255,0.32);
   }
   .service-banner:nth-child(even){ direction:rtl; }
   .service-banner:nth-child(even) > *{ direction:ltr; }
@@ -604,36 +610,33 @@
       <h2>Три пространства под одной крышей</h2>
     </div>
     <div class="services">
-      <div class="service-banner" id="pool-detail">
-        <a class="service-visual" href="akvarena-bassein.html">
+      <a class="service-banner" id="pool-detail" href="akvarena-bassein.html">
+        <div class="service-visual">
           <img src="akvarena-pool-photo.jpg" alt="Бассейн АквАренА, 8 дорожек">
-        </a>
+        </div>
         <div class="service-body">
           <h3>Бассейн</h3>
           <p>4 дорожки по 25 м и 4 дорожки по 50 м, глубина основного бассейна 2 м. Свободное плавание, обучение детей и взрослых, аквааэробика по расписанию, зона гидромассажа и джакузи и отдельная детская зона.</p>
-          <a href="akvarena-bassein.html">Фото зала</a> &nbsp;·&nbsp; <a href="akvarena-tariff-bassein.html">Цены и расписание</a>
         </div>
-      </div>
-      <div class="service-banner" id="spa">
-        <a class="service-visual" href="akvarena-spa.html">
+      </a>
+      <a class="service-banner" id="spa" href="akvarena-spa.html">
+        <div class="service-visual">
           <img src="akvarena-spa-1.jpg" alt="СПА-комплекс АквАренА">
-        </a>
+        </div>
         <div class="service-body">
           <h3>СПА-комплекс</h3>
           <p>Джакузи на несколько человек, хаммам, финская сауна и зона отдыха. Можно посетить отдельно или вместе с бассейном.</p>
-          <a href="akvarena-spa.html">Фото СПА</a> &nbsp;·&nbsp; <a href="akvarena-tariff-fitnes-spa.html">Цены на СПА</a>
         </div>
-      </div>
-      <div class="service-banner" id="fitness">
-        <a class="service-visual" href="akvarena-zal.html">
+      </a>
+      <a class="service-banner" id="fitness" href="akvarena-zal.html">
+        <div class="service-visual">
           <img src="akvarena-zal-1.jpg" alt="Тренажёрный зал АквАренА">
-        </a>
+        </div>
         <div class="service-body">
           <h3>Тренажёрный зал</h3>
           <p>Свободные тренировки и групповые программы — можно совмещать с плаванием или СПА в одном визите, без доплаты за раздевалку.</p>
-          <a href="akvarena-zal.html">Фото зала</a> &nbsp;·&nbsp; <a href="akvarena-tariff-fitnes-spa.html">Цены на фитнес</a>
         </div>
-      </div>
+      </a>
     </div>
   </section>
 
