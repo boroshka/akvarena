@@ -233,30 +233,7 @@
 
   .note{ margin-top:14px; font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.5; }
 
-    footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
-
-  /* ---------- Mobile price tables: stacked cards ---------- */
-  @media (max-width:640px){
-    .table-scroll.stack{ overflow-x:visible; border:none; }
-    .table-scroll.stack table{ min-width:0; width:100%; border-collapse:separate; border-spacing:0; }
-    .table-scroll.stack tr{ display:block; }
-    .table-scroll.stack tr:first-child{ display:none; }
-    .table-scroll.stack tr:not(:first-child){
-      display:block; background:var(--white); border-radius:12px;
-      margin-bottom:10px; box-shadow:0 1px 4px rgba(5,15,26,0.10);
-    }
-    .table-scroll.stack tr:last-child{ margin-bottom:0; }
-    .table-scroll.stack td{
-      display:flex; align-items:baseline; justify-content:space-between; gap:12px;
-      padding:10px 14px; font-size:13.5px; border-bottom:1px solid var(--line);
-      white-space:normal; text-align:right;
-    }
-    .table-scroll.stack td:last-child{ border-bottom:none; }
-    .table-scroll.stack td::before{
-      content:attr(data-label); font-weight:700; color:var(--deep);
-      font-size:12px; text-align:left; flex:0 0 auto; max-width:52%;
-    }
-  }
+  footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
   .subnav a.active{ background:var(--deep); color:var(--white); box-shadow:none; }
   .highlight-row-cards{ margin-bottom:8px; }
 </style>
@@ -354,7 +331,7 @@
 
     <div class="group">
       <h3>Клуб (бассейн + фитнес + SPA)</h3>
-      <div class="table-scroll stack">
+      <div class="table-scroll">
         <table>
           <tr><th>Срок карты</th><th>Дневная карта</th><th>Любое время</th></tr>
           <tr><td>1 год</td><td class="price">24 000 ₽</td><td class="price">33 000 ₽</td></tr>
@@ -366,7 +343,7 @@
 
     <div class="group">
       <h3>Комбинации без фитнеса или без SPA</h3>
-      <div class="table-scroll stack">
+      <div class="table-scroll">
         <table>
           <tr><th>Карта</th><th>Срок</th><th>Стоимость</th></tr>
           <tr><td>Бассейн + SPA комплекс</td><td>1 год</td><td class="price">28 500 ₽</td></tr>
@@ -379,7 +356,7 @@
 
     <div class="group">
       <h3>Только фитнес</h3>
-      <div class="table-scroll stack">
+      <div class="table-scroll">
         <table>
           <tr><th>Срок карты</th><th>Дневная карта (будни/выходные до 17:00)</th><th>Любое время</th></tr>
           <tr><td>Полгода (180 дней)</td><td class="price">7 500 ₽</td><td class="price">9 000 ₽</td></tr>
@@ -415,17 +392,6 @@
   document.addEventListener('click', (e)=>{
     document.querySelectorAll('.nav-dropdown.open').forEach(dd=>{
       if(!dd.contains(e.target)) dd.classList.remove('open');
-    });
-  });
-
-  // Add data-label to each price-table cell (from its column header) for mobile stacked view
-  document.querySelectorAll('.table-scroll.stack table').forEach(table=>{
-    const headerCells = Array.from(table.querySelectorAll('tr:first-child th, tr:first-child td'))
-      .map(c=>c.textContent.trim());
-    Array.from(table.querySelectorAll('tr')).slice(1).forEach(tr=>{
-      Array.from(tr.querySelectorAll('td')).forEach((td,i)=>{
-        if(headerCells[i]) td.setAttribute('data-label', headerCells[i]);
-      });
     });
   });
 </script>
