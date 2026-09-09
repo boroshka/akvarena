@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>АквАрена — бассейн, спа и фитнес в Казани</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#28454A;        /* soft dark teal-grey — never near-black */
+    --deep:#2F565C;
+    --water:#6FA6AC;      /* muted teal, the calm accent */
+    --water-deep:#4C8890;
+    --clay:#C68F6E;       /* muted warm clay, used once, sparingly */
+    --mist:#EDF4F3;
+    --mist-deep:#E2ECEA;
+    --paper:#FAFCFB;
+    --foam:#FFFFFF;
+    --line:rgba(40,69,74,0.10);
+    --line-soft:rgba(40,69,74,0.06);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Manrope',sans-serif;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;
+    font-weight:400;
+    line-height:1.14;
+    margin:0;
+    color:var(--deep);
+    letter-spacing:0;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 32px;}
+  @media (max-width:640px){.wrap{padding:0 22px;}}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:60;
+    background:rgba(250,252,251,0.82);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .header-row{display:flex;align-items:center;justify-content:space-between;height:80px;}
+  .brand{display:flex;align-items:center;gap:11px;color:var(--deep);}
+  .brand-mark{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 32% 30%, #CFE7E6, var(--water) 70%);flex-shrink:0;}
+  .brand-word{font-family:'Fraunces',serif;font-size:19px;font-weight:500;color:var(--deep);}
+  .site-nav{display:flex;align-items:center;gap:34px;}
+  .nav-link{font-size:14px;font-weight:500;color:var(--ink);opacity:0.75;padding:8px 0;border-bottom:1px solid transparent;}
+  .nav-link:hover{opacity:1;border-color:var(--water);}
+  .nav-cta{
+    background:transparent;color:var(--deep);opacity:1 !important;
+    padding:9px 20px;border-radius:20px;font-size:14px;font-weight:600;
+    border:1px solid var(--water) !important;
+  }
+  .nav-cta:hover{background:var(--water);color:var(--foam);}
+  .menu-toggle{display:none;background:none;border:none;cursor:pointer;color:var(--deep);}
+  @media (max-width:880px){.site-nav{display:none;} .menu-toggle{display:block;}}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;padding-top:96px;padding-bottom:0;overflow:hidden;}
+  .hero-bg{
+    position:absolute;inset:0;z-index:-1;
+    background:
+      radial-gradient(720px 420px at 82% 10%, rgba(111,166,172,0.16), transparent 65%),
+      radial-gradient(640px 480px at 8% 55%, rgba(198,143,110,0.08), transparent 60%),
+      var(--paper);
+  }
+  .ripples{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;}
+  .ripples svg{position:absolute;top:8%;left:-6%;width:560px;height:560px;opacity:0.5;}
+  @media (max-width:960px){.ripples svg{width:380px;height:380px;top:2%;left:-18%;}}
+  .ripples circle{fill:none;stroke:var(--water);}
+  @keyframes ripple-grow{
+    0%{r:20;stroke-opacity:0.5;}
+    100%{r:230;stroke-opacity:0;}
+  }
+  .ripples circle{animation:ripple-grow 6s ease-out infinite;}
+  .ripples circle:nth-child(2){animation-delay:2s;}
+  .ripples circle:nth-child(3){animation-delay:4s;}
+  @media (prefers-reduced-motion:reduce){.ripples circle{animation:none;r:120;stroke-opacity:0.18;}}
+  .hero-grid{display:grid;grid-template-columns:1fr 0.92fr;gap:52px;align-items:center;padding:44px 0 90px;}
+  @media (max-width:960px){.hero-grid{grid-template-columns:1fr;gap:40px;padding-top:20px;}}
+  .hero-eyebrow{color:var(--water-deep);font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:9px;margin-bottom:24px;}
+  .wave-mark{display:inline-block;width:20px;height:10px;flex-shrink:0;}
+  .wave-mark path{fill:none;stroke:var(--water-deep);stroke-width:1.6;stroke-linecap:round;}
+  .hero h1{font-size:clamp(36px,4.6vw,58px);max-width:13ch;font-weight:400;}
+  .hero h1 em{font-style:italic;color:var(--water-deep);}
+  .hero p.lede{color:var(--ink);opacity:0.68;font-size:17px;max-width:42ch;margin-top:24px;line-height:1.7;}
+  .hero-actions{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:15px 28px;border-radius:26px;font-weight:600;font-size:14.5px;border:1px solid transparent;cursor:pointer;}
+  .btn-primary{background:var(--water-deep);color:var(--foam);}
+  .btn-primary:hover{background:var(--deep);}
+  .btn-ghost{background:transparent;color:var(--deep);border-color:var(--line);}
+  .btn-ghost:hover{border-color:var(--water-deep);}
+
+  .hero-facts{margin-top:52px;display:flex;gap:36px;flex-wrap:wrap;}
+  .hero-facts div{padding-left:16px;border-left:2px solid var(--mist-deep);}
+  .hero-facts dt{color:var(--deep);font-family:'Fraunces',serif;font-size:20px;font-weight:500;}
+  .hero-facts dd{margin:3px 0 0;color:var(--ink);opacity:0.55;font-size:12.5px;}
+
+  .hero-media{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 40px 80px -30px rgba(40,69,74,0.35);}
+  .hero-media img{width:100%;height:100%;object-fit:cover;}
+  .hero-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(40,69,74,0) 55%, rgba(20,40,44,0.45) 100%);}
+  .hero-card{
+    position:absolute;left:24px;right:24px;bottom:24px;z-index:2;
+    background:rgba(255,255,255,0.94);backdrop-filter:blur(6px);
+    border-radius:16px;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;
+  }
+  .hero-card .k{font-size:12px;color:var(--ink);opacity:0.55;}
+  .hero-card .v{font-family:'Fraunces',serif;font-size:17px;color:var(--deep);margin-top:2px;}
+
+  /* wave divider between sections, used once as a calm transition */
+  .wave{display:block;width:100%;height:64px;margin-top:-2px;}
+  @media (max-width:640px){.wave{height:36px;}}
+  .wave-end{margin-top:40px;margin-bottom:-100px;}
+  @media (max-width:640px){.wave-end{margin-top:24px;margin-bottom:-64px;}}
+
+  /* ---------- Section shell ---------- */
+  section{padding:100px 0;}
+  @media (max-width:640px){section{padding:64px 0;}}
+  .section-head{max-width:46ch;margin-bottom:56px;}
+  .section-head .kicker{color:var(--water-deep);font-size:13px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:9px;}
+  .section-head h2{font-size:clamp(28px,3.4vw,38px);font-weight:400;}
+  .section-head p{color:var(--ink);opacity:0.6;font-size:15.5px;line-height:1.65;margin:16px 0 0;}
+
+  /* ---------- Spaces ---------- */
+  .spaces{background:var(--mist);position:relative;}
+  .space-list{display:flex;flex-direction:column;gap:26px;}
+  .space-row{
+    display:grid;grid-template-columns:0.95fr 1.05fr;gap:0;align-items:stretch;
+    background:var(--foam);border-radius:24px;overflow:hidden;
+  }
+  .space-row.rev{grid-template-columns:1.05fr 0.95fr;}
+  .space-row.rev .space-media{order:2;}
+  .space-media{overflow:hidden;min-height:320px;}
+  .space-media img{width:100%;height:100%;object-fit:cover;}
+  .space-copy{padding:48px 46px;display:flex;flex-direction:column;justify-content:center;}
+  .space-num{font-family:'Fraunces',serif;font-style:italic;font-size:15px;color:var(--water-deep);display:block;margin-bottom:12px;}
+  .space-copy h3{color:var(--deep);font-size:clamp(24px,2.6vw,30px);margin-bottom:14px;font-weight:400;}
+  .space-copy p{color:var(--ink);opacity:0.65;font-size:15px;line-height:1.7;max-width:40ch;}
+  .space-tags{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px;}
+  .space-tags span{font-size:12px;color:var(--water-deep);background:var(--mist);padding:6px 13px;border-radius:20px;}
+  @media (max-width:820px){
+    .space-row, .space-row.rev{grid-template-columns:1fr;}
+    .space-row.rev .space-media{order:0;}
+    .space-media{min-height:220px;}
+    .space-copy{padding:34px 28px;}
+  }
+
+  /* ---------- Tariffs ---------- */
+  .tariffs{background:var(--paper);}
+  .tariff-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  @media (max-width:960px){.tariff-grid{grid-template-columns:1fr 1fr;}}
+  @media (max-width:600px){.tariff-grid{grid-template-columns:1fr;}}
+  .tariff-card{
+    background:var(--foam);border:1px solid var(--line);border-radius:20px;
+    padding:30px 26px;display:flex;flex-direction:column;gap:14px;position:relative;
+  }
+  .tariff-card.hi{border-color:var(--water);background:linear-gradient(180deg,#FFFFFF, var(--mist));}
+  .tariff-tag{position:absolute;top:-11px;left:24px;background:var(--clay);color:var(--foam);font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;}
+  .tariff-card .name{font-family:'Fraunces',serif;font-size:18px;color:var(--deep);font-weight:400;}
+  .tariff-card .price{font-family:'Fraunces',serif;font-size:30px;color:var(--water-deep);margin-top:2px;}
+  .tariff-card .price small{display:block;font-family:'Manrope',sans-serif;font-size:11.5px;font-weight:500;color:var(--ink);opacity:0.5;margin-top:4px;}
+  .tariff-card .desc{font-size:13.5px;color:var(--ink);opacity:0.6;line-height:1.55;flex-grow:1;}
+  .tariff-card .link{font-size:13px;font-weight:600;color:var(--water-deep);border-top:1px solid var(--line);padding-top:14px;margin-top:2px;}
+
+  /* ---------- Stats ---------- */
+  .stats{background:var(--mist);}
+  .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-radius:24px;overflow:hidden;}
+  .stat{background:var(--foam);padding:44px 30px;}
+  .stat dt{font-family:'Fraunces',serif;color:var(--deep);font-size:clamp(26px,2.8vw,36px);font-weight:400;}
+  .stat dd{margin:8px 0 0;color:var(--ink);opacity:0.55;font-size:13px;line-height:1.5;}
+  @media (max-width:760px){.stats .wrap{grid-template-columns:1fr 1fr;}}
+
+  /* ---------- Visit + contact ---------- */
+  .visit{background:var(--paper);}
+  .visit-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+  @media (max-width:900px){.visit-grid{grid-template-columns:1fr;gap:46px;}}
+  .visit-block h3{font-size:23px;margin-bottom:14px;font-weight:400;}
+  .visit-block p{color:var(--ink);opacity:0.62;font-size:14.5px;line-height:1.7;max-width:42ch;}
+  .addr-line{display:flex;gap:14px;padding:16px 0;border-top:1px solid var(--line);font-size:14px;}
+  .addr-line:last-of-type{border-bottom:1px solid var(--line);}
+  .addr-line .k{color:var(--ink);opacity:0.48;min-width:110px;flex-shrink:0;}
+  .addr-line .v{color:var(--deep);font-weight:500;}
+  .map-link{margin-top:22px;display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--water-deep);border-bottom:1px solid var(--water-deep);}
+
+  .form-field{margin-bottom:18px;}
+  .form-field label{display:block;font-size:12px;font-weight:600;color:var(--ink);opacity:0.5;margin-bottom:7px;}
+  .form-field input, .form-field textarea{
+    width:100%;border:1px solid var(--line);border-radius:12px;background:var(--foam);
+    padding:13px 15px;font-family:'Manrope',sans-serif;font-size:14.5px;color:var(--ink);
+  }
+  .form-field input:focus, .form-field textarea:focus{outline:none;border-color:var(--water);}
+  .form-field textarea{resize:vertical;min-height:78px;}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--mist);padding:60px 0 28px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:36px;}
+  @media (max-width:700px){.footer-grid{grid-template-columns:1fr;gap:28px;}}
+  footer h4{font-size:12px;font-weight:600;color:var(--ink);opacity:0.5;margin-bottom:14px;}
+  footer p{opacity:0.6;font-size:13.5px;line-height:1.6;margin:12px 0 0;max-width:32ch;color:var(--ink);}
+  footer a.f-link{display:block;font-size:13.5px;opacity:0.72;padding:4px 0;color:var(--ink);}
+  footer a.f-link:hover{opacity:1;color:var(--water-deep);}
+  .footer-bottom{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;opacity:0.5;color:var(--ink);}
+
+  ::selection{background:var(--water);color:var(--foam);}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto !important;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <a href="#" class="brand"><span class="brand-mark"></span><span class="brand-word">АквАренА</span></a>
+    <nav class="site-nav">
+      <a class="nav-link" href="#spaces">Бассейн</a>
+      <a class="nav-link" href="#spaces">СПА</a>
+      <a class="nav-link" href="#spaces">Зал</a>
+      <a class="nav-link" href="#tariffs">Тарифы</a>
+      <a class="nav-link" href="#visit">Как добраться</a>
+      <a class="nav-link nav-cta" href="#contact">Написать нам</a>
+    </nav>
+    <button class="menu-toggle" aria-label="Меню">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="ripples" aria-hidden="true">
+    <svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="20"/><circle cx="150" cy="150" r="20"/><circle cx="150" cy="150" r="20"/></svg>
+  </div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-eyebrow"><svg class="wave-mark" viewBox="0 0 20 10"><path d="M0,6 C 3,2 5,2 8,6 C 11,10 13,10 16,6 C 17.5,4 18.5,4 20,6"/></svg>Короленко, 28а · Казань</div>
+      <h1>Место, где город <em>затихает</em></h1>
+      <p class="lede">АквАрена — бассейн, спа и тренажёрный зал в центре Казани. Тихая вода, тёплый пар и время, которое можно провести только на себя.</p>
+      <div class="hero-actions">
+        <a href="#tariffs" class="btn btn-primary">Выбрать абонемент</a>
+        <a href="#contact" class="btn btn-ghost">Написать нам</a>
+      </div>
+      <dl class="hero-facts">
+        <div><dt>8 дорожек</dt><dd>4×25 м и 4×50 м</dd></div>
+        <div><dt>7:00–23:00</dt><dd>ежедневно</dd></div>
+        <div><dt>13 лет</dt><dd>в Казани</dd></div>
+      </dl>
+    </div>
+    <div class="hero-media">
+      <img src="img/akvarena-pool-photo.jpg" alt="Бассейн АквАрены">
+      <div class="hero-card"><div><div class="k">Глубина</div><div class="v">2 метра</div></div><div><div class="k">Дорожки</div><div class="v">8 линий</div></div></div>
+    </div>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 64" preserveAspectRatio="none"><path d="M0,32 C 240,64 480,0 720,24 C 960,48 1200,8 1440,32 L1440,64 L0,64 Z" fill="#EDF4F3"></path></svg>
+</section>
+
+<section class="spaces" id="spaces">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><svg class="wave-mark" viewBox="0 0 20 10"><path d="M0,6 C 3,2 5,2 8,6 C 11,10 13,10 16,6 C 17.5,4 18.5,4 20,6"/></svg>Три пространства</span>
+      <h2>Один визит, чтобы поплавать, прогреться и отдохнуть</h2>
+      <p>Раздевалка и абонемент общие — можно спокойно переходить между бассейном, спа и залом без доплат и лишних дверей.</p>
+    </div>
+    <div class="space-list">
+      <div class="space-row">
+        <div class="space-media"><img src="img/akvarena-pool-2.jpg" alt="Бассейн АквАрены"></div>
+        <div class="space-copy">
+          <span class="space-num">Бассейн</span>
+          <h3>Восемь дорожек, две дистанции</h3>
+          <p>4 дорожки по 25 м и 4 по 50 м, основная глубина 2 м. Свободное плавание, обучение детей и взрослых, аквааэробика по расписанию и отдельная зона для самых маленьких.</p>
+          <div class="space-tags"><span>Свободное плавание</span><span>Обучение</span><span>Аквааэробика</span></div>
+        </div>
+      </div>
+      <div class="space-row rev">
+        <div class="space-media"><img src="img/akvarena-spa-1.jpg" alt="СПА-зона АквАрены"></div>
+        <div class="space-copy">
+          <span class="space-num">СПА-комплекс</span>
+          <h3>Джакузи, хаммам, финская сауна</h3>
+          <p>Место, чтобы остаться подольше после плавания. Работает отдельно от бассейна или вместе с ним — в одном визите, без лишней суеты.</p>
+          <div class="space-tags"><span>Джакузи</span><span>Хаммам</span><span>Сауна</span></div>
+        </div>
+      </div>
+      <div class="space-row">
+        <div class="space-media"><img src="img/akvarena-zal-1.jpg" alt="Тренажёрный зал АквАрены"></div>
+        <div class="space-copy">
+          <span class="space-num">Тренажёрный зал</span>
+          <h3>Свободные и групповые тренировки</h3>
+          <p>Полный комплект тренажёров и свободных весов, регулярные групповые программы. Хорошо сочетается с плаванием или спа в одно посещение.</p>
+          <div class="space-tags"><span>Свободные веса</span><span>Кардиозона</span><span>Группы</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <svg class="wave wave-end" viewBox="0 0 1440 56" preserveAspectRatio="none"><path d="M0,28 C 240,56 480,0 720,20 C 960,40 1200,4 1440,28 L1440,56 L0,56 Z" fill="#FAFCFB"></path></svg>
+</section>
+
+<section class="tariffs" id="tariffs">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><svg class="wave-mark" viewBox="0 0 20 10"><path d="M0,6 C 3,2 5,2 8,6 C 11,10 13,10 16,6 C 17.5,4 18.5,4 20,6"/></svg>Тарифы</span>
+      <h2>От разового визита до годовой карты клуба</h2>
+      <p>Четыре спокойных способа попасть в воду — без сложных условий и мелкого шрифта.</p>
+    </div>
+    <div class="tariff-grid">
+      <div class="tariff-card">
+        <div class="name">Разовое посещение</div>
+        <div class="price">650 ₽</div>
+        <div class="desc">Бассейн, 90 минут, любое время</div>
+        <a class="link" href="#contact">Записаться →</a>
+      </div>
+      <div class="tariff-card hi">
+        <span class="tariff-tag">частый выбор</span>
+        <div class="name">10 визитов</div>
+        <div class="price">5 500 ₽<small>≈ 550 ₽ / визит</small></div>
+        <div class="desc">Действует 30 дней с момента покупки</div>
+        <a class="link" href="#contact">Записаться →</a>
+      </div>
+      <div class="tariff-card">
+        <div class="name">Клуб на месяц</div>
+        <div class="price">7 700 ₽</div>
+        <div class="desc">Бассейн + фитнес + СПА, любое время</div>
+        <a class="link" href="#contact">Записаться →</a>
+      </div>
+      <div class="tariff-card">
+        <div class="name">Клуб на год</div>
+        <div class="price">от 24 000 ₽<small>безлимит — 33 000 ₽</small></div>
+        <div class="desc">Все три зоны, годовое обслуживание</div>
+        <a class="link" href="#contact">Записаться →</a>
+      </div>
+    </div>
+  </div>
+  <svg class="wave wave-end" viewBox="0 0 1440 56" preserveAspectRatio="none"><path d="M0,28 C 240,0 480,56 720,36 C 960,16 1200,52 1440,28 L1440,56 L0,56 Z" fill="#EDF4F3"></path></svg>
+</section>
+
+<section class="stats">
+  <div class="wrap">
+    <dl class="stat"><dt>8 дорожек</dt><dd>4×25 м и 4×50 м, глубина 2 м</dd></dl>
+    <dl class="stat"><dt>1 500+</dt><dd>отзывов клуба на Яндекс Картах</dd></dl>
+    <dl class="stat"><dt>13 лет</dt><dd>работы клуба в Казани</dd></dl>
+    <dl class="stat"><dt>3 зоны</dt><dd>бассейн, спа и зал по одному абонементу</dd></dl>
+  </div>
+  <svg class="wave wave-end" viewBox="0 0 1440 56" preserveAspectRatio="none"><path d="M0,28 C 240,56 480,0 720,20 C 960,40 1200,4 1440,28 L1440,56 L0,56 Z" fill="#FAFCFB"></path></svg>
+</section>
+
+<section class="visit" id="visit">
+  <div class="wrap visit-grid">
+    <div class="visit-block">
+      <h3>Как добраться</h3>
+      <p>Рядом со станцией метро «Яшьлек». В часы пик по вечерам и выходным лучше позвонить заранее.</p>
+      <div class="addr-line"><span class="k">Адрес</span><span class="v">ул. Короленко, 28а, Казань</span></div>
+      <div class="addr-line"><span class="k">Часы работы</span><span class="v">Пн–Пт 7:00–23:00 · Сб–Вс 8:00–22:00</span></div>
+      <div class="addr-line"><span class="k">Телефон</span><span class="v">+7 (843) 200-10-24</span></div>
+      <a class="map-link" href="#">Открыть в Яндекс Картах →</a>
+    </div>
+    <div class="visit-block" id="contact">
+      <h3>Написать нам</h3>
+      <p>Вопрос по абонементу, расписанию или что-то не работает на сайте — напишите, ответим на почту или перезвоним.</p>
+      <form onsubmit="event.preventDefault();">
+        <div class="form-field"><label for="name">Имя</label><input id="name" type="text" placeholder="Как к вам обращаться"></div>
+        <div class="form-field"><label for="phone">Телефон</label><input id="phone" type="tel" placeholder="+7 ("></div>
+        <div class="form-field"><label for="msg">Сообщение</label><textarea id="msg" placeholder="Коротко опишите вопрос"></textarea></div>
+        <button class="btn btn-primary" type="submit">Отправить</button>
+      </form>
+    </div>
+  </div>
+  <svg class="wave wave-end" viewBox="0 0 1440 56" preserveAspectRatio="none"><path d="M0,28 C 240,0 480,56 720,36 C 960,16 1200,52 1440,28 L1440,56 L0,56 Z" fill="#EDF4F3"></path></svg>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <span class="brand-word">АквАренА</span>
+        <p>Бассейн, спа и фитнес-студия. ул. Короленко, 28а, Казань.</p>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <a class="f-link" href="tel:+78432001024">+7 (843) 200-10-24</a>
+        <a class="f-link" href="tel:+78432001025">+7 (843) 200-10-25</a>
+        <a class="f-link" href="mailto:akvarena@mail.ru">akvarena@mail.ru</a>
+      </div>
+      <div>
+        <h4>Разделы</h4>
+        <a class="f-link" href="#spaces">Бассейн</a>
+        <a class="f-link" href="#spaces">СПА</a>
+        <a class="f-link" href="#tariffs">Тарифы</a>
+        <a class="f-link" href="#visit">Как добраться</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Черновой макет для внутреннего показа — не действующий сайт клуба</span>
+      <span>© АквАренА</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelector('.menu-toggle').addEventListener('click', function(){
+    var nav = document.querySelector('.site-nav');
+    var open = nav.style.display === 'flex';
+    nav.style.display = open ? 'none' : 'flex';
+    if(!open){
+      nav.style.cssText += 'position:absolute;top:80px;left:0;right:0;flex-direction:column;align-items:flex-start;background:#FAFCFB;padding:16px 22px;gap:2px;border-bottom:1px solid rgba(40,69,74,0.10);';
+    }
+  });
+</script>
+
+</body>
+</html>
