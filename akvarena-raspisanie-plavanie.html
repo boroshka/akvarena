@@ -260,6 +260,32 @@
     .table-scroll.compact th:nth-child(3), .table-scroll.compact td:nth-child(3){ width:28%; }
     .table-scroll.compact th, .table-scroll.compact td{ padding:10px 8px; font-size:12.8px; word-break:break-word; }
   }
+
+  /* ---------- Mobile background fix ---------- */
+  @media (max-width:640px){
+    html{
+      min-height:100%;
+      background:#050A11;
+    }
+    body{
+      background:
+        linear-gradient(180deg,
+          #FFFFFF 0%,
+          #F0FAF9 7%,
+          #C4EFEE 14%,
+          #87CDDF 22%,
+          #57A7D0 31%,
+          #357DB5 42%,
+          #224E83 54%,
+          #152D5B 67%,
+          #09122A 82%,
+          #050A11 100%);
+      background-size:100% 1700px;
+      background-repeat:no-repeat;
+      background-color:#050A11;
+    }
+  }
+
 </style>
 </head>
 <body>
