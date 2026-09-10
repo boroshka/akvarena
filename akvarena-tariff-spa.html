@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>СПА-комплекс — АквАренА</title>
+<title>СПА — Тарифы АквАренА</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -222,8 +222,7 @@
   th{ background:var(--mist); font-weight:700; color:var(--deep); font-size:13px; }
   tr:last-child td{ border-bottom:none; }
   td.price{ font-weight:700; color:var(--deep); white-space:nowrap; }
-  td.muted, .muted{ color:#6B7A75; font-size:13px; }
-  table td{ line-height:1.4; }
+  td.muted{ color:#6B7A75; font-size:13.5px; }
   .highlight-row td{ background:#E7F3FA; }
 
   .simple-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
@@ -234,44 +233,32 @@
 
   .note{ margin-top:14px; font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.5; }
 
-  .gallery{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
-  }
-  @media (max-width:900px){ .gallery{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:560px){ .gallery{grid-template-columns:1fr;} }
-  .gallery-item{
-    position:relative;
-    aspect-ratio:4/3;
-    border-radius:18px;
-    overflow:hidden;
-    border:1px solid rgba(255,255,255,0.16);
-  }
-  .gallery-item img{
-    width:100%; height:100%; object-fit:cover; display:block;
-    transition:transform .4s ease;
-  }
-  .gallery-item:hover img{ transform:scale(1.05); }
-  .gallery-item .cap{
-    position:absolute; left:0; right:0; bottom:0;
-    padding:14px 16px 12px;
-    background:linear-gradient(180deg, rgba(5,15,26,0) 0%, rgba(5,15,26,0.75) 100%);
-    color:var(--white); font-size:13.5px; font-weight:600;
-  }
-  .gallery-item.wide{ grid-column:span 2; }
-  @media (max-width:560px){ .gallery-item.wide{ grid-column:span 1; } }
+    footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
 
-  .facts-grid{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:8px;
+  /* ---------- Mobile price tables: stacked cards ---------- */
+  @media (max-width:640px){
+    .table-scroll.stack{ overflow-x:visible; border:none; }
+    .table-scroll.stack table{ min-width:0; width:100%; border-collapse:separate; border-spacing:0; }
+    .table-scroll.stack tr{ display:block; }
+    .table-scroll.stack tr:first-child{ display:none; }
+    .table-scroll.stack tr:not(:first-child){
+      display:block; background:var(--white); border-radius:12px;
+      margin-bottom:10px; box-shadow:0 1px 4px rgba(5,15,26,0.10);
+    }
+    .table-scroll.stack tr:last-child{ margin-bottom:0; }
+    .table-scroll.stack td{
+      display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+      padding:10px 14px; font-size:13.5px; border-bottom:1px solid var(--line);
+      white-space:normal; text-align:right;
+    }
+    .table-scroll.stack td:last-child{ border-bottom:none; }
+    .table-scroll.stack td::before{
+      content:attr(data-label); font-weight:700; color:var(--deep);
+      font-size:12px; text-align:left; flex:0 0 auto; max-width:52%;
+    }
   }
-  @media (max-width:700px){ .facts-grid{grid-template-columns:repeat(2,1fr);} }
-  .fact-card{
-    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.16);
-    border-radius:16px; padding:20px;
-  }
-  .fact-card strong{ display:block; font-family:'Fraunces',serif; font-size:24px; color:var(--white); font-weight:600; }
-  .fact-card span{ display:block; margin-top:6px; font-size:13px; color:rgba(255,255,255,0.65); line-height:1.4; }
-
-  footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
+  .subnav a.active{ background:var(--deep); color:var(--white); box-shadow:none; }
+  .highlight-row-cards{ margin-bottom:8px; }
 </style>
 </head>
 <body>
@@ -321,68 +308,51 @@
 </header>
 
 <div class="wrap page-hero">
-  <h1>СПА-комплекс</h1>
+  <h1>СПА</h1>
 </div>
 
 <div class="subnav-shell">
   <div class="wrap subnav">
-    <a href="#photos">Фото</a>
-    <a href="akvarena-tariff-spa.html">Цены</a>
+    <a href="akvarena-tariff-spa.html" class="active">СПА</a>
+    <a href="akvarena-tariff-klub.html">Клубные карты</a>
   </div>
 </div>
 
 <main class="wrap">
 
-  <section class="section" id="photos" style="padding-top:32px;">
-    <div class="gallery">
-      <div class="gallery-item wide">
-        <img src="akvarena-spa-1.jpg" alt="Джакузи с подсветкой и зелёной стеной">
-        <div class="cap">Джакузи на несколько человек</div>
+  <div class="highlight-row-cards">
+    <div class="simple-cards">
+      <div class="simple-card">
+        <div class="name">СПА разовое</div>
+        <div class="meta">Будни 9:00–17:00, 2 часа</div>
+        <div class="price">700 ₽</div>
       </div>
-      <div class="gallery-item">
-        <img src="akvarena-spa-2.jpg" alt="Хаммам с цветной подсветкой">
-        <div class="cap">Хаммам</div>
-      </div>
-      <div class="gallery-item">
-        <img src="akvarena-spa-3.jpg" alt="Финская сауна">
-        <div class="cap">Финская сауна</div>
-      </div>
-      <div class="gallery-item">
-        <img src="akvarena-spa-4.jpg" alt="Полки для просушки в зоне СПА">
-        <div class="cap">Зона отдыха</div>
+      <div class="simple-card">
+        <div class="name">СПА 4 визита</div>
+        <div class="meta">30 дней, любое время</div>
+        <div class="price">3 500 ₽</div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="section">
-    <h2>Что есть в СПА-комплексе</h2>
-    <div class="facts-grid">
-      <div class="fact-card">
-        <strong>Джакузи</strong>
-        <span>Гидромассаж на несколько человек</span>
-      </div>
-      <div class="fact-card">
-        <strong>Хаммам</strong>
-        <span>Паровая баня с цветной подсветкой</span>
-      </div>
-      <div class="fact-card">
-        <strong>Финская сауна</strong>
-        <span>Сухой пар, деревянная отделка</span>
-      </div>
-      <div class="fact-card">
-        <strong>Зона отдыха</strong>
-        <span>Место для полотенец и вещей</span>
+
+    <div class="group">
+      <h3>SPA комплекс</h3>
+      <div class="table-scroll stack">
+        <table>
+          <tr><th>Время посещения</th><th>Длительность</th><th>4 визита (30 дней)</th><th>Разовое</th></tr>
+          <tr><td>Любое время</td><td>2 часа</td><td class="price">3 500 ₽</td><td class="muted">—</td></tr>
+          <tr><td>Будни 9:00–17:00</td><td>2 часа</td><td class="muted">—</td><td class="price">700 ₽</td></tr>
+        </table>
       </div>
     </div>
-    <p class="note">Можно посетить отдельно или вместе с бассейном — цены на отдельной странице.</p>
-  </section>
+
 
 </main>
 
 <footer>
-  Черновой макет для внутреннего показа — фото демонстрационные, уточняйте актуальные у администратора
+  Черновой макет для внутреннего показа — цены актуальны на 27 августа 2026 г., уточняйте у администратора
 </footer>
-
 
 <script>
   document.querySelector('.menu-toggle').addEventListener('click', ()=>{
@@ -402,6 +372,17 @@
   document.addEventListener('click', (e)=>{
     document.querySelectorAll('.nav-dropdown.open').forEach(dd=>{
       if(!dd.contains(e.target)) dd.classList.remove('open');
+    });
+  });
+
+  // Add data-label to each price-table cell (from its column header) for mobile stacked view
+  document.querySelectorAll('.table-scroll.stack table').forEach(table=>{
+    const headerCells = Array.from(table.querySelectorAll('tr:first-child th, tr:first-child td'))
+      .map(c=>c.textContent.trim());
+    Array.from(table.querySelectorAll('tr')).slice(1).forEach(tr=>{
+      Array.from(tr.querySelectorAll('td')).forEach((td,i)=>{
+        if(headerCells[i]) td.setAttribute('data-label', headerCells[i]);
+      });
     });
   });
 </script>
