@@ -6,7 +6,7 @@
 <title>Тренеры бассейна — АквАренА</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink: #12212E;
@@ -73,31 +73,40 @@
       radial-gradient(500px 600px at 6% 40%, rgba(120,210,235,0.12), transparent 60%),
       radial-gradient(700px 700px at 92% 70%, rgba(63,169,218,0.10), transparent 60%);
   }
-  h1,h2,h3,.display{ font-family:'Fraunces', serif; font-weight:600; line-height:1.08; margin:0; color:var(--deep); }
+  h1,h2,h3,.display{ font-family:'Cormorant Garamond', serif; font-weight:600; line-height:1.08; margin:0; color:var(--deep); }
   a{color:inherit; text-decoration:none;}
   .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
   @media (max-width:640px){ .wrap{padding:0 18px;} }
 
   header{
     position:sticky; top:0; z-index:60;
-    background:rgba(234,246,251,0.92);
-    backdrop-filter:blur(8px);
+    background:rgba(234,246,251,0.90);
+    backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
+    box-shadow:0 1px 0 rgba(11,53,84,.05), 0 18px 32px -26px rgba(11,53,84,.45);
   }
   .header-row{
     display:flex; align-items:center; justify-content:space-between;
     height:76px;
   }
-  .logo{ display:flex; align-items:center; }
-  .logo-img{ height:40px; width:auto; display:block; }
+  .logo{ display:flex; align-items:center; gap:10px; transition:opacity .15s ease, transform .15s ease; }
+  .logo:hover{ opacity:.86; }
+  .logo-img{ height:38px; width:auto; display:block; }
 
-  .site-nav{ display:flex; align-items:center; gap:26px; }
+  .site-nav{ display:flex; align-items:center; gap:2px; }
   .nav-link{
+    position:relative;
     font-size:14.5px; font-weight:600; color:var(--deep);
-    padding:6px 0; border-bottom:2px solid transparent;
-    transition:border-color .15s ease;
+    padding:9px 16px; border-radius:999px;
+    border:1px solid transparent;
+    transition:background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
   }
-  .nav-link:hover{ border-color:var(--amber); }
+  .nav-link:hover{ background:var(--mist); border-color:var(--line); }
+  .nav-link.active,
+  .nav-dropdown.active > .nav-link{
+    background:var(--white); color:var(--petrol); border-color:var(--line);
+    box-shadow:0 4px 12px rgba(11,53,84,.12);
+  }
 
   .menu-toggle{ display:none; background:none; border:none; cursor:pointer; padding:6px; color:var(--deep); }
   .menu-toggle svg{ width:24px; height:24px; }
@@ -113,7 +122,15 @@
       box-shadow:0 14px 28px rgba(5,15,26,0.14);
     }
     .site-nav.open{ display:flex; }
-    .nav-link{ padding:12px 0; width:100%; border-bottom:1px solid var(--line); }
+    .nav-link{
+      padding:12px 6px; width:100%; border-radius:10px;
+      border:none; box-shadow:none !important; background:transparent !important;
+      border-bottom:1px solid var(--line);
+    }
+    .nav-link.active,
+    .nav-dropdown.active > .nav-link{
+      background:var(--mist) !important; color:var(--petrol);
+    }
     .nav-dropdown{ width:100%; }
     .nav-dropdown > .nav-link{ width:100%; justify-content:space-between; }
     .menu-toggle{ display:block; }
@@ -121,7 +138,7 @@
 
   /* ---------- Nav dropdown ---------- */
   .nav-dropdown{ position:relative; display:inline-block; }
-  .nav-dropdown > a{ display:inline-flex; align-items:center; gap:5px; }
+  .nav-dropdown > a{ display:inline-flex; align-items:center; gap:6px; }
   .nav-dropdown > a::after{
     content:''; width:6px; height:6px;
     border-right:2px solid currentColor; border-bottom:2px solid currentColor;
@@ -134,10 +151,10 @@
     transform:translate(-50%,-6px);
     margin-top:18px;
     background:var(--white);
-    border-radius:16px;
-    box-shadow:0 20px 44px rgba(5,15,26,0.30);
+    border-radius:18px;
+    box-shadow:0 24px 48px rgba(5,15,26,0.28);
     min-width:270px;
-    padding:8px;
+    padding:9px;
     opacity:0; visibility:hidden;
     transition:opacity .18s ease, transform .18s ease, visibility .18s;
     z-index:80;
@@ -150,14 +167,17 @@
   }
   .nav-dropdown-panel a{
     position:relative; display:flex; align-items:center; gap:10px;
-    padding:11px 14px; border-radius:10px;
+    padding:11px 14px; border-radius:11px;
     font-size:14px; font-weight:600; color:var(--deep);
+    transition:background .12s ease, padding-left .12s ease;
   }
   .nav-dropdown-panel a::before{
     content:''; width:6px; height:6px; border-radius:50%;
     background:var(--amber); flex:0 0 auto;
+    transition:transform .12s ease;
   }
   .nav-dropdown-panel a:hover{ background:var(--mist); }
+  .nav-dropdown-panel a:hover::before{ transform:scale(1.35); }
   @media (hover:hover){
     .nav-dropdown:hover .nav-dropdown-panel{
       opacity:1; visibility:visible; transform:translate(-50%,0);
@@ -273,7 +293,7 @@
           <a href="akvarena-raspisanie-aqua.html">Аквааэробика</a>
         </div>
       </div>
-      <div class="nav-dropdown">
+      <div class="nav-dropdown active">
         <a class="nav-link" href="akvarena-trener-bassein.html">Тренеры</a>
         <div class="nav-dropdown-panel">
           <a href="akvarena-trener-bassein.html">Тренеры бассейна</a>
