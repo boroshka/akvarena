@@ -331,38 +331,6 @@
     html{ scroll-behavior:auto; }
   }
 
-  /* ---------- Pricing strip (the whole point) ---------- */
-  .pricing{
-    margin-top:24px;
-    padding:56px 0 64px;
-  }
-  .pricing-head{
-    display:flex; justify-content:space-between; align-items:flex-end;
-    gap:24px; flex-wrap:wrap; margin-bottom:32px;
-  }
-  .pricing-head h2{color:var(--white); font-size:clamp(26px,3vw,34px); text-shadow:0 2px 14px rgba(5,15,26,0.4);}
-  .pricing-head p{color:rgba(255,255,255,0.82); margin-top:8px; font-size:15px; max-width:44ch; text-shadow:0 1px 8px rgba(5,15,26,0.3);}
-  .pricing-head a.btn-ghost{border-color:rgba(255,255,255,0.35); color:var(--white);}
-  .pricing-head a.btn-ghost:hover{border-color:var(--white);}
-  .price-cards{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:16px;
-  }
-  @media (max-width:900px){ .price-cards{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:560px){ .price-cards{grid-template-columns:1fr;} }
-  .price-card{
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.14);
-    border-radius:18px;
-    padding:24px;
-    color:var(--white);
-  }
-  .price-card .label{font-size:14px; color:rgba(255,255,255,0.68); margin-bottom:10px;}
-  .price-card .amount{font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600;}
-  .price-card .amount small{font-family:'Manrope',sans-serif; font-size:14px; font-weight:600; color:rgba(255,255,255,0.6);}
-  .price-card .note{margin-top:10px; font-size:13px; color:rgba(255,255,255,0.55); line-height:1.4;}
-  .price-card.highlight{background:var(--amber); border-color:var(--amber); color:var(--ink);}
-  .price-card.highlight .label,.price-card.highlight .note{color:rgba(22,35,31,0.65);}
-  .price-card.highlight .amount{color:var(--ink);}
 
   /* ---------- Services ---------- */
   .section{padding:96px 0;}
@@ -619,41 +587,7 @@
         </div>
       </div>
     </div>
-    <a class="hero-scroll" href="#ceny">SCROLL</a>
-  </section>
-
-  <!-- PRICING (the actual fix) -->
-  <section class="pricing" id="ceny">
-    <div class="wrap">
-      <div class="pricing-head">
-        <div>
-          <h2>Тарифы</h2>
-        </div>
-        <a class="btn btn-ghost" href="akvarena-tariffs.html">Все тарифы</a>
-      </div>
-      <div class="price-cards">
-        <div class="price-card">
-          <div class="label">Разовое посещение</div>
-          <div class="amount">650 <small>₽</small></div>
-          <div class="note">Бассейн, 90 минут, любое время</div>
-        </div>
-        <div class="price-card highlight">
-          <div class="label">10 визитов</div>
-          <div class="amount">5 500 <small>₽</small></div>
-          <div class="note">Действует 30 дней — самый частый выбор</div>
-        </div>
-        <div class="price-card">
-          <div class="label">Клуб на месяц</div>
-          <div class="amount">7 700 <small>₽</small></div>
-          <div class="note">Бассейн + фитнес + SPA, любое время</div>
-        </div>
-        <div class="price-card">
-          <div class="label">Клуб на год</div>
-          <div class="amount">от 24 000 <small>₽</small></div>
-          <div class="note">Дневная карта — от 24 000 ₽, любое время — 33 000 ₽</div>
-        </div>
-      </div>
-    </div>
+    <a class="hero-scroll" href="#uslugi">SCROLL</a>
   </section>
 
   <!-- SERVICES -->
@@ -779,7 +713,7 @@
 
 <script>
   // subtle reveal for hero already visible on load; observe later sections lightly
-  const els = document.querySelectorAll('.section-head, .service-banner, .price-card');
+  const els = document.querySelectorAll('.section-head, .service-banner');
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
       if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
