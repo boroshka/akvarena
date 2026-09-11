@@ -362,6 +362,50 @@
     .service-banner{ grid-template-columns:1fr; }
     .service-banner:nth-child(even){ direction:ltr; }
   }
+
+  /* ---------- News carousel ---------- */
+  .news-carousel{ position:relative; }
+  .news-track{
+    display:flex; gap:18px;
+    overflow-x:auto; scroll-snap-type:x mandatory;
+    padding:4px 4px 14px;
+    margin:0 -4px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .news-track::-webkit-scrollbar{ display:none; }
+  .news-card{
+    scroll-snap-align:start;
+    flex:0 0 100%;
+    background:var(--mist); border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 26px rgba(5,15,26,0.10);
+    aspect-ratio:4/3;
+  }
+  .news-card img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .news-dots{ display:flex; justify-content:center; gap:8px; margin-top:6px; }
+  .news-dot{
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(255,255,255,0.32); border:none; cursor:pointer; padding:0;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .news-dot.active{ background:var(--amber); transform:scale(1.3); }
+  .news-arrow{
+    display:none;
+    position:absolute; top:38%; transform:translateY(-50%);
+    width:44px; height:44px; border-radius:50%;
+    background:var(--white); border:1px solid var(--line);
+    box-shadow:0 8px 20px rgba(5,15,26,0.16);
+    align-items:center; justify-content:center; cursor:pointer;
+    color:var(--deep); z-index:5;
+  }
+  .news-arrow:hover{ background:var(--mist); }
+  .news-arrow.prev{ left:-22px; }
+  .news-arrow.next{ right:-22px; }
+  @media (min-width:640px){
+    .news-arrow{ display:flex; }
+    .news-track{ max-width:520px; margin-left:auto; margin-right:auto; }
+  }
   .service-visual{
     position:relative;
     display:block;
@@ -626,6 +670,39 @@
     </div>
   </section>
 
+  <!-- NEWS -->
+  <section class="section wrap" id="news">
+    <div class="section-head">
+      <h2>Новости клуба</h2>
+    </div>
+    <div class="news-carousel">
+      <button class="news-arrow prev" type="button" aria-label="Предыдущая новость">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="news-track" id="newsTrack">
+        <article class="news-card">
+          <img src="akvarena-news-1.jpg" alt="Новость 1" loading="lazy">
+        </article>
+        <article class="news-card">
+          <img src="akvarena-news-2.jpg" alt="Новость 2" loading="lazy">
+        </article>
+        <article class="news-card">
+          <img src="akvarena-news-3.jpg" alt="Новость 3" loading="lazy">
+        </article>
+        <article class="news-card">
+          <img src="akvarena-news-4.jpg" alt="Новость 4" loading="lazy">
+        </article>
+        <article class="news-card">
+          <img src="akvarena-news-5.jpg" alt="Новость 5" loading="lazy">
+        </article>
+      </div>
+      <button class="news-arrow next" type="button" aria-label="Следующая новость">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="news-dots" id="newsDots"></div>
+    </div>
+  </section>
+
   <!-- STATS -->
   <section class="stats">
     <div class="wrap stats-grid">
@@ -758,6 +835,74 @@
     ctx.globalCompositeOperation='source-over';requestAnimationFrame(draw)
   }
   addEventListener('resize',resize,{passive:true});resize();draw();
+})();
+</script>
+
+<script>
+(() => {
+  const track = document.getElementById('newsTrack');
+  const dotsWrap = document.getElementById('newsDots');
+  const carousel = document.querySelector('.news-carousel');
+  if(!track || !dotsWrap) return;
+
+  const originals = Array.from(track.children);
+  const n = originals.length;
+  if(n < 2) return;
+
+  // Clone first & last slide so the strip can "wrap" like a wheel
+  const firstClone = originals[0].cloneNode(true);
+  const lastClone = originals[n-1].cloneNode(true);
+  track.appendChild(firstClone);
+  track.insertBefore(lastClone, track.firstChild);
+  const slides = Array.from(track.children); // [lastClone, ...originals, firstClone]
+
+  const dots = originals.map((_, i)=>{
+    const d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'news-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Новость ' + (i + 1));
+    d.addEventListener('click', ()=> goTo(i + 1, true));
+    dotsWrap.appendChild(d);
+    return d;
+  });
+
+  function goTo(slideIndex, smooth){
+    track.scrollTo({ left: slides[slideIndex].offsetLeft, behavior: smooth ? 'smooth' : 'auto' });
+  }
+
+  function nearestSlideIndex(){
+    let closest = 1, min = Infinity;
+    slides.forEach((s, i)=>{
+      const d = Math.abs(s.offsetLeft - track.scrollLeft);
+      if(d < min){ min = d; closest = i; }
+    });
+    return closest;
+  }
+
+  function setActiveDot(realIndex){
+    dots.forEach((d, i)=> d.classList.toggle('active', i === realIndex));
+  }
+
+  let scrollTimer;
+  track.addEventListener('scroll', ()=>{
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(()=>{
+      let idx = nearestSlideIndex();
+      if(idx === 0){ idx = n; goTo(idx, false); }
+      else if(idx === n + 1){ idx = 1; goTo(idx, false); }
+      setActiveDot(idx - 1);
+    }, 110);
+  }, { passive: true });
+
+  document.querySelector('.news-arrow.prev').addEventListener('click', ()=>{
+    goTo(nearestSlideIndex() - 1, true);
+  });
+  document.querySelector('.news-arrow.next').addEventListener('click', ()=>{
+    goTo(nearestSlideIndex() + 1, true);
+  });
+
+  requestAnimationFrame(()=> goTo(1, false));
+  window.addEventListener('resize', ()=> goTo(nearestSlideIndex(), false));
 })();
 </script></body>
 </html>
