@@ -221,7 +221,7 @@
     position:sticky; top:76px; z-index:55;
     background:transparent;
   }
-  .subnav{ display:flex; gap:6px; overflow-x:auto; padding:14px 0; scrollbar-width:none; }
+  .subnav{ display:flex; justify-content:center; gap:6px; overflow-x:auto; padding:14px 0; scrollbar-width:none; }
   .subnav::-webkit-scrollbar{display:none;}
   .subnav a{
     flex:0 0 auto; font-size:14px; font-weight:700; color:var(--deep);
@@ -248,26 +248,54 @@
   table td{ line-height:1.4; }
   .highlight-row td{ background:#E7F3FA; }
 
-  .note{ margin-top:14px; font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.5; }
+  .note{ margin-top:14px; font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.5; text-align:center; }
 
   footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
 
-  /* ---------- Mobile schedule adjustments ---------- */
-  .week-grid-mobile{ display:none; }
-  .day-tabs{ display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px; scrollbar-width:none; }
-  .day-tabs::-webkit-scrollbar{ display:none; }
-  .day-tab{ flex:0 0 auto; font-size:13.5px; font-weight:700; color:var(--deep); background:var(--white); border:none; padding:8px 15px; border-radius:999px; }
-  .day-tab.active{ background:var(--amber-deep); color:var(--white); }
-  .day-list{ display:flex; flex-direction:column; gap:10px; }
-  .day-item{ background:var(--white); border-radius:12px; padding:12px 14px; display:flex; gap:14px; }
-  .day-item .time{ font-weight:700; color:var(--deep); font-size:13.5px; white-space:nowrap; flex:0 0 auto; padding-top:1px; }
-  .day-item .info{ font-size:14px; color:var(--ink); line-height:1.45; }
-  .day-item .info .muted{ display:block; font-size:12.5px; color:#6B7A75; margin-top:2px; }
-  .day-empty{ font-size:14px; color:rgba(255,255,255,0.65); padding:10px 2px 4px; }
+  /* ---------- Schedule display (single clean layout, all breakpoints) ---------- */
+  .schedule-wrap{ max-width:640px; margin:0 auto; }
+  .week-grid-mobile{ display:block; }
+  .table-scroll.week-grid{ display:none; }
 
-  @media (max-width:640px){
-    .table-scroll.week-grid{ display:none; }
-    .week-grid-mobile{ display:block; }
+  .day-tabs{
+    display:flex; justify-content:center; flex-wrap:wrap;
+    gap:8px; margin-bottom:22px;
+  }
+  .day-tab{
+    flex:0 0 auto; font-size:14px; font-weight:700; color:var(--deep);
+    background:var(--white); border:1px solid var(--line);
+    padding:9px 18px; border-radius:999px;
+    box-shadow:0 2px 8px rgba(5,15,26,0.08);
+    transition:background .15s ease, color .15s ease, box-shadow .15s ease;
+  }
+  .day-tab:hover{ background:var(--mist); }
+  .day-tab.active{
+    background:var(--deep); color:var(--white); border-color:var(--deep);
+    box-shadow:0 4px 14px rgba(11,53,84,.28);
+  }
+
+  .day-list{ display:flex; flex-direction:column; gap:12px; }
+  .day-item{
+    background:var(--white); border:1px solid var(--line);
+    border-radius:16px; padding:16px 20px;
+    display:flex; align-items:baseline; gap:18px;
+    box-shadow:0 2px 10px rgba(5,15,26,0.06);
+  }
+  .day-item .time{
+    font-weight:700; color:var(--petrol); font-size:14.5px;
+    white-space:nowrap; flex:0 0 68px;
+  }
+  .day-item .info{ font-size:15px; color:var(--ink); line-height:1.45; }
+  .day-item .info .muted{ display:block; font-size:13px; color:#6B7A75; margin-top:3px; }
+  .day-empty{
+    text-align:center; font-size:14.5px; color:rgba(255,255,255,0.7);
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14);
+    border-radius:16px; padding:28px 20px;
+  }
+
+  @media (max-width:560px){
+    .day-item{ padding:14px 16px; gap:12px; }
+    .day-item .time{ flex-basis:56px; }
   }
 </style>
 </head>
@@ -324,9 +352,7 @@
 <div class="subnav-shell">
   <div class="wrap subnav">
     <a href="akvarena-raspisanie.html">Все расписания</a>
-    <a href="akvarena-raspisanie-plavanie.html">Обучение плаванию</a>
     <a href="akvarena-raspisanie-zal.html" class="active">Расписание зала</a>
-    <a href="akvarena-raspisanie-aqua.html">Аквааэробика</a>
   </div>
 </div>
 
@@ -336,6 +362,7 @@
     <h2>Групповые программы «Фитнес-студии»</h2>
     <p class="sub">Актуальное расписание группового зала. Занятия отмеченные значком $ — платные, по записи.</p>
 
+    <div class="schedule-wrap">
     <div class="table-scroll week-grid">
       <table>
         <tr><th>Время</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr>
@@ -405,6 +432,7 @@
       </table>
     </div>
     <p class="note">$ — платный урок, по записи: Карина, +7 906 330-92-61. Общие вопросы — фитнес-менеджер Евгений, +7 960 048-80-39.</p>
+    </div>
   </section>
 
 </main>

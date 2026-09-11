@@ -220,7 +220,7 @@
     position:sticky; top:76px; z-index:55;
     background:transparent;
   }
-  .subnav{ display:flex; gap:6px; overflow-x:auto; padding:14px 0; scrollbar-width:none; }
+  .subnav{ display:flex; justify-content:center; gap:6px; overflow-x:auto; padding:14px 0; scrollbar-width:none; }
   .subnav::-webkit-scrollbar{display:none;}
   .subnav a{
     flex:0 0 auto; font-size:14px; font-weight:700; color:var(--deep);
@@ -302,7 +302,6 @@
         <div class="nav-dropdown-panel">
           <a href="akvarena-trener-bassein.html">Тренеры бассейна</a>
           <a href="akvarena-trener-zal.html">Тренеры зала</a>
-          <a href="akvarena-trener-aqua.html">Тренеры аквааэробики</a>
         </div>
       </div>
     </nav>
@@ -314,14 +313,13 @@
 
 <div class="wrap page-hero">
   <h1>Тренеры бассейна</h1>
-  <p>Инструкторы по плаванию, которые ведут групповые и индивидуальные занятия в бассейне АквАренА.</p>
+  <p>Инструкторы по плаванию и аквааэробике, которые ведут групповые и индивидуальные занятия в бассейне АквАренА.</p>
 </div>
 
 <div class="subnav-shell">
   <div class="wrap subnav">
     <a href="akvarena-trener-bassein.html" class="active">Тренеры бассейна</a>
     <a href="akvarena-trener-zal.html">Тренеры зала</a>
-    <a href="akvarena-trener-aqua.html">Тренеры аквааэробики</a>
   </div>
 </div>
 
@@ -340,7 +338,18 @@
         </div>
       </div>
 
-      <!-- Чтобы добавить нового тренера бассейна, скопируйте блок .trainer-card выше -->
+      <div class="trainer-card">
+        <div class="photo">
+          <img src="akvarena-trener-aqua-shakulova.jpg" alt="Шакулова Елена — тренер аквааэробики">
+        </div>
+        <div class="info">
+          <h3>Шакулова Елена</h3>
+          <div class="role">Тренер аквааэробики</div>
+          <p>Ведёт групповые занятия аквааэробикой по расписанию.</p>
+        </div>
+      </div>
+
+      <!-- Чтобы добавить нового тренера бассейна или аквааэробики, скопируйте блок .trainer-card выше -->
       <div class="trainer-card placeholder">
         <span>Здесь появится карточка следующего тренера бассейна</span>
       </div>
