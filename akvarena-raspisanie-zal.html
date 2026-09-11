@@ -257,22 +257,30 @@
   .week-grid-mobile{ display:block; }
   .table-scroll.week-grid{ display:none; }
 
-  .day-tabs{
-    display:flex; justify-content:center; flex-wrap:wrap;
-    gap:8px; margin-bottom:22px;
+  .group{
+    margin-bottom:14px;
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.16);
+    border-radius:16px; overflow:hidden;
   }
-  .day-tab{
-    flex:0 0 auto; font-size:14px; font-weight:700; color:var(--deep);
-    background:var(--white); border:1px solid var(--line);
-    padding:9px 18px; border-radius:999px;
-    box-shadow:0 2px 8px rgba(5,15,26,0.08);
-    transition:background .15s ease, color .15s ease, box-shadow .15s ease;
+  .day-toggle{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    background:transparent; border:none; cursor:pointer; text-align:left;
+    padding:18px 22px; font-family:'Manrope',sans-serif;
+    transition:background .15s ease;
   }
-  .day-tab:hover{ background:var(--mist); }
-  .day-tab.active{
-    background:var(--deep); color:var(--white); border-color:var(--deep);
-    box-shadow:0 4px 14px rgba(11,53,84,.28);
+  .day-toggle:hover{ background:rgba(255,255,255,0.05); }
+  .day-toggle-title{ font-weight:700; font-size:16px; color:var(--amber); }
+  .day-toggle-arrow{
+    flex:0 0 auto; width:10px; height:10px;
+    border-right:2px solid var(--amber); border-bottom:2px solid var(--amber);
+    transform:rotate(45deg); transition:transform .3s ease;
   }
+  .group.open .day-toggle-arrow{ transform:rotate(-135deg); }
+  .day-panel{
+    max-height:0; overflow:hidden;
+    transition:max-height .35s ease;
+  }
+  .day-panel-inner{ padding:0 22px 22px; }
 
   .day-list{ display:flex; flex-direction:column; gap:12px; }
   .day-item{
@@ -289,8 +297,7 @@
   .day-item .info .muted{ display:block; font-size:13px; color:#6B7A75; margin-top:3px; }
   .day-empty{
     text-align:center; font-size:14.5px; color:rgba(255,255,255,0.7);
-    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14);
-    border-radius:16px; padding:28px 20px;
+    padding:6px 20px 2px;
   }
 
   @media (max-width:560px){
@@ -365,7 +372,7 @@
     <div class="schedule-wrap">
     <div class="table-scroll week-grid">
       <table>
-        <tr><th>Время</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr>
+        <tr><th>Время</th><th>Понедельник</th><th>Вторник</th><th>Среда</th><th>Четверг</th><th>Пятница</th><th>Суббота</th><th>Воскресенье</th></tr>
         <tr>
           <td class="price">9:00</td><td class="muted">—</td>
           <td>«Здоровье»<br><span class="muted">Мария</span></td>
@@ -462,7 +469,7 @@
     });
   });
 
-  // Build a day-by-day switcher for the wide 7-day schedule grid (mobile only)
+  // Build a day-by-day accordion for the wide 7-day schedule grid
   document.querySelectorAll('.table-scroll.week-grid').forEach(wrap=>{
     const table = wrap.querySelector('table');
     const rows = Array.from(table.querySelectorAll('tr'));
@@ -472,11 +479,7 @@
     const mobile = document.createElement('div');
     mobile.className = 'week-grid-mobile';
 
-    const tabsHTML = '<div class="day-tabs">' + dayNames.map((d,i)=>
-      `<button type="button" class="day-tab${i===0?' active':''}" data-day="${i}">${d}</button>`
-    ).join('') + '</div>';
-
-    const panelsHTML = dayNames.map((d,i)=>{
+    mobile.innerHTML = dayNames.map((d,i)=>{
       const items = [];
       dataRows.forEach(tr=>{
         const tds = tr.querySelectorAll('td');
@@ -488,19 +491,42 @@
         }
       });
       const body = items.length ? `<div class="day-list">${items.join('')}</div>` : '<div class="day-empty">Занятий нет</div>';
-      return `<div class="day-panel" data-day="${i}" style="${i===0?'':'display:none;'}">${body}</div>`;
+      return `<div class="group">
+        <button class="day-toggle" type="button" aria-expanded="false">
+          <span class="day-toggle-title">${d}</span>
+          <span class="day-toggle-arrow"></span>
+        </button>
+        <div class="day-panel">
+          <div class="day-panel-inner">${body}</div>
+        </div>
+      </div>`;
     }).join('');
 
-    mobile.innerHTML = tabsHTML + panelsHTML;
     wrap.insertAdjacentElement('afterend', mobile);
 
-    mobile.querySelectorAll('.day-tab').forEach(btn=>{
+    mobile.querySelectorAll('.group').forEach(group=>{
+      const btn = group.querySelector('.day-toggle');
+      const panel = group.querySelector('.day-panel');
+      panel.style.maxHeight = '0px';
+
+      panel.addEventListener('transitionend', (e)=>{
+        if(e.propertyName === 'max-height' && group.classList.contains('open')){
+          panel.style.maxHeight = 'none';
+        }
+      });
+
       btn.addEventListener('click', ()=>{
-        const day = btn.getAttribute('data-day');
-        mobile.querySelectorAll('.day-tab').forEach(b=>b.classList.toggle('active', b===btn));
-        mobile.querySelectorAll('.day-panel').forEach(p=>{
-          p.style.display = (p.getAttribute('data-day')===day) ? '' : 'none';
-        });
+        const isOpen = group.classList.contains('open');
+        if(isOpen){
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+          requestAnimationFrame(()=>{ panel.style.maxHeight = '0px'; });
+          group.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        } else {
+          group.classList.add('open');
+          btn.setAttribute('aria-expanded','true');
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
       });
     });
   });
