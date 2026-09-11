@@ -261,6 +261,29 @@
   }
   .day-panel-inner{ padding:0 22px 22px; }
 
+  .day-list{ display:flex; flex-direction:column; gap:12px; }
+  .day-item{
+    background:var(--white); border:1px solid var(--line);
+    border-radius:16px; padding:16px 20px;
+    display:flex; align-items:baseline; gap:18px;
+    box-shadow:0 2px 10px rgba(5,15,26,0.06);
+  }
+  .day-item .time{
+    font-weight:700; color:var(--petrol); font-size:14.5px;
+    white-space:nowrap; flex:0 0 92px;
+  }
+  .day-item .info{ font-size:15px; color:var(--ink); line-height:1.45; }
+  .day-item .info .muted{ display:block; font-size:13px; color:#6B7A75; margin-top:3px; }
+  .day-empty{
+    text-align:center; font-size:14.5px; color:rgba(255,255,255,0.7);
+    padding:6px 20px 2px;
+  }
+
+  @media (max-width:560px){
+    .day-item{ flex-direction:column; align-items:flex-start; gap:4px; padding:14px 16px; }
+    .day-item .time{ flex-basis:auto; }
+  }
+
   table{ width:100%; border-collapse:collapse; background:var(--white); border-radius:14px; overflow:hidden; }
   .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:14px; }
   .table-scroll table{ border-radius:0; min-width:560px; }
@@ -413,16 +436,7 @@
       </button>
       <div class="day-panel">
         <div class="day-panel-inner">
-          <div class="table-scroll compact">
-        <table>
-          <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
-          <tr data-trainer="Танзиля Рафиковна"><td class="price">16:00–17:00</td><td>Совершенствование навыков плавания (с 7 лет)</td><td class="muted">Танзиля Рафиковна</td></tr>
-          <tr data-trainer="Танзиля Рафиковна"><td class="price">17:00–18:00</td><td>Обучение плаванию (с 7 лет)</td><td class="muted">Танзиля Рафиковна</td></tr>
-          <tr data-trainer="Данила Алексеевич"><td class="price">18:00–19:00</td><td>Совершенствование навыков плавания (7–16 лет)</td><td class="muted">Данила Алексеевич</td></tr>
-          <tr data-trainer="Татьяна Юрьевна"><td class="price">19:00–20:00</td><td>Совершенствование навыков плавания (18+)</td><td class="muted">Татьяна Юрьевна</td></tr>
-          <tr data-trainer="Татьяна Юрьевна"><td class="price">20:00–21:00</td><td>Обучение плаванию (18+)</td><td class="muted">Татьяна Юрьевна</td></tr>
-        </table>
-      </div>
+          <div class="day-list"><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">16:00–17:00</span><span class="info">Совершенствование навыков плавания (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Данила Алексеевич"><span class="time">18:00–19:00</span><span class="info">Совершенствование навыков плавания (7–16 лет)<span class="muted">Данила Алексеевич</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">19:00–20:00</span><span class="info">Совершенствование навыков плавания (18+)<span class="muted">Татьяна Юрьевна</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">20:00–21:00</span><span class="info">Обучение плаванию (18+)<span class="muted">Татьяна Юрьевна</span></span></div></div>
         </div>
       </div>
     </div>
@@ -434,15 +448,7 @@
       </button>
       <div class="day-panel">
         <div class="day-panel-inner">
-          <div class="table-scroll compact">
-        <table>
-          <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
-          <tr data-trainer="Елена Алексеевна"><td class="price">08:00–09:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
-          <tr data-trainer="Юлия Анатольевна"><td class="price">16:00–17:00</td><td>Обучение плаванию (9–12 лет)</td><td class="muted">Юлия Анатольевна</td></tr>
-          <tr data-trainer="Юлия Анатольевна"><td class="price">17:00–18:00</td><td>Совершенствование навыков плавания (7–18 лет)</td><td class="muted">Юлия Анатольевна</td></tr>
-          <tr data-trainer="Елена Алексеевна"><td class="price">17:00–18:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
-        </table>
-      </div>
+          <div class="day-list"><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">08:00–09:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (9–12 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div></div>
         </div>
       </div>
     </div>
@@ -454,15 +460,7 @@
       </button>
       <div class="day-panel">
         <div class="day-panel-inner">
-          <div class="table-scroll compact">
-        <table>
-          <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
-          <tr data-trainer="Александр Юрьевич"><td class="price">09:00–10:00</td><td>Совершенствование навыков плавания (7–18 лет)</td><td class="muted">Александр Юрьевич</td></tr>
-          <tr data-trainer="Танзиля Рафиковна"><td class="price">16:00–17:00</td><td>Совершенствование навыков плавания (с 7 лет)</td><td class="muted">Танзиля Рафиковна</td></tr>
-          <tr data-trainer="Танзиля Рафиковна"><td class="price">17:00–18:00</td><td>Обучение плаванию (с 7 лет)</td><td class="muted">Танзиля Рафиковна</td></tr>
-          <tr data-trainer="Данила Алексеевич"><td class="price">18:00–19:00</td><td>Совершенствование навыков плавания (7–16 лет)</td><td class="muted">Данила Алексеевич</td></tr>
-        </table>
-      </div>
+          <div class="day-list"><div class="day-item" data-trainer="Александр Юрьевич"><span class="time">09:00–10:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Александр Юрьевич</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">16:00–17:00</span><span class="info">Совершенствование навыков плавания (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Данила Алексеевич"><span class="time">18:00–19:00</span><span class="info">Совершенствование навыков плавания (7–16 лет)<span class="muted">Данила Алексеевич</span></span></div></div>
         </div>
       </div>
     </div>
@@ -474,17 +472,7 @@
       </button>
       <div class="day-panel">
         <div class="day-panel-inner">
-          <div class="table-scroll compact">
-        <table>
-          <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
-          <tr data-trainer="Елена Алексеевна"><td class="price">08:00–09:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
-          <tr data-trainer="Юлия Анатольевна"><td class="price">16:00–17:00</td><td>Обучение плаванию (9–12 лет)</td><td class="muted">Юлия Анатольевна</td></tr>
-          <tr data-trainer="Юлия Анатольевна"><td class="price">17:00–18:00</td><td>Совершенствование навыков плавания (7–18 лет)</td><td class="muted">Юлия Анатольевна</td></tr>
-          <tr data-trainer="Елена Алексеевна"><td class="price">17:00–18:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
-          <tr data-trainer="Татьяна Юрьевна"><td class="price">19:00–20:00</td><td>Совершенствование навыков плавания (18+)</td><td class="muted">Татьяна Юрьевна</td></tr>
-          <tr data-trainer="Татьяна Юрьевна"><td class="price">20:00–21:00</td><td>Обучение плаванию (18+)</td><td class="muted">Татьяна Юрьевна</td></tr>
-        </table>
-      </div>
+          <div class="day-list"><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">08:00–09:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (9–12 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">19:00–20:00</span><span class="info">Совершенствование навыков плавания (18+)<span class="muted">Татьяна Юрьевна</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">20:00–21:00</span><span class="info">Обучение плаванию (18+)<span class="muted">Татьяна Юрьевна</span></span></div></div>
         </div>
       </div>
     </div>
@@ -496,15 +484,7 @@
       </button>
       <div class="day-panel">
         <div class="day-panel-inner">
-          <div class="table-scroll compact">
-        <table>
-          <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
-          <tr data-trainer="Александр Юрьевич"><td class="price">09:00–10:00</td><td>Совершенствование навыков плавания (7–18 лет)</td><td class="muted">Александр Юрьевич</td></tr>
-          <tr data-trainer="Танзиля Рафиковна"><td class="price">16:00–17:00</td><td>Совершенствование навыков плавания (с 7 лет)</td><td class="muted">Танзиля Рафиковна</td></tr>
-          <tr data-trainer="Танзиля Рафиковна"><td class="price">17:00–18:00</td><td>Обучение плаванию (с 7 лет)</td><td class="muted">Танзиля Рафиковна</td></tr>
-          <tr data-trainer="Эмиль Геннадьевич"><td class="price">17:00–18:00</td><td>Обучение плаванию (5–7 лет)</td><td class="muted">Эмиль Геннадьевич</td></tr>
-        </table>
-      </div>
+          <div class="day-list"><div class="day-item" data-trainer="Александр Юрьевич"><span class="time">09:00–10:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Александр Юрьевич</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">16:00–17:00</span><span class="info">Совершенствование навыков плавания (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Эмиль Геннадьевич"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (5–7 лет)<span class="muted">Эмиль Геннадьевич</span></span></div></div>
         </div>
       </div>
     </div>
@@ -516,17 +496,7 @@
       </button>
       <div class="day-panel">
         <div class="day-panel-inner">
-          <div class="table-scroll compact">
-        <table>
-          <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
-          <tr data-trainer="Елена Алексеевна"><td class="price">08:00–09:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
-          <tr data-trainer="Степан Витальевич"><td class="price">15:00–16:00</td><td>Обучение плаванию (5–7 лет)</td><td class="muted">Степан Витальевич</td></tr>
-          <tr data-trainer="Юлия Анатольевна"><td class="price">16:00–17:00</td><td>Обучение плаванию (9–12 лет)</td><td class="muted">Юлия Анатольевна</td></tr>
-          <tr data-trainer="Степан Витальевич"><td class="price">16:00–17:00</td><td>Обучение плаванию (7–14 лет)</td><td class="muted">Степан Витальевич</td></tr>
-          <tr data-trainer="Юлия Анатольевна"><td class="price">17:00–18:00</td><td>Совершенствование навыков плавания (7–18 лет)</td><td class="muted">Юлия Анатольевна</td></tr>
-          <tr data-trainer="Елена Алексеевна"><td class="price">17:00–18:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
-        </table>
-      </div>
+          <div class="day-list"><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">08:00–09:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Степан Витальевич"><span class="time">15:00–16:00</span><span class="info">Обучение плаванию (5–7 лет)<span class="muted">Степан Витальевич</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (9–12 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Степан Витальевич"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (7–14 лет)<span class="muted">Степан Витальевич</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div></div>
         </div>
       </div>
     </div>
@@ -538,12 +508,7 @@
       </button>
       <div class="day-panel">
         <div class="day-panel-inner">
-          <div class="table-scroll compact">
-        <table>
-          <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
-          <tr data-trainer="Роман Андреевич"><td class="price">14:00–15:00</td><td>Совершенствование навыков плавания (7–16 лет)</td><td class="muted">Роман Андреевич</td></tr>
-        </table>
-      </div>
+          <div class="day-list"><div class="day-item" data-trainer="Роман Андреевич"><span class="time">14:00–15:00</span><span class="info">Совершенствование навыков плавания (7–16 лет)<span class="muted">Роман Андреевич</span></span></div></div>
         </div>
       </div>
     </div>
@@ -622,12 +587,12 @@
     let anyVisible = false;
 
     trainerGroups.forEach(group=>{
-      const rows = group.querySelectorAll('tr[data-trainer]');
+      const items = group.querySelectorAll('[data-trainer]');
       const btn = group.querySelector('.day-toggle');
       let groupHasVisible = false;
-      rows.forEach(row=>{
-        const match = val === 'all' || row.dataset.trainer === val;
-        row.style.display = match ? '' : 'none';
+      items.forEach(item=>{
+        const match = val === 'all' || item.dataset.trainer === val;
+        item.style.display = match ? '' : 'none';
         if(match) groupHasVisible = true;
       });
       group.classList.toggle('trainer-hidden', !groupHasVisible);
