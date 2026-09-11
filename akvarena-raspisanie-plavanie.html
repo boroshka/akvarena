@@ -233,8 +233,33 @@
   .section h2{ font-size:clamp(24px,3vw,30px); color:var(--white); }
   .section .sub{ margin-top:8px; margin-bottom:28px; font-size:15px; color:rgba(255,255,255,0.75); max-width:60ch; line-height:1.55;}
 
-  .group{ margin-bottom:40px; }
-  .group h3{ font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:var(--amber); margin-bottom:14px; }
+  .group{
+    margin-bottom:14px;
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.16);
+    border-radius:16px; overflow:hidden;
+  }
+  .day-toggle{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    background:transparent; border:none; cursor:pointer; text-align:left;
+    padding:18px 22px; font-family:'Manrope',sans-serif;
+    transition:background .15s ease;
+  }
+  .day-toggle:hover{ background:rgba(255,255,255,0.05); }
+  .day-toggle:disabled{ cursor:default; }
+  .day-toggle:disabled:hover{ background:transparent; }
+  .day-toggle:disabled .day-toggle-arrow{ display:none; }
+  .day-toggle-title{ font-weight:700; font-size:16px; color:var(--amber); }
+  .day-toggle-arrow{
+    flex:0 0 auto; width:10px; height:10px;
+    border-right:2px solid var(--amber); border-bottom:2px solid var(--amber);
+    transform:rotate(45deg); transition:transform .3s ease;
+  }
+  .group.open .day-toggle-arrow{ transform:rotate(-135deg); }
+  .day-panel{
+    max-height:0; overflow:hidden;
+    transition:max-height .35s ease;
+  }
+  .day-panel-inner{ padding:0 22px 22px; }
 
   table{ width:100%; border-collapse:collapse; background:var(--white); border-radius:14px; overflow:hidden; }
   .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:14px; }
@@ -382,8 +407,13 @@
     <p class="trainer-empty" id="trainerEmpty">На этой неделе у выбранного тренера нет занятий по плаванию.</p>
 
     <div class="group">
-      <h3>Понедельник</h3>
-      <div class="table-scroll compact">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Понедельник</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr data-trainer="Танзиля Рафиковна"><td class="price">16:00–17:00</td><td>Совершенствование навыков плавания (с 7 лет)</td><td class="muted">Танзиля Рафиковна</td></tr>
@@ -393,11 +423,18 @@
           <tr data-trainer="Татьяна Юрьевна"><td class="price">20:00–21:00</td><td>Обучение плаванию (18+)</td><td class="muted">Татьяна Юрьевна</td></tr>
         </table>
       </div>
+        </div>
+      </div>
     </div>
 
     <div class="group">
-      <h3>Вторник</h3>
-      <div class="table-scroll compact">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Вторник</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr data-trainer="Елена Алексеевна"><td class="price">08:00–09:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
@@ -406,11 +443,18 @@
           <tr data-trainer="Елена Алексеевна"><td class="price">17:00–18:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
         </table>
       </div>
+        </div>
+      </div>
     </div>
 
     <div class="group">
-      <h3>Среда</h3>
-      <div class="table-scroll compact">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Среда</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr data-trainer="Александр Юрьевич"><td class="price">09:00–10:00</td><td>Совершенствование навыков плавания (7–18 лет)</td><td class="muted">Александр Юрьевич</td></tr>
@@ -419,11 +463,18 @@
           <tr data-trainer="Данила Алексеевич"><td class="price">18:00–19:00</td><td>Совершенствование навыков плавания (7–16 лет)</td><td class="muted">Данила Алексеевич</td></tr>
         </table>
       </div>
+        </div>
+      </div>
     </div>
 
     <div class="group">
-      <h3>Четверг</h3>
-      <div class="table-scroll compact">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Четверг</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr data-trainer="Елена Алексеевна"><td class="price">08:00–09:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
@@ -434,11 +485,18 @@
           <tr data-trainer="Татьяна Юрьевна"><td class="price">20:00–21:00</td><td>Обучение плаванию (18+)</td><td class="muted">Татьяна Юрьевна</td></tr>
         </table>
       </div>
+        </div>
+      </div>
     </div>
 
     <div class="group">
-      <h3>Пятница</h3>
-      <div class="table-scroll compact">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Пятница</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr data-trainer="Александр Юрьевич"><td class="price">09:00–10:00</td><td>Совершенствование навыков плавания (7–18 лет)</td><td class="muted">Александр Юрьевич</td></tr>
@@ -447,11 +505,18 @@
           <tr data-trainer="Эмиль Геннадьевич"><td class="price">17:00–18:00</td><td>Обучение плаванию (5–7 лет)</td><td class="muted">Эмиль Геннадьевич</td></tr>
         </table>
       </div>
+        </div>
+      </div>
     </div>
 
     <div class="group">
-      <h3>Суббота</h3>
-      <div class="table-scroll compact">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Суббота</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr data-trainer="Елена Алексеевна"><td class="price">08:00–09:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
@@ -462,15 +527,24 @@
           <tr data-trainer="Елена Алексеевна"><td class="price">17:00–18:00</td><td>Совершенствование навыков плавания (7–17 лет)</td><td class="muted">Елена Алексеевна</td></tr>
         </table>
       </div>
+        </div>
+      </div>
     </div>
 
     <div class="group">
-      <h3>Воскресенье</h3>
-      <div class="table-scroll compact">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Воскресенье</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="table-scroll compact">
         <table>
           <tr><th>Время</th><th>Занятие</th><th>Тренер</th></tr>
           <tr data-trainer="Роман Андреевич"><td class="price">14:00–15:00</td><td>Совершенствование навыков плавания (7–16 лет)</td><td class="muted">Роман Андреевич</td></tr>
         </table>
+      </div>
+        </div>
       </div>
     </div>
 
@@ -503,6 +577,40 @@
     });
   });
 
+  // ---- Day accordion (closed by default) ----
+  function openGroup(group){
+    const panel = group.querySelector('.day-panel');
+    const btn = group.querySelector('.day-toggle');
+    group.classList.add('open');
+    btn.setAttribute('aria-expanded','true');
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+  }
+  function closeGroup(group){
+    const panel = group.querySelector('.day-panel');
+    const btn = group.querySelector('.day-toggle');
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+    requestAnimationFrame(()=>{ panel.style.maxHeight = '0px'; });
+    group.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }
+
+  document.querySelectorAll('.group').forEach(group=>{
+    const btn = group.querySelector('.day-toggle');
+    const panel = group.querySelector('.day-panel');
+    panel.style.maxHeight = '0px';
+
+    panel.addEventListener('transitionend', (e)=>{
+      if(e.propertyName === 'max-height' && group.classList.contains('open')){
+        panel.style.maxHeight = 'none';
+      }
+    });
+
+    btn.addEventListener('click', ()=>{
+      if(btn.disabled) return;
+      group.classList.contains('open') ? closeGroup(group) : openGroup(group);
+    });
+  });
+
   // ---- Trainer filter ----
   const trainerSelect = document.getElementById('trainerSelect');
   const trainerGroups = document.querySelectorAll('#plavanie .group');
@@ -510,9 +618,12 @@
 
   trainerSelect.addEventListener('change', ()=>{
     const val = trainerSelect.value;
+    const filterActive = val !== 'all';
     let anyVisible = false;
+
     trainerGroups.forEach(group=>{
       const rows = group.querySelectorAll('tr[data-trainer]');
+      const btn = group.querySelector('.day-toggle');
       let groupHasVisible = false;
       rows.forEach(row=>{
         const match = val === 'all' || row.dataset.trainer === val;
@@ -521,7 +632,18 @@
       });
       group.classList.toggle('trainer-hidden', !groupHasVisible);
       if(groupHasVisible) anyVisible = true;
+
+      // When filtering by a specific trainer, skip the accordion —
+      // show the (short) schedule directly, no click needed.
+      if(filterActive){
+        btn.disabled = true;
+        openGroup(group);
+      } else {
+        btn.disabled = false;
+        closeGroup(group);
+      }
     });
+
     trainerEmpty.style.display = anyVisible ? 'none' : 'block';
   });
 </script>
