@@ -291,9 +291,60 @@
   .fact-card{
     background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.16);
     border-radius:16px; padding:20px;
+    transition:background .18s ease, border-color .18s ease, transform .18s ease;
   }
+  .fact-card:hover{ background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.28); transform:translateY(-2px); }
   .fact-card strong{ display:block; font-family:'Cormorant Garamond',serif; font-size:24px; color:var(--white); font-weight:600; }
   .fact-card span{ display:block; margin-top:6px; font-size:13px; color:rgba(255,255,255,0.65); line-height:1.4; }
+  .fact-stats{ display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+  .fact-stats .stat{
+    font-size:11px; font-weight:700; letter-spacing:.02em;
+    color:rgba(255,255,255,0.88);
+    background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.20);
+    padding:4px 10px; border-radius:999px; white-space:nowrap;
+  }
+
+  /* ---------- Highlight panel (room specs) ---------- */
+  .highlight-panel{
+    margin-top:16px; padding:32px;
+    background:linear-gradient(160deg, rgba(63,169,218,0.14), rgba(255,255,255,0.05));
+    border:1px solid rgba(63,169,218,0.35);
+    border-radius:22px;
+  }
+  .highlight-head{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+  .highlight-head h3{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:26px; color:var(--white); }
+  .highlight-head .cap-chip{
+    font-size:12px; font-weight:700; color:var(--ink);
+    background:var(--amber); padding:6px 14px; border-radius:999px; white-space:nowrap;
+  }
+  .highlight-grid{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:36px; }
+  @media (max-width:760px){ .highlight-grid{ grid-template-columns:1fr; gap:22px; } }
+  .highlight-grid p{ font-size:14.5px; color:rgba(255,255,255,0.8); line-height:1.65; margin:0 0 14px; }
+  .highlight-grid p:last-child{ margin-bottom:0; }
+  .highlight-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .highlight-list li{
+    display:flex; align-items:center; gap:10px;
+    font-size:14px; color:rgba(255,255,255,0.88);
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14);
+    padding:10px 14px; border-radius:12px;
+  }
+  .highlight-list li::before{
+    content:''; flex:0 0 auto; width:7px; height:7px; border-radius:50%;
+    background:var(--amber);
+  }
+
+  .info-note{
+    margin-top:24px; display:flex; align-items:center; gap:14px;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.16);
+    border-radius:14px; padding:16px 20px;
+    font-size:13.5px; color:rgba(255,255,255,0.75); line-height:1.5;
+  }
+  .info-note .icon{
+    flex:0 0 auto; width:34px; height:34px; border-radius:50%;
+    background:rgba(63,169,218,0.22); border:1px solid rgba(63,169,218,0.4);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--amber); font-size:16px;
+  }
 
   footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
 </style>
@@ -380,24 +431,60 @@
 
   <section class="section">
     <h2>Что есть в зале</h2>
+    <p class="sub" style="margin-top:8px;margin-bottom:28px;">230 м² под тренажёры и кардио, плюс два отдельных зала для групповых программ. Высота потолков 4,5 м, приточно-вытяжная вентиляция и кондиционирование.</p>
+
     <div class="facts-grid">
       <div class="fact-card">
         <strong>Силовая зона</strong>
-        <span>Свободные веса, тренажёры SportsArt</span>
+        <span>Тренажёры Sports Art на все группы мышц, блочные — с кевларовыми ремнями.</span>
+        <div class="fact-stats">
+          <span class="stat">26 тренажёров</span>
+        </div>
+      </div>
+      <div class="fact-card">
+        <strong>Свободные веса</strong>
+        <span>Тренажёры Technogym для работы со свободными весами.</span>
+        <div class="fact-stats">
+          <span class="stat">6 тренажёров</span>
+        </div>
       </div>
       <div class="fact-card">
         <strong>Кардиозона</strong>
-        <span>Эллипсоиды, велотренажёры</span>
+        <span>Дорожки, степы, эллипсы и велосипеды — техника Sports Art.</span>
+        <div class="fact-stats">
+          <span class="stat">70 м²</span>
+          <span class="stat">7 дорожек</span>
+        </div>
       </div>
       <div class="fact-card">
-        <strong>Групповой зал</strong>
-        <span>Зеркала на всю стену, деревянный подиум</span>
-      </div>
-      <div class="fact-card">
-        <strong>Групповые программы</strong>
-        <span>Расписание занятий по дням недели</span>
+        <strong>Залы аэробики</strong>
+        <span>Два зала для групповых программ, с инвентарём.</span>
+        <div class="fact-stats">
+          <span class="stat">68 м²</span>
+          <span class="stat">80 м²</span>
+        </div>
       </div>
     </div>
+
+    <div class="highlight-panel">
+      <div class="highlight-head">
+        <h3>Тренажёрный зал</h3>
+        <span class="cap-chip">230 м²</span>
+      </div>
+      <div class="highlight-grid">
+        <div>
+          <p>Просторный зал с высокими потолками и продуманным климатом: свежий воздух и комфортная температура при любой загрузке зала.</p>
+          <p>Все блочные тренажёры оснащены кевларовыми ремнями — это снижает риск травм при работе с большим весом.</p>
+        </div>
+        <ul class="highlight-list">
+          <li>Высота потолков 4,5 м</li>
+          <li>Приточно-вытяжная вентиляция и кондиционирование</li>
+          <li>LED-телевизоры</li>
+          <li>32 тренажёра Sports Art и Technogym</li>
+        </ul>
+      </div>
+    </div>
+
     <p class="note">Свободные тренировки и групповые программы — цены и расписание на отдельных страницах.</p>
   </section>
 
