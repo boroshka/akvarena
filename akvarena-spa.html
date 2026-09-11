@@ -291,9 +291,60 @@
   .fact-card{
     background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.16);
     border-radius:16px; padding:20px;
+    transition:background .18s ease, border-color .18s ease, transform .18s ease;
   }
+  .fact-card:hover{ background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.28); transform:translateY(-2px); }
   .fact-card strong{ display:block; font-family:'Cormorant Garamond',serif; font-size:24px; color:var(--white); font-weight:600; }
   .fact-card span{ display:block; margin-top:6px; font-size:13px; color:rgba(255,255,255,0.65); line-height:1.4; }
+  .fact-stats{ display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+  .fact-stats .stat{
+    font-size:11px; font-weight:700; letter-spacing:.02em;
+    color:rgba(255,255,255,0.88);
+    background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.20);
+    padding:4px 10px; border-radius:999px; white-space:nowrap;
+  }
+
+  /* ---------- Jacuzzi highlight panel ---------- */
+  .jacuzzi-panel{
+    margin-top:16px; padding:32px;
+    background:linear-gradient(160deg, rgba(63,169,218,0.14), rgba(255,255,255,0.05));
+    border:1px solid rgba(63,169,218,0.35);
+    border-radius:22px;
+  }
+  .jacuzzi-head{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+  .jacuzzi-head h3{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:26px; color:var(--white); }
+  .jacuzzi-head .cap-chip{
+    font-size:12px; font-weight:700; color:var(--ink);
+    background:var(--amber); padding:6px 14px; border-radius:999px; white-space:nowrap;
+  }
+  .jacuzzi-grid{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:36px; }
+  @media (max-width:760px){ .jacuzzi-grid{ grid-template-columns:1fr; gap:22px; } }
+  .jacuzzi-grid p{ font-size:14.5px; color:rgba(255,255,255,0.8); line-height:1.65; margin:0 0 14px; }
+  .jacuzzi-grid p:last-child{ margin-bottom:0; }
+  .jacuzzi-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .jacuzzi-list li{
+    display:flex; align-items:center; gap:10px;
+    font-size:14px; color:rgba(255,255,255,0.88);
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14);
+    padding:10px 14px; border-radius:12px;
+  }
+  .jacuzzi-list li::before{
+    content:''; flex:0 0 auto; width:7px; height:7px; border-radius:50%;
+    background:var(--amber);
+  }
+
+  .warm-floor-note{
+    margin-top:24px; display:flex; align-items:center; gap:14px;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.16);
+    border-radius:14px; padding:16px 20px;
+    font-size:13.5px; color:rgba(255,255,255,0.75); line-height:1.5;
+  }
+  .warm-floor-note .icon{
+    flex:0 0 auto; width:34px; height:34px; border-radius:50%;
+    background:rgba(63,169,218,0.22); border:1px solid rgba(63,169,218,0.4);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--amber); font-size:16px;
+  }
 
   footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
 </style>
@@ -379,24 +430,91 @@
 
   <section class="section">
     <h2>Что есть в СПА-комплексе</h2>
+    <p class="sub" style="margin-top:8px;margin-bottom:28px;">Семь зон с разным климатом — от сухого финского жара до снежной комнаты — плюс джакузи с зоной отдыха. Единая раздевалка на весь комплекс.</p>
+
     <div class="facts-grid">
       <div class="fact-card">
-        <strong>Джакузи</strong>
-        <span>Гидромассаж на несколько человек</span>
+        <strong>Финская сауна</strong>
+        <span>Сухой жар, классическая деревянная отделка.</span>
+        <div class="fact-stats">
+          <span class="stat">10–12 чел.</span>
+          <span class="stat">100°C</span>
+          <span class="stat">влажность 5%</span>
+        </div>
+      </div>
+      <div class="fact-card">
+        <strong>Русская баня с вениками</strong>
+        <span>Отдельный полог для парения с вениками.</span>
+        <div class="fact-stats">
+          <span class="stat">6–8 чел.</span>
+          <span class="stat">65–70°C</span>
+          <span class="stat">влажность 65–70%</span>
+        </div>
       </div>
       <div class="fact-card">
         <strong>Хаммам</strong>
-        <span>Паровая баня с цветной подсветкой</span>
+        <span>Паровая баня с мягким влажным паром.</span>
+        <div class="fact-stats">
+          <span class="stat">до 7 чел.</span>
+          <span class="stat">45°C</span>
+          <span class="stat">влажность 100%</span>
+        </div>
       </div>
       <div class="fact-card">
-        <strong>Финская сауна</strong>
-        <span>Сухой пар, деревянная отделка</span>
+        <strong>ИК-сауна</strong>
+        <span>Прогрев инфракрасными излучателями.</span>
+        <div class="fact-stats">
+          <span class="stat">до 3 чел.</span>
+          <span class="stat">45°C</span>
+          <span class="stat">влажность естественная</span>
+        </div>
+      </div>
+      <div class="fact-card">
+        <strong>Снежная комната</strong>
+        <span>Контрастная зона после парной, искусственный снег.</span>
+        <div class="fact-stats">
+          <span class="stat">до 2 чел.</span>
+          <span class="stat">−1…−2°C</span>
+        </div>
+      </div>
+      <div class="fact-card">
+        <strong>Комната морского климата</strong>
+        <span>Мелкодисперсионный раствор соли Мёртвого моря — 10 минут заменяют двухчасовую прогулку по морскому берегу.</span>
+        <div class="fact-stats">
+          <span class="stat">до 3 чел.</span>
+          <span class="stat">климат естественный</span>
+        </div>
       </div>
       <div class="fact-card">
         <strong>Зона отдыха</strong>
-        <span>Место для полотенец и вещей</span>
+        <span>Место для полотенец и вещей между заходами в сауны.</span>
       </div>
     </div>
+
+    <div class="jacuzzi-panel">
+      <div class="jacuzzi-head">
+        <h3>Джакузи с переливным лотком</h3>
+        <span class="cap-chip">7 мест в чаше</span>
+      </div>
+      <div class="jacuzzi-grid">
+        <div>
+          <p>Джакузи с собственной зоной отдыха: 6 шезлонгов и подогреваемая скамья из мозаики на 12–14 человек, с LED-телевизором.</p>
+          <p>Водоподготовка джакузи полностью повторяет водоподготовку бассейна, а для эффективной борьбы с потовыми отложениями дополнительно работает озонатор.</p>
+        </div>
+        <ul class="jacuzzi-list">
+          <li>Гидромассажные форсунки</li>
+          <li>Аэромассажные форсунки</li>
+          <li>Пульт управления на борту</li>
+          <li>Подводное освещение</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warm-floor-note">
+      <span class="icon">♨</span>
+      <span>По всему периметру прохода в сауны и в самих саунах — тёплые полы.</span>
+    </div>
+
     <p class="note">Можно посетить отдельно или вместе с бассейном — цены на отдельной странице.</p>
   </section>
 
