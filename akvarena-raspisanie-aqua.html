@@ -211,7 +211,7 @@
   }
   @media (max-width:640px){ .phone-block{display:none;} }
 
-  .page-hero{ padding:56px 0 28px; }
+  .page-hero{ padding:56px 0 28px; text-align:center; }
   .page-hero h1{ font-size:clamp(30px,4vw,44px); letter-spacing:-0.01em; color:var(--deep); }
   .page-hero p{ margin-top:14px; max-width:56ch; font-size:16.5px; color:#3B4A55; line-height:1.6; }
   .updated{ display:inline-block; margin-top:18px; font-size:13.5px; color:var(--petrol); background:var(--white); padding:6px 14px; border-radius:999px; font-weight:600; }
@@ -221,7 +221,7 @@
     position:sticky; top:76px; z-index:55;
     background:transparent;
   }
-  .subnav{ display:flex; gap:6px; overflow-x:auto; padding:14px 0; scrollbar-width:none; }
+  .subnav{ display:flex; justify-content:center; gap:6px; overflow-x:auto; padding:14px 0; scrollbar-width:none; }
   .subnav::-webkit-scrollbar{display:none;}
   .subnav a{
     flex:0 0 auto; font-size:14px; font-weight:700; color:var(--deep);
@@ -252,22 +252,57 @@
 
   footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
 
-  /* ---------- Mobile schedule adjustments ---------- */
-  .week-grid-mobile{ display:none; }
-  .day-tabs{ display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px; scrollbar-width:none; }
-  .day-tabs::-webkit-scrollbar{ display:none; }
-  .day-tab{ flex:0 0 auto; font-size:13.5px; font-weight:700; color:var(--deep); background:var(--white); border:none; padding:8px 15px; border-radius:999px; }
-  .day-tab.active{ background:var(--amber-deep); color:var(--white); }
-  .day-list{ display:flex; flex-direction:column; gap:10px; }
-  .day-item{ background:var(--white); border-radius:12px; padding:12px 14px; display:flex; gap:14px; }
-  .day-item .time{ font-weight:700; color:var(--deep); font-size:13.5px; white-space:nowrap; flex:0 0 auto; padding-top:1px; }
-  .day-item .info{ font-size:14px; color:var(--ink); line-height:1.45; }
-  .day-item .info .muted{ display:block; font-size:12.5px; color:#6B7A75; margin-top:2px; }
-  .day-empty{ font-size:14px; color:rgba(255,255,255,0.65); padding:10px 2px 4px; }
+  /* ---------- Schedule display (single clean layout, all breakpoints) ---------- */
+  .schedule-wrap{ max-width:640px; margin:0 auto; }
+  .week-grid-mobile{ display:block; }
+  .table-scroll.week-grid{ display:none; }
 
-  @media (max-width:640px){
-    .table-scroll.week-grid{ display:none; }
-    .week-grid-mobile{ display:block; }
+  .group{
+    margin-bottom:14px;
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.16);
+    border-radius:16px; overflow:hidden;
+  }
+  .day-toggle{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    background:transparent; border:none; cursor:pointer; text-align:left;
+    padding:18px 22px; font-family:'Manrope',sans-serif;
+    transition:background .15s ease;
+  }
+  .day-toggle:hover{ background:rgba(255,255,255,0.05); }
+  .day-toggle-title{ font-weight:700; font-size:16px; color:var(--amber); }
+  .day-toggle-arrow{
+    flex:0 0 auto; width:10px; height:10px;
+    border-right:2px solid var(--amber); border-bottom:2px solid var(--amber);
+    transform:rotate(45deg); transition:transform .3s ease;
+  }
+  .group.open .day-toggle-arrow{ transform:rotate(-135deg); }
+  .day-panel{
+    max-height:0; overflow:hidden;
+    transition:max-height .35s ease;
+  }
+  .day-panel-inner{ padding:0 22px 22px; }
+
+  .day-list{ display:flex; flex-direction:column; gap:12px; }
+  .day-item{
+    background:var(--white); border:1px solid var(--line);
+    border-radius:16px; padding:16px 20px;
+    display:flex; align-items:baseline; gap:18px;
+    box-shadow:0 2px 10px rgba(5,15,26,0.06);
+  }
+  .day-item .time{
+    font-weight:700; color:var(--petrol); font-size:14.5px;
+    white-space:nowrap; flex:0 0 92px;
+  }
+  .day-item .info{ font-size:15px; color:var(--ink); line-height:1.45; }
+  .day-item .info .muted{ display:block; font-size:13px; color:#6B7A75; margin-top:3px; }
+  .day-empty{
+    text-align:center; font-size:14.5px; color:rgba(255,255,255,0.7);
+    padding:6px 20px 2px;
+  }
+
+  @media (max-width:560px){
+    .day-item{ flex-direction:column; align-items:flex-start; gap:4px; padding:14px 16px; }
+    .day-item .time{ flex-basis:auto; }
   }
 </style>
 </head>
@@ -324,8 +359,6 @@
 <div class="subnav-shell">
   <div class="wrap subnav">
     <a href="akvarena-raspisanie.html">Все расписания</a>
-    <a href="akvarena-raspisanie-plavanie.html">Обучение плаванию</a>
-    <a href="akvarena-raspisanie-zal.html">Расписание зала</a>
     <a href="akvarena-raspisanie-aqua.html" class="active">Аквааэробика</a>
   </div>
 </div>
@@ -336,9 +369,10 @@
     <h2>Аквааэробика</h2>
     <p class="sub">Расписание на 01.09.2026 — кто ведёт и в какое время по дням недели.</p>
 
+    <div class="schedule-wrap">
     <div class="table-scroll week-grid">
       <table>
-        <tr><th>Время</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr>
+        <tr><th>Время</th><th>Понедельник</th><th>Вторник</th><th>Среда</th><th>Четверг</th><th>Пятница</th><th>Суббота</th><th>Воскресенье</th></tr>
         <tr><td class="price">09:00–09:45</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td>Дарья К.</td><td class="muted">—</td></tr>
         <tr><td class="price">10:00–10:45</td><td>Мария Ш.</td><td>Мария Ш.</td><td>Мария А.</td><td>Мария А.</td><td>Мария А.</td><td class="muted">—</td><td class="muted">—</td></tr>
         <tr><td class="price">11:00–11:45</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td>Дарья К.</td></tr>
@@ -346,6 +380,7 @@
         <tr><td class="price">19:00–19:45</td><td>Елена Ш.</td><td class="muted">—</td><td>Елена Ш.</td><td class="muted">—</td><td>Елена Ш.</td><td class="muted">—</td><td class="muted">—</td></tr>
         <tr><td class="price">20:00–20:45</td><td>Елена Ш.</td><td class="muted">—</td><td>Елена Ш.</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td></tr>
       </table>
+    </div>
     </div>
   </section>
 
@@ -376,7 +411,7 @@
     });
   });
 
-  // Build a day-by-day switcher for the wide 7-day schedule grid (mobile only)
+  // Build a day-by-day accordion for the wide 7-day schedule grid
   document.querySelectorAll('.table-scroll.week-grid').forEach(wrap=>{
     const table = wrap.querySelector('table');
     const rows = Array.from(table.querySelectorAll('tr'));
@@ -386,11 +421,7 @@
     const mobile = document.createElement('div');
     mobile.className = 'week-grid-mobile';
 
-    const tabsHTML = '<div class="day-tabs">' + dayNames.map((d,i)=>
-      `<button type="button" class="day-tab${i===0?' active':''}" data-day="${i}">${d}</button>`
-    ).join('') + '</div>';
-
-    const panelsHTML = dayNames.map((d,i)=>{
+    mobile.innerHTML = dayNames.map((d,i)=>{
       const items = [];
       dataRows.forEach(tr=>{
         const tds = tr.querySelectorAll('td');
@@ -402,19 +433,42 @@
         }
       });
       const body = items.length ? `<div class="day-list">${items.join('')}</div>` : '<div class="day-empty">Занятий нет</div>';
-      return `<div class="day-panel" data-day="${i}" style="${i===0?'':'display:none;'}">${body}</div>`;
+      return `<div class="group">
+        <button class="day-toggle" type="button" aria-expanded="false">
+          <span class="day-toggle-title">${d}</span>
+          <span class="day-toggle-arrow"></span>
+        </button>
+        <div class="day-panel">
+          <div class="day-panel-inner">${body}</div>
+        </div>
+      </div>`;
     }).join('');
 
-    mobile.innerHTML = tabsHTML + panelsHTML;
     wrap.insertAdjacentElement('afterend', mobile);
 
-    mobile.querySelectorAll('.day-tab').forEach(btn=>{
+    mobile.querySelectorAll('.group').forEach(group=>{
+      const btn = group.querySelector('.day-toggle');
+      const panel = group.querySelector('.day-panel');
+      panel.style.maxHeight = '0px';
+
+      panel.addEventListener('transitionend', (e)=>{
+        if(e.propertyName === 'max-height' && group.classList.contains('open')){
+          panel.style.maxHeight = 'none';
+        }
+      });
+
       btn.addEventListener('click', ()=>{
-        const day = btn.getAttribute('data-day');
-        mobile.querySelectorAll('.day-tab').forEach(b=>b.classList.toggle('active', b===btn));
-        mobile.querySelectorAll('.day-panel').forEach(p=>{
-          p.style.display = (p.getAttribute('data-day')===day) ? '' : 'none';
-        });
+        const isOpen = group.classList.contains('open');
+        if(isOpen){
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+          requestAnimationFrame(()=>{ panel.style.maxHeight = '0px'; });
+          group.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        } else {
+          group.classList.add('open');
+          btn.setAttribute('aria-expanded','true');
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
       });
     });
   });
