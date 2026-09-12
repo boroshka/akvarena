@@ -21,9 +21,10 @@
   }
   *{box-sizing:border-box;}
   html{ width:100%; }
+  .page-clip{ overflow-x:hidden; width:100%; }
   html{scroll-behavior:smooth;}
   body{
-    margin:0; overflow-x:hidden; max-width:100vw; min-height:100vh;
+    margin:0; max-width:100vw; min-height:100vh;
     background:linear-gradient(180deg,
       #FFFFFF 0%,
       #F8FBFB 0.38%,
@@ -599,6 +600,7 @@
   </div>
 </header>
 
+<div class="page-clip">
 <main id="top">
 
   <!-- HERO: animated water design -->
@@ -786,6 +788,7 @@
     </div>
   </div>
 </footer>
+</div>
 
 <script>
   // subtle reveal for hero already visible on load; observe later sections lightly
