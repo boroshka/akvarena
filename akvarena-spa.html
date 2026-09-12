@@ -287,7 +287,11 @@
   .facts-grid{
     display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:8px;
   }
-  @media (max-width:700px){ .facts-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:700px){
+    .facts-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .fact-card{ min-width:0; }
+    .fact-stats .stat{ white-space:normal; text-align:center; }
+  }
   .fact-card{
     background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.16);
     border-radius:16px; padding:20px;
@@ -410,7 +414,7 @@
     <div class="gallery">
       <div class="gallery-item wide">
         <img src="akvarena-spa-1.jpg" alt="Джакузи с подсветкой и зелёной стеной">
-        <div class="cap">Джакузи на несколько человек</div>
+        <div class="cap">Джакузи с подсветкой</div>
       </div>
       <div class="gallery-item">
         <img src="akvarena-spa-2.jpg" alt="Хаммам с цветной подсветкой">
@@ -436,7 +440,6 @@
         <strong>Финская сауна</strong>
         <span>Сухой жар, классическая деревянная отделка.</span>
         <div class="fact-stats">
-          <span class="stat">10–12 чел.</span>
           <span class="stat">100°C</span>
           <span class="stat">влажность 5%</span>
         </div>
@@ -445,7 +448,6 @@
         <strong>Русская баня с вениками</strong>
         <span>Отдельный полог для парения с вениками.</span>
         <div class="fact-stats">
-          <span class="stat">6–8 чел.</span>
           <span class="stat">65–70°C</span>
           <span class="stat">влажность 65–70%</span>
         </div>
@@ -454,7 +456,6 @@
         <strong>Хаммам</strong>
         <span>Паровая баня с мягким влажным паром.</span>
         <div class="fact-stats">
-          <span class="stat">до 7 чел.</span>
           <span class="stat">45°C</span>
           <span class="stat">влажность 100%</span>
         </div>
@@ -463,7 +464,6 @@
         <strong>ИК-сауна</strong>
         <span>Прогрев инфракрасными излучателями.</span>
         <div class="fact-stats">
-          <span class="stat">до 3 чел.</span>
           <span class="stat">45°C</span>
           <span class="stat">влажность естественная</span>
         </div>
@@ -472,7 +472,6 @@
         <strong>Снежная комната</strong>
         <span>Контрастная зона после парной, искусственный снег.</span>
         <div class="fact-stats">
-          <span class="stat">до 2 чел.</span>
           <span class="stat">−1…−2°C</span>
         </div>
       </div>
@@ -480,24 +479,18 @@
         <strong>Комната морского климата</strong>
         <span>Мелкодисперсионный раствор соли Мёртвого моря — 10 минут заменяют двухчасовую прогулку по морскому берегу.</span>
         <div class="fact-stats">
-          <span class="stat">до 3 чел.</span>
           <span class="stat">климат естественный</span>
         </div>
-      </div>
-      <div class="fact-card">
-        <strong>Зона отдыха</strong>
-        <span>Место для полотенец и вещей между заходами в сауны.</span>
       </div>
     </div>
 
     <div class="jacuzzi-panel">
       <div class="jacuzzi-head">
         <h3>Джакузи с переливным лотком</h3>
-        <span class="cap-chip">7 мест в чаше</span>
       </div>
       <div class="jacuzzi-grid">
         <div>
-          <p>Джакузи с собственной зоной отдыха: 6 шезлонгов и подогреваемая скамья из мозаики на 12–14 человек, с LED-телевизором.</p>
+          <p>Джакузи с собственной зоной отдыха: 6 шезлонгов и подогреваемая скамья из мозаики, с LED-телевизором.</p>
           <p>Водоподготовка джакузи полностью повторяет водоподготовку бассейна, а для эффективной борьбы с потовыми отложениями дополнительно работает озонатор.</p>
         </div>
         <ul class="jacuzzi-list">

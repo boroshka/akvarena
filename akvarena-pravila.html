@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Правила посещения — АквАренА</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #12212E;
+    --deep: #0B3554;
+    --petrol: #146B8C;
+    --mist: #EAF4F9;
+    --paper: #F3F9FC;
+    --amber: #3FA9DA;
+    --amber-deep: #1E7FB0;
+    --line: rgba(11,53,84,0.14);
+    --white: #FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html{ overflow-x:hidden; width:100%; }
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; overflow-x:hidden; max-width:100vw; min-height:100vh;
+    background-color:#050A11;
+    background-repeat:no-repeat;
+    background-position:top center;
+    background-size:100% 1500px;
+    background-image:linear-gradient(180deg,
+      #FFFFFF 0%,
+      #F8FBFB 0.38%,
+      #F0FAF9 1.12%,
+      #E8F8F5 2.15%,
+      #DEF5F2 3.42%,
+      #D2F2EF 4.88%,
+      #C4EFEE 6.54%,
+      #B6EBEC 8.38%,
+      #A6E3E8 10.35%,
+      #97D8E3 12.5%,
+      #87CDDF 14.81%,
+      #76C0DA 17.23%,
+      #67B3D6 19.81%,
+      #57A7D0 22.54%,
+      #489ACA 25.35%,
+      #3A8CC5 28.31%,
+      #357DB5 31.38%,
+      #306FA5 34.62%,
+      #2B6298 37.92%,
+      #26588D 41.35%,
+      #224E83 44.88%,
+      #1F4579 48.54%,
+      #1B3D6F 52.27%,
+      #183565 56.12%,
+      #152D5B 60.08%,
+      #122650 64.12%,
+      #0F2046 68.27%,
+      #0D1A3C 72.54%,
+      #0B1633 76.88%,
+      #09122A 81.31%,
+      #071022 85.85%,
+      #060D1A 90.5%,
+      #050B16 95.19%,
+      #050A11 100%);
+    font-family:'Manrope', sans-serif; -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background:
+      radial-gradient(600px 500px at 85% 8%, rgba(255,255,255,0.18), transparent 62%),
+      radial-gradient(500px 600px at 6% 40%, rgba(120,210,235,0.12), transparent 60%),
+      radial-gradient(700px 700px at 92% 70%, rgba(63,169,218,0.10), transparent 60%);
+  }
+  h1,h2,h3,.display{ font-family:'Cormorant Garamond', serif; font-weight:600; line-height:1.08; margin:0; color:var(--deep); }
+  a{color:inherit; text-decoration:none;}
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
+  @media (max-width:640px){ .wrap{padding:0 18px;} }
+
+  header{
+    position:sticky; top:0; z-index:60;
+    background:rgba(234,246,251,0.90);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 1px 0 rgba(11,53,84,.05), 0 18px 32px -26px rgba(11,53,84,.45);
+  }
+  .header-row{
+    display:flex; align-items:center; justify-content:space-between;
+    height:76px;
+  }
+  .logo{ display:flex; align-items:center; gap:10px; transition:opacity .15s ease, transform .15s ease; }
+  .logo:hover{ opacity:.86; }
+  .logo-img{ height:38px; width:auto; display:block; }
+
+  .site-nav{ display:flex; align-items:center; gap:2px; }
+  .nav-link{
+    position:relative;
+    font-size:14.5px; font-weight:600; color:var(--deep);
+    padding:9px 16px; border-radius:999px;
+    border:1px solid transparent;
+    transition:background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  .nav-link:hover{ background:var(--mist); border-color:var(--line); }
+  .nav-link.active,
+  .nav-dropdown.active > .nav-link{
+    background:var(--white); color:var(--petrol); border-color:var(--line);
+    box-shadow:0 4px 12px rgba(11,53,84,.12);
+  }
+
+  .menu-toggle{ display:none; background:none; border:none; cursor:pointer; padding:6px; color:var(--deep); }
+  .menu-toggle svg{ width:24px; height:24px; }
+
+  @media (max-width:900px){
+    .site-nav{
+      display:none;
+      position:absolute; top:76px; left:0; right:0;
+      background:var(--paper);
+      flex-direction:column; align-items:flex-start;
+      padding:18px 24px; gap:2px;
+      border-bottom:1px solid var(--line);
+      box-shadow:0 14px 28px rgba(5,15,26,0.14);
+    }
+    .site-nav.open{ display:flex; }
+    .nav-link{
+      padding:12px 6px; width:100%; border-radius:10px;
+      border:none; box-shadow:none !important; background:transparent !important;
+      border-bottom:1px solid var(--line);
+    }
+    .nav-link.active,
+    .nav-dropdown.active > .nav-link{
+      background:var(--mist) !important; color:var(--petrol);
+    }
+    .nav-dropdown{ width:100%; }
+    .nav-dropdown > .nav-link{ width:100%; justify-content:space-between; }
+    .menu-toggle{ display:block; }
+  }
+
+  /* ---------- Nav dropdown ---------- */
+  .nav-dropdown{ position:relative; display:inline-block; }
+  .nav-dropdown > a{ display:inline-flex; align-items:center; gap:6px; }
+  .nav-dropdown > a::after{
+    content:''; width:6px; height:6px;
+    border-right:2px solid currentColor; border-bottom:2px solid currentColor;
+    transform:rotate(45deg); opacity:.55;
+    transition:transform .15s ease;
+  }
+  .nav-dropdown.open > a::after{ transform:rotate(-135deg); }
+  .nav-dropdown-panel{
+    position:absolute; top:100%; left:50%;
+    transform:translate(-50%,-6px);
+    margin-top:18px;
+    background:var(--white);
+    border-radius:18px;
+    box-shadow:0 24px 48px rgba(5,15,26,0.28);
+    min-width:270px;
+    padding:9px;
+    opacity:0; visibility:hidden;
+    transition:opacity .18s ease, transform .18s ease, visibility .18s;
+    z-index:80;
+  }
+  .nav-dropdown-panel::before{
+    content:''; position:absolute; top:-6px; left:50%;
+    transform:translateX(-50%) rotate(45deg);
+    width:12px; height:12px; background:var(--white);
+    border-radius:3px;
+  }
+  .nav-dropdown-panel a{
+    position:relative; display:flex; align-items:center; gap:10px;
+    padding:11px 14px; border-radius:11px;
+    font-size:14px; font-weight:600; color:var(--deep);
+    transition:background .12s ease, padding-left .12s ease;
+  }
+  .nav-dropdown-panel a::before{
+    content:''; width:6px; height:6px; border-radius:50%;
+    background:var(--amber); flex:0 0 auto;
+    transition:transform .12s ease;
+  }
+  .nav-dropdown-panel a:hover{ background:var(--mist); }
+  .nav-dropdown-panel a:hover::before{ transform:scale(1.35); }
+  @media (hover:hover){
+    .nav-dropdown:hover .nav-dropdown-panel{
+      opacity:1; visibility:visible; transform:translate(-50%,0);
+    }
+  }
+  .nav-dropdown.open .nav-dropdown-panel{
+    opacity:1; visibility:visible; transform:translate(-50%,0);
+  }
+  @media (max-width:900px){
+    .nav-dropdown-panel{
+      position:static !important; transform:none !important;
+      margin-top:6px; margin-left:0; min-width:0; width:100%;
+      box-shadow:none; border-left:2px solid var(--line);
+      border-radius:0; padding:4px 0 4px 12px;
+      display:none; opacity:1 !important; visibility:visible !important;
+      background:transparent;
+    }
+    .nav-dropdown-panel::before{ display:none; }
+    .nav-dropdown.open .nav-dropdown-panel{ display:block !important; }
+    .nav-dropdown-panel a{
+      display:block !important;
+      color:var(--deep) !important;
+      background:transparent !important;
+      padding:10px 8px;
+    }
+    .nav-dropdown-panel a::before{ display:none; }
+  }
+
+  .page-hero{ padding:56px 0 28px; }
+  .page-hero h1{ font-size:clamp(30px,4vw,44px); letter-spacing:-0.01em; color:var(--deep); }
+  .page-hero p{ margin-top:14px; max-width:60ch; font-size:16.5px; color:#3B4A55; line-height:1.6; }
+  .updated{ display:inline-block; margin-top:18px; font-size:13.5px; color:var(--petrol); background:var(--white); padding:6px 14px; border-radius:999px; font-weight:600; }
+
+  /* sub-nav */
+  .subnav-shell{
+    position:sticky; top:76px; z-index:55;
+    background:transparent;
+  }
+  .subnav{ display:flex; gap:6px; overflow-x:auto; padding:14px 0; scrollbar-width:none; }
+  .subnav::-webkit-scrollbar{display:none;}
+  .subnav a{
+    flex:0 0 auto; font-size:14px; font-weight:700; color:var(--deep);
+    padding:9px 16px; border-radius:999px; border:none;
+    background:var(--white);
+    white-space:nowrap;
+    box-shadow:0 2px 8px rgba(5,15,26,0.12);
+  }
+  .subnav a:hover{ background:var(--mist); }
+
+  .section{ padding:48px 0 8px; scroll-margin-top:150px; }
+  .section h2{ font-size:clamp(24px,3vw,30px); color:var(--white); }
+  .section .sub{ margin-top:8px; margin-bottom:28px; font-size:15px; color:rgba(255,255,255,0.75); max-width:64ch; line-height:1.55;}
+
+  .rules-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+  @media (max-width:760px){ .rules-grid{ grid-template-columns:1fr; } }
+
+  .rules-card{
+    background:var(--white); border-radius:18px;
+    padding:26px 28px; box-shadow:0 10px 26px rgba(5,15,26,0.10);
+  }
+  .rules-card h3{ font-size:19px; color:var(--deep); margin-bottom:14px; }
+  .rules-card h3 .tag{
+    display:inline-block; font-family:'Manrope',sans-serif; font-weight:700; font-size:11px;
+    letter-spacing:.04em; color:var(--petrol); background:var(--mist);
+    padding:4px 10px; border-radius:999px; margin-left:10px; vertical-align:middle;
+  }
+  .rules-card h3 .tag.deny{ color:#B4402A; background:#FBE7E2; }
+  .rules-card ol, .rules-card ul{ margin:0; padding-left:20px; color:#33424D; font-size:14.5px; line-height:1.75; }
+  .rules-card li{ margin-bottom:6px; }
+  .rules-card li::marker{ color:var(--petrol); font-weight:700; }
+  .rules-card.deny li::marker{ color:#B4402A; }
+  .rules-card + .rules-card{ margin-top:20px; }
+  .full-card{ grid-column:1 / -1; }
+
+  .info-note{
+    margin-top:6px; display:flex; align-items:center; gap:14px;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.16);
+    border-radius:14px; padding:16px 20px;
+    font-size:13.5px; color:rgba(255,255,255,0.8); line-height:1.5;
+  }
+  .info-note .icon{
+    flex:0 0 auto; width:34px; height:34px; border-radius:50%;
+    background:rgba(63,169,218,0.22); border:1px solid rgba(63,169,218,0.4);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--amber); font-size:16px;
+  }
+
+  table{ width:100%; border-collapse:collapse; background:var(--white); border-radius:14px; overflow:hidden; }
+  .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:14px; }
+  .table-scroll table{ border-radius:0; min-width:520px; }
+  th,td{ padding:13px 16px; font-size:14.5px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ background:var(--mist); font-weight:700; color:var(--deep); font-size:13px; }
+  tr:last-child td{ border-bottom:none; }
+  td.muted{ color:#6B7A75; font-size:13.5px; }
+
+  .note{ margin-top:14px; font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.5; }
+
+  footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <a class="logo" href="akvarena-index.html">
+      <img src="akvarena-logo.png" alt="АквАренА" class="logo-img">
+    </a>
+    <nav class="site-nav">
+      <a class="nav-link" href="akvarena-bassein.html">Бассейн</a>
+      <a class="nav-link" href="akvarena-spa.html">СПА</a>
+      <a class="nav-link" href="akvarena-zal.html">Зал</a>
+      <div class="nav-dropdown">
+        <a class="nav-link" href="akvarena-tariffs.html">Тарифы</a>
+        <div class="nav-dropdown-panel">
+          <a href="akvarena-tariff-bassein.html">Бассейн</a>
+          <a href="akvarena-tariff-klub.html">Клубные и семейные карты</a>
+          <a href="akvarena-tariff-fitnes.html">Фитнес</a>
+          <a href="akvarena-tariff-spa.html">СПА</a>
+          <a href="akvarena-tariff-obuchenie.html">Аквааэробика и обучение</a>
+          <a href="akvarena-tariff-dop.html">Доп. услуги</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a class="nav-link" href="akvarena-raspisanie.html">Расписание</a>
+        <div class="nav-dropdown-panel">
+          <a href="akvarena-raspisanie-plavanie.html">Обучение плаванию</a>
+          <a href="akvarena-raspisanie-zal.html">Расписание зала</a>
+          <a href="akvarena-raspisanie-aqua.html">Аквааэробика</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a class="nav-link" href="akvarena-trener-bassein.html">Тренеры</a>
+        <div class="nav-dropdown-panel">
+          <a href="akvarena-trener-bassein.html">Тренеры бассейна</a>
+          <a href="akvarena-trener-zal.html">Тренеры зала</a>
+          <a href="akvarena-trener-aqua.html">Тренеры аквааэробики</a>
+        </div>
+      </div>
+    </nav>
+    <button class="menu-toggle" aria-label="Меню">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="wrap page-hero">
+  <h1>Правила посещения</h1>
+  <p>Общие требования к посетителям бассейна, СПА-комплекса и тренажёрного зала, а также порядок возврата денежных средств по абонементам.</p>
+  <span class="updated">Актуально на сентябрь 2026 г.</span>
+</div>
+
+<div class="subnav-shell">
+  <div class="wrap subnav">
+    <a href="#bassein">Бассейн</a>
+    <a href="#spa">СПА</a>
+    <a href="#zal">Тренажёрный зал</a>
+    <a href="#vozvrat">Возврат средств</a>
+  </div>
+</div>
+
+<main class="wrap" style="padding-top:8px;">
+
+  <!-- БАССЕЙН -->
+  <section class="section" id="bassein">
+    <h2>Правила посещения плавательного бассейна</h2>
+    <p class="sub">При себе необходимо иметь: сменную обувь (сланцы), пакет для уличной обуви, купальный костюм, шапочку для плавания, средства личной гигиены для душа, полотенце.</p>
+
+    <div class="rules-grid">
+      <div class="rules-card">
+        <h3>Требования и порядок</h3>
+        <ol>
+          <li>За 5 минут до закрытия комплекса покиньте раздевальное помещение бассейна.</li>
+          <li>Если возраст посетителя вызывает сомнение, услуга приобретается по предъявлению удостоверения личности (паспорт, свидетельство о рождении).</li>
+          <li>Купальный костюм — из эластичных водоотталкивающих материалов, общепринятого образца (закрытый или раздельный купальник, плавки), плотно прилегающий к телу, без аксессуаров, мешающих движению или способных попасть в водозаборные решётки, с открытыми участками кожи для визуального контроля её состояния.</li>
+          <li>Детям дошкольного и младшего школьного возраста (до 12 лет) в обязательном порядке требуется справка о результатах паразитологического обследования на энтеробиоз и гименолепидоз: перед приёмом в плавательную группу и далее не реже раза в три месяца; при разовых посещениях — перед каждым визитом, если перерыв между ними больше двух месяцев.</li>
+        </ol>
+      </div>
+
+      <div class="rules-card deny full-card">
+        <h3>Запрещается <span class="tag deny">важно</span></h3>
+        <ol>
+          <li>Находиться на территории бассейна, в гидромассажной зоне и джакузи без плавательной шапочки.</li>
+          <li>Проходить в бассейн без принятия душа.</li>
+          <li>Плавать с использованием ласт, акваланга, трубки и других приспособлений без разрешения администрации.</li>
+          <li>Детям с 5 до 18 лет плавать без сопровождения взрослого или тренера.</li>
+          <li>Бегать на территории бассейна, прыгать с бортика или тумбы без разрешения инструктора.</li>
+          <li>Курить во всех помещениях бассейна.</li>
+          <li>Вносить в зону бассейна жевательную резинку, стеклянную тару, флаконы.</li>
+          <li>Втирать в кожу кремы и мази перед использованием бассейна.</li>
+          <li>Входить в зал бассейна в уличной обуви, халате или с полотенцем — их нужно оставить в отведённом месте перед входом.</li>
+          <li>Бриться, стричь волосы и ногти, обрабатывать пятки в душевых.</li>
+          <li>Пользоваться услугами, не входящими в стоимость абонемента и не оплаченными дополнительно.</li>
+          <li>Нырять в длину и глубину, задерживать дыхание, плавать поперёк бассейна, топить друг друга или нырять навстречу.</li>
+          <li>Уходить с занятия, не предупредив инструктора или тренера.</li>
+          <li>Провожать в раздевалки детей старше 5 лет противоположного пола.</li>
+          <li>Проходить на территорию бассейна в одежде, с пакетами, рюкзаками, сумками.</li>
+          <li>Использовать личные надувные плавсредства (круги, нарукавники, жилеты, матрасы) в чаше бассейна.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="info-note" style="margin-top:20px;">
+      <span class="icon">✕</span>
+      <span>В бассейн не допускаются лица в нетрезвом состоянии или ведущие себя неадекватно, с явными признаками кожных заболеваний, а также дети младше 5 лет.</span>
+    </div>
+  </section>
+
+  <!-- СПА -->
+  <section class="section" id="spa">
+    <h2>Правила посещения SPA-комплекса</h2>
+    <p class="sub">Территория саун, хаммама и зоны отдыха — общая, поэтому просим относиться с уважением к другим гостям и персоналу.</p>
+
+    <div class="rules-grid">
+      <div class="rules-card">
+        <h3>Требования и порядок</h3>
+        <ol>
+          <li>Присутствие в зоне саун разрешено только в специальной обуви и одежде — шлёпанцах, купальных костюмах, халатах.</li>
+          <li>Перед посещением джакузи, а также после посещения саун, в обязательном порядке принимается душ.</li>
+          <li>Рекомендуется закалывать или заплетать волосы перед посещением саун.</li>
+          <li>Рекомендуется пользоваться туалетными комнатами.</li>
+          <li>Ответственность за самочувствие и поведение детей любого возраста несут родители и доверенные лица.</li>
+          <li>Не оставляйте вещи без присмотра — за утерянные или оставленные без присмотра вещи персонал ответственности не несёт.</li>
+          <li>Дети с 5 лет допускаются только в сопровождении взрослых.</li>
+          <li>На время одного посещения выдаётся 1 пелёнка в руки.</li>
+          <li>За 5 минут до закрытия комплекса покиньте раздевальное помещение.</li>
+        </ol>
+        <p style="margin-top:14px; font-size:13px; color:#6B7A75; line-height:1.5;">За нарушение правил поведения администрация вправе попросить покинуть SPA-комплекс, аннулировать клубную карту или абонемент, а также аннулировать дальнейшее право пребывания в СОК «АквАренА».</p>
+      </div>
+
+      <div class="rules-card deny">
+        <h3>Запрещается <span class="tag deny">важно</span></h3>
+        <ol>
+          <li>Посещать SPA-комплекс с детьми младше 5 лет; провожать мальчиков старше 5 лет в женские раздевалки.</li>
+          <li>Проносить с собой еду, питьё, алкогольные напитки, проходить в зону отдыха со стаканчиками.</li>
+          <li>Бегать, прыгать в зоне саун, нырять в джакузи.</li>
+          <li>Разбрызгивать ароматические средства и масла в зонах парения; проводить гигиенические процедуры (обработка пяток, пилинги, бритьё, депиляция, эпиляция, коррекция ногтей), использовать щётки, пемзу, маски и масла на всей территории SPA-комплекса, включая душевые и раздевалки.</li>
+          <li>Посещать в нетрезвом состоянии или с явными признаками кожных заболеваний.</li>
+          <li>Менять установленную администрацией температуру в хамаме, воздействовать на температурные датчики (подносить лёд, снег, закрывать предметами), оставлять дверь открытой.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЗАЛ -->
+  <section class="section" id="zal">
+    <h2>Правила посещения тренажёрного зала</h2>
+    <p class="sub">Для занятий необходима спортивная одежда и сменная обувь — переобуваться нужно на 1-м этаже.</p>
+
+    <div class="rules-grid">
+      <div class="rules-card">
+        <h3>Требования и порядок</h3>
+        <ol>
+          <li>Пожалуйста, соблюдайте чистоту в зале.</li>
+          <li>Соблюдайте правила общей гигиены, воздерживайтесь от посещения при простудных и инфекционных заболеваниях, используйте личное полотенце.</li>
+          <li>Перед началом занятий на тренажёрах пройдите вводный инструктаж с дежурным инструктором.</li>
+          <li>Упражнения с максимальными весами рекомендуется выполнять с инструктором или партнёром для вашей безопасности.</li>
+          <li>После работы со свободными весами уберите оборудование на место; не мешайте другим посетителям.</li>
+          <li>Любой тренажёр может быть временно ограничен для использования (ремонт, профилактика).</li>
+          <li>Персонал не несёт ответственности за состояние здоровья и возможные травмы при самостоятельных тренировках без консультации тренера.</li>
+          <li>Бережно относитесь к тренажёрам и инвентарю; о неисправности сразу сообщайте тренеру или администратору.</li>
+          <li>По любым вопросам о работе с тренажёрами обращайтесь к дежурному тренеру.</li>
+          <li>Тренировку нужно закончить за 15 минут до закрытия тренажёрного зала.</li>
+          <li>С 10 до 16 лет тренировки разрешены только в присутствии персонального тренера.</li>
+        </ol>
+      </div>
+
+      <div class="rules-card deny">
+        <h3>Запрещается <span class="tag deny">важно</span></h3>
+        <ol>
+          <li>Принимать пищу, жевать резинку, заносить и оставлять стеклянную тару.</li>
+          <li>Посещать зал в нетрезвом состоянии.</li>
+          <li>Заниматься с голым торсом.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВОЗВРАТ СРЕДСТВ -->
+  <section class="section" id="vozvrat">
+    <h2>Порядок возврата денежных средств</h2>
+    <p class="sub">Установлен приказом №13 от 1 сентября 2012 г. и распространяется на приобретённые абонементы.</p>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th style="width:64px;">№</th><th>Ситуация</th><th>Порядок возврата</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Абонемент полностью оплачен, визитов не было</td>
+            <td>Возврат 100% уплаченной суммы.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Абонемент полностью оплачен, визиты были</td>
+            <td>Каждый использованный визит пересчитывается как разовый по действующим на момент пересчёта тарифам; заявителю выплачивается разница между оплаченной суммой и пересчитанной стоимостью визитов.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Возврат клубной карты (90 дней, 180 дней, 1 год)</td>
+            <td class="muted">Стоимость карты делится на количество месяцев по контракту и умножается на число прошедших месяцев с посещениями, а затем — на коэффициент 1,5 (операционные расходы). Полученная сумма вычитается из оплаченной.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-note" style="margin-top:20px;">
+      <span class="icon">i</span>
+      <span>По вопросам возврата обращайтесь к администратору клуба или по телефонам +7 (843) 200-10-24, 200-10-25, 200-10-26.</span>
+    </div>
+
+    <p class="note">Правила приведены в информационных целях; действующие условия уточняйте у администратора клуба.</p>
+  </section>
+
+</main>
+
+<footer>
+  © АквАренА
+</footer>
+
+<script>
+  document.querySelector('.menu-toggle').addEventListener('click', ()=>{
+    document.querySelector('.site-nav').classList.toggle('open');
+  });
+
+  document.querySelectorAll('.nav-dropdown').forEach(dd=>{
+    const trigger = dd.querySelector('a');
+    trigger.addEventListener('click', (e)=>{
+      const navOpen = document.querySelector('.site-nav').classList.contains('open');
+      if(window.matchMedia('(hover: none)').matches || navOpen){
+        e.preventDefault();
+        dd.classList.toggle('open');
+      }
+    });
+  });
+  document.addEventListener('click', (e)=>{
+    document.querySelectorAll('.nav-dropdown.open').forEach(dd=>{
+      if(!dd.contains(e.target)) dd.classList.remove('open');
+    });
+  });
+</script>
+</body>
+</html>
