@@ -291,7 +291,6 @@
   @media (max-width:700px){
     .facts-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
     .fact-card{ min-width:0; }
-    .fact-stats .stat{ white-space:normal; text-align:center; }
   }
   .fact-card{
     background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.16);
@@ -308,6 +307,7 @@
     background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.20);
     padding:4px 10px; border-radius:999px; white-space:nowrap;
   }
+  @media (max-width:700px){ .fact-stats .stat{ white-space:normal; text-align:center; } }
 
   /* ---------- Jacuzzi highlight panel ---------- */
   .jacuzzi-panel{
