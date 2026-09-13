@@ -384,6 +384,16 @@
     aspect-ratio:4/3;
   }
   .news-card img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .news-empty{
+    display:flex; align-items:center; justify-content:center;
+    min-height:320px; aspect-ratio:4/3; padding:32px; text-align:center;
+    background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.16);
+    border-radius:20px; color:rgba(255,255,255,0.72); font-size:16px;
+  }
+  .news-carousel.no-news .news-arrow,
+  .news-carousel.single-news .news-arrow{display:none;}
+  .news-carousel.no-news .news-dots,
+  .news-carousel.single-news .news-dots{display:none;}
   .news-dots{ display:flex; justify-content:center; gap:8px; margin-top:6px; }
   .news-dot{
     width:8px; height:8px; border-radius:50%;
@@ -845,66 +855,94 @@
   const track = document.getElementById('newsTrack');
   const dotsWrap = document.getElementById('newsDots');
   const carousel = document.querySelector('.news-carousel');
-  if(!track || !dotsWrap) return;
+  if(!track || !dotsWrap || !carousel) return;
 
-  const originals = Array.from(track.children);
-  const n = originals.length;
-  if(n < 2) return;
+  const cards = Array.from(track.children);
 
-  // Clone first & last slide so the strip can "wrap" like a wheel
-  const firstClone = originals[0].cloneNode(true);
-  const lastClone = originals[n-1].cloneNode(true);
-  track.appendChild(firstClone);
-  track.insertBefore(lastClone, track.firstChild);
-  const slides = Array.from(track.children); // [lastClone, ...originals, firstClone]
+  Promise.all(cards.map(card => new Promise(resolve => {
+    const img = card.querySelector('img');
+    if(!img) return resolve({card, ok:false});
+    if(img.complete) return resolve({card, ok:img.naturalWidth > 0});
+    img.addEventListener('load', () => resolve({card, ok:true}), {once:true});
+    img.addEventListener('error', () => resolve({card, ok:false}), {once:true});
+  }))).then(results => {
+    const validCards = results.filter(x => x.ok).map(x => x.card).slice(0, 3);
 
-  const dots = originals.map((_, i)=>{
-    const d = document.createElement('button');
-    d.type = 'button';
-    d.className = 'news-dot' + (i === 0 ? ' active' : '');
-    d.setAttribute('aria-label', 'Новость ' + (i + 1));
-    d.addEventListener('click', ()=> goTo(i + 1, true));
-    dotsWrap.appendChild(d);
-    return d;
-  });
-
-  function goTo(slideIndex, smooth){
-    track.scrollTo({ left: slides[slideIndex].offsetLeft, behavior: smooth ? 'smooth' : 'auto' });
-  }
-
-  function nearestSlideIndex(){
-    let closest = 1, min = Infinity;
-    slides.forEach((s, i)=>{
-      const d = Math.abs(s.offsetLeft - track.scrollLeft);
-      if(d < min){ min = d; closest = i; }
+    cards.forEach(card => {
+      if(!validCards.includes(card)) card.remove();
     });
-    return closest;
-  }
 
-  function setActiveDot(realIndex){
-    dots.forEach((d, i)=> d.classList.toggle('active', i === realIndex));
-  }
+    const n = validCards.length;
 
-  let scrollTimer;
-  track.addEventListener('scroll', ()=>{
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(()=>{
-      let idx = nearestSlideIndex();
-      if(idx === 0){ idx = n; goTo(idx, false); }
-      else if(idx === n + 1){ idx = 1; goTo(idx, false); }
-      setActiveDot(idx - 1);
-    }, 110);
-  }, { passive: true });
+    if(n === 0){
+      track.innerHTML = '<article class="news-card news-empty">Пока новостей нет</article>';
+      carousel.classList.add('no-news');
+      return;
+    }
 
-  document.querySelector('.news-arrow.prev').addEventListener('click', ()=>{
-    goTo(nearestSlideIndex() - 1, true);
+    if(n === 1){
+      carousel.classList.add('single-news');
+      return;
+    }
+
+    const originals = Array.from(track.children);
+    const firstClone = originals[0].cloneNode(true);
+    const lastClone = originals[n-1].cloneNode(true);
+    track.appendChild(firstClone);
+    track.insertBefore(lastClone, track.firstChild);
+
+    const slides = Array.from(track.children);
+
+    const dots = originals.map((_, i) => {
+      const d = document.createElement('button');
+      d.type = 'button';
+      d.className = 'news-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Новость ' + (i + 1));
+      d.addEventListener('click', () => goTo(i + 1, true));
+      dotsWrap.appendChild(d);
+      return d;
+    });
+
+    function goTo(index, smooth){
+      track.scrollTo({
+        left: slides[index].offsetLeft,
+        behavior: smooth ? 'smooth' : 'auto'
+      });
+    }
+
+    function nearestSlideIndex(){
+      let closest = 1, min = Infinity;
+      slides.forEach((slide, i) => {
+        const d = Math.abs(slide.offsetLeft - track.scrollLeft);
+        if(d < min){ min = d; closest = i; }
+      });
+      return closest;
+    }
+
+    function setActiveDot(index){
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+    }
+
+    let scrollTimer;
+    track.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        let index = nearestSlideIndex();
+        if(index === 0){ index = n; goTo(index, false); }
+        else if(index === n + 1){ index = 1; goTo(index, false); }
+        setActiveDot(index - 1);
+      }, 110);
+    }, {passive:true});
+
+    const prev = carousel.querySelector('.news-arrow.prev');
+    const next = carousel.querySelector('.news-arrow.next');
+
+    if(prev) prev.addEventListener('click', () => goTo(nearestSlideIndex() - 1, true));
+    if(next) next.addEventListener('click', () => goTo(nearestSlideIndex() + 1, true));
+
+    requestAnimationFrame(() => goTo(1, false));
+    window.addEventListener('resize', () => goTo(nearestSlideIndex(), false));
   });
-  document.querySelector('.news-arrow.next').addEventListener('click', ()=>{
-    goTo(nearestSlideIndex() + 1, true);
-  });
-
-  requestAnimationFrame(()=> goTo(1, false));
-  window.addEventListener('resize', ()=> goTo(nearestSlideIndex(), false));
 })();
 </script></body>
 </html>
