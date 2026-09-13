@@ -78,10 +78,9 @@
   .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
   @media (max-width:640px){ .wrap{padding:0 18px;} }
 
-  /* ---------- Header ---------- */
   header{
     position:sticky; top:0; z-index:100;
-    background:linear-gradient(180deg, rgba(4,26,42,0.95) 0%, rgba(1,14,24,0.90) 100%);
+    background:rgba(2,18,30,0.92);
     backdrop-filter:blur(16px);
     border-bottom:1px solid rgba(255,255,255,0.12);
     box-shadow:0 1px 0 rgba(0,0,0,.1), 0 18px 32px -26px rgba(0,0,0,.55);
@@ -209,7 +208,7 @@
   }
   @media (max-width:640px){ .phone-block{display:none;} }
 
-  .page-hero{ padding-top:56px; padding-bottom:28px; text-align:center; }
+  .page-hero{ padding:56px 0 28px; text-align:center; }
   .page-hero h1{ font-size:clamp(30px,4vw,44px); letter-spacing:-0.01em; color:var(--deep); }
   .page-hero p{ margin-top:14px; max-width:56ch; font-size:16.5px; color:#3B4A55; line-height:1.6; }
   .updated{ display:inline-block; margin-top:18px; font-size:13.5px; color:var(--petrol); background:var(--white); padding:6px 14px; border-radius:999px; font-weight:600; }
@@ -219,7 +218,7 @@
     position:sticky; top:76px; z-index:55;
     background:transparent;
   }
-  .subnav{ display:flex; justify-content:center; gap:6px; overflow-x:auto; padding-top:14px; padding-bottom:14px; scrollbar-width:none; }
+  .subnav{ display:flex; justify-content:center; gap:6px; overflow-x:auto; padding:14px 0; scrollbar-width:none; }
   .subnav::-webkit-scrollbar{display:none;}
   .subnav a{
     flex:0 0 auto; font-size:14px; font-weight:700; color:var(--deep);
