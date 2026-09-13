@@ -260,27 +260,29 @@
 
     footer{ margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.7); padding:40px 0; text-align:center; font-size:13.5px; }
 
-  /* ---------- Mobile price tables: stacked cards ---------- */
+  /* ---------- Mobile price tables: JS-built cards ----------
+     (Safari/iOS unreliably paints background/border-radius on <tr>
+     even with display:block, so on mobile we render real <div> cards
+     built from the table data instead of restyling table rows.) */
+  .mobile-cards{ display:none; }
+  .mobile-cards .mcard{
+    background:var(--white); border-radius:12px; margin-bottom:10px;
+    box-shadow:0 1px 4px rgba(5,15,26,0.10); overflow:hidden;
+  }
+  .mobile-cards .mcard:last-child{ margin-bottom:0; }
+  .mobile-cards .mcard.highlight{ background:#E7F3FA; }
+  .mobile-cards .mrow{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    padding:10px 14px; font-size:13.5px; border-bottom:1px solid var(--line);
+  }
+  .mobile-cards .mrow:last-child{ border-bottom:none; }
+  .mobile-cards .mlabel{ font-weight:700; color:var(--deep); font-size:12px; text-align:left; flex:0 0 auto; max-width:52%; }
+  .mobile-cards .mvalue{ text-align:right; }
+  .mobile-cards .mvalue.price{ font-weight:700; color:var(--deep); white-space:nowrap; }
+  .mobile-cards .mvalue.muted{ color:#6B7A75; font-size:13.5px; }
   @media (max-width:640px){
-    .table-scroll.stack{ overflow-x:visible; border:none; }
-    .table-scroll.stack table{ min-width:0; width:100%; border-collapse:separate; border-spacing:0; }
-    .table-scroll.stack tr{ display:block; }
-    .table-scroll.stack tr:first-child{ display:none; }
-    .table-scroll.stack tr:not(:first-child){
-      display:block; background:var(--white); border-radius:12px;
-      margin-bottom:10px; box-shadow:0 1px 4px rgba(5,15,26,0.10);
-    }
-    .table-scroll.stack tr:last-child{ margin-bottom:0; }
-    .table-scroll.stack td{
-      display:flex; align-items:baseline; justify-content:space-between; gap:12px;
-      padding:10px 14px; font-size:13.5px; border-bottom:1px solid var(--line);
-      white-space:normal; text-align:right;
-    }
-    .table-scroll.stack td:last-child{ border-bottom:none; }
-    .table-scroll.stack td::before{
-      content:attr(data-label); font-weight:700; color:var(--deep);
-      font-size:12px; text-align:left; flex:0 0 auto; max-width:52%;
-    }
+    .table-scroll.stack{ display:none; }
+    .mobile-cards{ display:block; }
   }
   .subnav a.active{ background:var(--deep); color:var(--white); box-shadow:none; }
   .highlight-row-cards{ margin-bottom:8px; }
@@ -448,15 +450,40 @@
     });
   });
 
-  // Add data-label to each price-table cell (from its column header) for mobile stacked view
-  document.querySelectorAll('.table-scroll.stack table').forEach(table=>{
-    const headerCells = Array.from(table.querySelectorAll('tr:first-child th, tr:first-child td'))
-      .map(c=>c.textContent.trim());
-    Array.from(table.querySelectorAll('tr')).slice(1).forEach(tr=>{
+  // Build mobile card views from each price table, so mobile Safari doesn't
+  // have to (unreliably) restyle <tr>/<td> elements as blocks.
+  document.querySelectorAll('.table-scroll.stack').forEach(scroll=>{
+    const table = scroll.querySelector('table');
+    if(!table) return;
+    const rows = Array.from(table.querySelectorAll('tr'));
+    const headerCells = Array.from(rows[0].querySelectorAll('th,td')).map(c=>c.textContent.trim());
+
+    const cardsWrap = document.createElement('div');
+    cardsWrap.className = 'mobile-cards';
+
+    rows.slice(1).forEach(tr=>{
+      const mcard = document.createElement('div');
+      mcard.className = 'mcard' + (tr.classList.contains('highlight-row') ? ' highlight' : '');
       Array.from(tr.querySelectorAll('td')).forEach((td,i)=>{
-        if(headerCells[i]) td.setAttribute('data-label', headerCells[i]);
+        const mrow = document.createElement('div');
+        mrow.className = 'mrow';
+
+        const mlabel = document.createElement('span');
+        mlabel.className = 'mlabel';
+        mlabel.textContent = headerCells[i] || '';
+
+        const mvalue = document.createElement('span');
+        mvalue.className = 'mvalue' + (td.classList.contains('price') ? ' price' : '') + (td.classList.contains('muted') ? ' muted' : '');
+        mvalue.textContent = td.textContent.trim();
+
+        mrow.appendChild(mlabel);
+        mrow.appendChild(mvalue);
+        mcard.appendChild(mrow);
       });
+      cardsWrap.appendChild(mcard);
     });
+
+    scroll.insertAdjacentElement('afterend', cardsWrap);
   });
 </script>
 </body>
