@@ -18,7 +18,7 @@
   .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
 
   /* ---------- Шапка и меню ---------- */
-  header{ position:sticky; top:0; z-index:100; background:rgba(2,18,30,0.92); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px); border-bottom:1px solid rgba(255,255,255,0.12); box-shadow:0 1px 0 rgba(0,0,0,.1), 0 18px 32px -26px rgba(0,0,0,.55); -webkit-transform:translateZ(0); transform:translateZ(0); will-change:transform; isolation:isolate; }
+  header{ position:sticky; top:0; z-index:100; background:rgba(2,18,30,0.92); backdrop-filter:blur(16px); border-bottom:1px solid rgba(255,255,255,0.12); box-shadow:0 1px 0 rgba(0,0,0,.1), 0 18px 32px -26px rgba(0,0,0,.55); }
   .header-row{ display:flex; align-items:center; justify-content:space-between; height:76px; }
   .logo{ display:flex; align-items:center; gap:10px; transition:opacity .15s ease, transform .15s ease; }
   .logo:hover{ opacity:.86; }

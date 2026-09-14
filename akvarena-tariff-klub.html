@@ -11,6 +11,7 @@
 <style>
   html{scroll-behavior:smooth;}
   .logo-img{ height:38px; width:auto; display:block; }
+  header{ position:sticky; top:0; z-index:100; background:rgba(2,18,30,0.92); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px); border-bottom:1px solid rgba(255,255,255,0.12); box-shadow:0 1px 0 rgba(0,0,0,.1), 0 18px 32px -26px rgba(0,0,0,.55); -webkit-transform:translateZ(0); transform:translateZ(0); will-change:transform; isolation:isolate; }
   /* ---------- Mobile price tables: JS-built cards ---------- (Safari/iOS unreliably paints background/border-radius on <tr> even with display:block, so on mobile we render real <div> cards built from the table data instead of restyling table rows.) */ .mobile-cards{ display:none; }
   .mobile-cards .mcard{ background:var(--white); border-radius:12px; margin-bottom:10px; box-shadow:0 1px 4px rgba(5,15,26,0.10); overflow:hidden; }
   .mobile-cards .mcard:last-child{ margin-bottom:0; }
