@@ -239,6 +239,8 @@
 
   .group{ margin-bottom:40px; }
   .group h3{ font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:var(--amber); margin-bottom:14px; }
+  .time-note{ font-size:13.5px; color:rgba(255,255,255,0.7); margin:-6px 0 14px; line-height:1.5; }
+  .time-note strong{ color:var(--white); font-weight:700; }
 
   table{ width:100%; border-collapse:collapse; background:var(--white); border-radius:14px; overflow:hidden; }
   .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:14px; }
@@ -269,7 +271,6 @@
     .table-scroll.stack tr:not(:first-child){
       display:block; background:var(--white); border-radius:12px;
       margin-bottom:10px; box-shadow:0 1px 4px rgba(5,15,26,0.10);
-      overflow:hidden;
     }
     .table-scroll.stack tr:last-child{ margin-bottom:0; }
     .table-scroll.stack td{
@@ -281,6 +282,16 @@
     .table-scroll.stack td::before{
       content:attr(data-label); font-weight:700; color:var(--deep);
       font-size:12px; text-align:left; flex:0 0 auto; max-width:52%;
+    }
+    /* Simple two-column "plan / price" tables: skip the redundant labels,
+       just show the plan name on the left and the price on the right */
+    .table-scroll.stack.price-list td{ padding:13px 16px; }
+    .table-scroll.stack.price-list td::before{ content:none; }
+    .table-scroll.stack.price-list td:first-child{
+      text-align:left; font-weight:700; color:var(--deep); font-size:14px;
+    }
+    .table-scroll.stack.price-list td:last-child{
+      font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:700; color:var(--deep);
     }
   }
   .subnav a.active{ background:var(--deep); color:var(--white); box-shadow:none; }
@@ -368,51 +379,45 @@
 
     <div class="group">
       <h3>Взрослые</h3>
-      <div class="table-scroll stack">
+      <p class="time-note">Время посещения: <strong>любое время</strong></p>
+      <div class="table-scroll stack price-list">
         <table>
-          <tr><th>Время посещения</th><th>50 визитов (200 дней)</th><th>20 визитов (80 дней)</th><th>10 визитов (30 дней)</th><th>5 визитов (30 дней)</th><th>Разовое</th></tr>
-          <tr>
-            <td>Любое время</td>
-            <td class="price">17 500 ₽</td>
-            <td class="price">9 000 ₽</td>
-            <td class="price">5 500 ₽</td>
-            <td class="price">3 000 ₽</td>
-            <td class="price">650 ₽</td>
-          </tr>
+          <tr><th>Тариф</th><th>Цена</th></tr>
+          <tr><td>50 визитов (200 дней)</td><td class="price">17 500 ₽</td></tr>
+          <tr><td>20 визитов (80 дней)</td><td class="price">9 000 ₽</td></tr>
+          <tr><td>10 визитов (30 дней)</td><td class="price">5 500 ₽</td></tr>
+          <tr><td>5 визитов (30 дней)</td><td class="price">3 000 ₽</td></tr>
+          <tr><td>Разовое</td><td class="price">650 ₽</td></tr>
         </table>
       </div>
     </div>
 
     <div class="group">
       <h3>Дети (5–17 лет)</h3>
-      <div class="table-scroll stack">
+      <p class="time-note">Время посещения: <strong>любое время</strong></p>
+      <div class="table-scroll stack price-list">
         <table>
-          <tr><th>Время посещения</th><th>50 визитов (200 дней)</th><th>20 визитов (80 дней)</th><th>10 визитов (30 дней)</th><th>5 визитов (30 дней)</th><th>Разовое</th></tr>
-          <tr>
-            <td>Любое время</td>
-            <td class="price">14 000 ₽</td>
-            <td class="price">8 000 ₽</td>
-            <td class="price">4 500 ₽</td>
-            <td class="price">2 750 ₽</td>
-            <td class="price">600 ₽</td>
-          </tr>
+          <tr><th>Тариф</th><th>Цена</th></tr>
+          <tr><td>50 визитов (200 дней)</td><td class="price">14 000 ₽</td></tr>
+          <tr><td>20 визитов (80 дней)</td><td class="price">8 000 ₽</td></tr>
+          <tr><td>10 визитов (30 дней)</td><td class="price">4 500 ₽</td></tr>
+          <tr><td>5 визитов (30 дней)</td><td class="price">2 750 ₽</td></tr>
+          <tr><td>Разовое</td><td class="price">600 ₽</td></tr>
         </table>
       </div>
     </div>
 
     <div class="group">
       <h3>Пенсионеры и студенты</h3>
-      <div class="table-scroll stack">
+      <p class="time-note">Время посещения: <strong>будни 7:00–13:30</strong> (выход до 15:00)</p>
+      <div class="table-scroll stack price-list">
         <table>
-          <tr><th>Время посещения</th><th>50 визитов (200 дней)</th><th>20 визитов (80 дней)</th><th>10 визитов (30 дней)</th><th>5 визитов (30 дней)</th><th>Разовое</th></tr>
-          <tr>
-            <td>Будни 7:00–13:30<br><span class="muted">выход до 15:00</span></td>
-            <td class="price">12 500 ₽</td>
-            <td class="price">7 000 ₽</td>
-            <td class="price">4 000 ₽</td>
-            <td class="price">2 250 ₽</td>
-            <td class="price">500 ₽</td>
-          </tr>
+          <tr><th>Тариф</th><th>Цена</th></tr>
+          <tr><td>50 визитов (200 дней)</td><td class="price">12 500 ₽</td></tr>
+          <tr><td>20 визитов (80 дней)</td><td class="price">7 000 ₽</td></tr>
+          <tr><td>10 визитов (30 дней)</td><td class="price">4 000 ₽</td></tr>
+          <tr><td>5 визитов (30 дней)</td><td class="price">2 250 ₽</td></tr>
+          <tr><td>Разовое</td><td class="price">500 ₽</td></tr>
         </table>
       </div>
     </div>
