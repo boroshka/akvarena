@@ -364,58 +364,37 @@
     .service-banner:nth-child(even){ direction:ltr; }
   }
 
-  /* ---------- News carousel ---------- */
+  /* ---------- News grid (dynamic: 1–3 cards shown at once) ---------- */
   .news-carousel{ position:relative; }
   .news-track{
-    display:flex; gap:18px;
-    overflow-x:auto; scroll-snap-type:x mandatory;
-    padding:4px 4px 14px;
-    margin:0 -4px;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
+    display:grid;
+    gap:18px;
+    grid-template-columns:repeat(var(--news-count, 1), 1fr);
   }
-  .news-track::-webkit-scrollbar{ display:none; }
+  .news-track[data-count="1"]{
+    grid-template-columns:minmax(0, 480px);
+    justify-content:center;
+  }
   .news-card{
-    scroll-snap-align:start;
-    flex:0 0 100%;
     background:var(--mist); border-radius:20px;
     overflow:hidden;
     box-shadow:0 10px 26px rgba(5,15,26,0.10);
-    aspect-ratio:4/3;
+    aspect-ratio:3/2;
   }
-  .news-card img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .news-card img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
   .news-empty{
     display:flex; align-items:center; justify-content:center;
-    min-height:320px; aspect-ratio:4/3; padding:32px; text-align:center;
+    aspect-ratio:3/2; padding:32px; text-align:center;
     background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.16);
     border-radius:20px; color:rgba(255,255,255,0.72); font-size:16px;
+    max-width:480px; margin:0 auto;
   }
-  .news-carousel.no-news .news-arrow,
-  .news-carousel.single-news .news-arrow{display:none;}
-  .news-carousel.no-news .news-dots,
-  .news-carousel.single-news .news-dots{display:none;}
-  .news-dots{ display:flex; justify-content:center; gap:8px; margin-top:6px; }
-  .news-dot{
-    width:8px; height:8px; border-radius:50%;
-    background:rgba(255,255,255,0.32); border:none; cursor:pointer; padding:0;
-    transition:background .2s ease, transform .2s ease;
-  }
-  .news-dot.active{ background:var(--amber); transform:scale(1.3); }
-  .news-arrow{
-    display:none;
-    position:absolute; top:38%; transform:translateY(-50%);
-    width:44px; height:44px; border-radius:50%;
-    background:var(--white); border:1px solid var(--line);
-    box-shadow:0 8px 20px rgba(5,15,26,0.16);
-    align-items:center; justify-content:center; cursor:pointer;
-    color:var(--deep); z-index:5;
-  }
-  .news-arrow:hover{ background:var(--mist); }
-  .news-arrow.prev{ left:-22px; }
-  .news-arrow.next{ right:-22px; }
-  @media (min-width:640px){
-    .news-arrow{ display:flex; }
-    .news-track{ max-width:520px; margin-left:auto; margin-right:auto; }
+  @media (max-width:720px){
+    .news-track[data-count="2"],
+    .news-track[data-count="3"]{
+      grid-template-columns:1fr;
+    }
+    .news-card{ aspect-ratio:16/10; }
   }
   .service-visual{
     position:relative;
@@ -688,9 +667,6 @@
       <h2>Новости клуба</h2>
     </div>
     <div class="news-carousel">
-      <button class="news-arrow prev" type="button" aria-label="Предыдущая новость">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
       <div class="news-track" id="newsTrack">
         <article class="news-card">
           <img src="akvarena-news-1.jpg" alt="Новость 1" loading="lazy">
@@ -708,10 +684,6 @@
           <img src="akvarena-news-5.jpg" alt="Новость 5" loading="lazy">
         </article>
       </div>
-      <button class="news-arrow next" type="button" aria-label="Следующая новость">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="news-dots" id="newsDots"></div>
     </div>
   </section>
 
@@ -852,10 +824,11 @@
 
 <script>
 (() => {
+  // Новостной блок: показывает СРАЗУ все доступные карточки (1–3) в виде сетки,
+  // без карусели. Пустых/битых картинок нет — если новостей нет, показываем 1 заглушку.
   const track = document.getElementById('newsTrack');
-  const dotsWrap = document.getElementById('newsDots');
   const carousel = document.querySelector('.news-carousel');
-  if(!track || !dotsWrap || !carousel) return;
+  if(!track || !carousel) return;
 
   const cards = Array.from(track.children);
 
@@ -876,104 +849,14 @@
 
     if(n === 0){
       track.innerHTML = '<article class="news-card news-empty">Пока новостей нет</article>';
+      track.dataset.count = '1';
       carousel.classList.add('no-news');
       return;
     }
 
-    if(n === 1){
-      carousel.classList.add('single-news');
-      return;
-    }
-
-    const originals = Array.from(track.children);
-
-    // Клоны нужны только для бесконечного перехода.
-    const firstClone = originals[0].cloneNode(true);
-    const lastClone = originals[n - 1].cloneNode(true);
-
-    track.insertBefore(lastClone, track.firstChild);
-    track.appendChild(firstClone);
-
-    const slides = Array.from(track.children);
-
-    const dots = originals.map((_, i) => {
-      const d = document.createElement('button');
-      d.type = 'button';
-      d.className = 'news-dot' + (i === 0 ? ' active' : '');
-      d.setAttribute('aria-label', 'Новость ' + (i + 1));
-      d.addEventListener('click', () => moveTo(i + 1, true));
-      dotsWrap.appendChild(d);
-      return d;
-    });
-
-    let current = 1;
-    let moving = false;
-
-    function moveTo(index, smooth = true){
-      current = index;
-      moving = smooth;
-
-      track.scrollTo({
-        left: slides[index].offsetLeft,
-        behavior: smooth ? 'smooth' : 'auto'
-      });
-
-      // Обновляем точки сразу, чтобы они не зависели от scroll position.
-      let realIndex = index - 1;
-      if(realIndex < 0) realIndex = n - 1;
-      if(realIndex >= n) realIndex = 0;
-      dots.forEach((d, i) => d.classList.toggle('active', i === realIndex));
-    }
-
-    function finishInfiniteJump(){
-      if(current === 0){
-        current = n;
-        track.scrollTo({left: slides[current].offsetLeft, behavior:'auto'});
-      } else if(current === n + 1){
-        current = 1;
-        track.scrollTo({left: slides[current].offsetLeft, behavior:'auto'});
-      }
-
-      let realIndex = current - 1;
-      dots.forEach((d, i) => d.classList.toggle('active', i === realIndex));
-      moving = false;
-    }
-
-    const prev = carousel.querySelector('.news-arrow.prev');
-    const next = carousel.querySelector('.news-arrow.next');
-
-    if(prev){
-      prev.addEventListener('click', () => {
-        // Всегда двигаемся на один слайд назад относительно текущего.
-        moveTo(current - 1, true);
-      });
-    }
-
-    if(next){
-      next.addEventListener('click', () => {
-        // Всегда двигаемся на один слайд вперёд относительно текущего.
-        moveTo(current + 1, true);
-      });
-    }
-
-    let scrollTimer;
-    track.addEventListener('scroll', () => {
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => {
-        // Во время обычного движения не пересчитываем current.
-        // Это предотвращает накопление ошибок при быстрых кликах.
-        if(current === 0 || current === n + 1){
-          finishInfiniteJump();
-        }
-      }, 180);
-    }, {passive:true});
-
-    requestAnimationFrame(() => moveTo(1, false));
-
-    window.addEventListener('resize', () => {
-      track.scrollTo({left: slides[current].offsetLeft, behavior:'auto'});
-    });
+    track.dataset.count = String(n);
+    track.style.setProperty('--news-count', n);
   });
 })();
-</script></script></body>
+</script></body>
 </html>
