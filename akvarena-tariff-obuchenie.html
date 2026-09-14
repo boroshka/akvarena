@@ -283,15 +283,21 @@
       content:attr(data-label); font-weight:700; color:var(--deep);
       font-size:12px; text-align:left; flex:0 0 auto; max-width:52%;
     }
-    /* Simple two-column "plan / price" tables: skip the redundant labels,
-       just show the plan name on the left and the price on the right */
-    .table-scroll.stack.price-list td{ padding:13px 16px; }
+    /* Simple two-column "plan / price" tables: one clean line per plan,
+       name on the left, price on the right — no redundant labels */
+    .table-scroll.stack.price-list tr:not(:first-child){
+      display:flex; align-items:baseline; justify-content:space-between;
+    }
+    .table-scroll.stack.price-list td{
+      display:block; padding:13px 16px; border-bottom:none; flex:0 1 auto;
+    }
     .table-scroll.stack.price-list td::before{ content:none; }
     .table-scroll.stack.price-list td:first-child{
-      text-align:left; font-weight:700; color:var(--deep); font-size:14px;
+      text-align:left; font-weight:700; color:var(--deep); font-size:14px; padding-right:8px;
     }
     .table-scroll.stack.price-list td:last-child{
-      font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:700; color:var(--deep);
+      text-align:right; font-family:'Cormorant Garamond',serif; font-size:17px;
+      font-weight:700; color:var(--deep); white-space:nowrap; padding-left:8px;
     }
   }
   .subnav a.active{ background:var(--deep); color:var(--white); box-shadow:none; }
