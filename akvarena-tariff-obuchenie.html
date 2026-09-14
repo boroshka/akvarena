@@ -239,16 +239,14 @@
 
   .group{ margin-bottom:40px; }
   .group h3{ font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:var(--amber); margin-bottom:14px; }
-  .time-note{ font-size:13.5px; color:rgba(255,255,255,0.7); margin:-6px 0 14px; line-height:1.5; }
-  .time-note strong{ color:var(--white); font-weight:700; }
 
-  table{ width:100%; border-collapse:collapse; background:var(--white); border-radius:14px; overflow:hidden; }
-  .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:14px; }
+  table{ width:100%; border-collapse:separate; border-spacing:0; background:var(--white); border-radius:14px; overflow:hidden; }
+  .table-scroll{ overflow-x:auto; overflow-y:hidden; border:1px solid var(--line); border-radius:14px; }
   .table-scroll table{ border-radius:0; min-width:560px; }
   th,td{ padding:13px 16px; font-size:14.5px; text-align:left; border-bottom:1px solid var(--line); }
   th{ background:var(--mist); font-weight:700; color:var(--deep); font-size:13px; }
   tr:last-child td{ border-bottom:none; }
-  td.price{ font-weight:700; color:var(--deep); white-space:nowrap; }
+  td.price{ font-family:'Cormorant Garamond',serif; font-size:19px; font-weight:600; color:var(--deep); white-space:nowrap; }
   td.muted{ color:#6B7A75; font-size:13.5px; }
   .highlight-row td{ background:#E7F3FA; }
 
@@ -282,22 +280,6 @@
     .table-scroll.stack td::before{
       content:attr(data-label); font-weight:700; color:var(--deep);
       font-size:12px; text-align:left; flex:0 0 auto; max-width:52%;
-    }
-    /* Simple two-column "plan / price" tables: one clean line per plan,
-       name on the left, price on the right — no redundant labels */
-    .table-scroll.stack.price-list tr:not(:first-child){
-      display:flex; align-items:baseline; justify-content:space-between;
-    }
-    .table-scroll.stack.price-list td{
-      display:block; padding:13px 16px; border-bottom:none; flex:0 1 auto;
-    }
-    .table-scroll.stack.price-list td::before{ content:none; }
-    .table-scroll.stack.price-list td:first-child{
-      text-align:left; font-weight:700; color:var(--deep); font-size:14px; padding-right:8px;
-    }
-    .table-scroll.stack.price-list td:last-child{
-      text-align:right; font-family:'Cormorant Garamond',serif; font-size:17px;
-      font-weight:700; color:var(--deep); white-space:nowrap; padding-left:8px;
     }
   }
   .subnav a.active{ background:var(--deep); color:var(--white); box-shadow:none; }
@@ -379,38 +361,44 @@
 
     <div class="group">
       <h3>Аквааэробика (групповые занятия)</h3>
-      <div class="table-scroll stack price-list">
+      <div class="table-scroll stack">
         <table>
-          <tr><th>Тариф</th><th>Цена</th></tr>
-          <tr><td>12 визитов</td><td class="price">6 000 ₽</td></tr>
-          <tr><td>8 визитов</td><td class="price">4 800 ₽</td></tr>
-          <tr><td>4 визита</td><td class="price">2 800 ₽</td></tr>
-          <tr><td>Разовое</td><td class="price">750 ₽</td></tr>
+          <tr><th>12 визитов</th><th>8 визитов</th><th>4 визита</th><th>Разовое</th></tr>
+          <tr>
+            <td class="price">6 000 ₽</td>
+            <td class="price">4 800 ₽</td>
+            <td class="price">2 800 ₽</td>
+            <td class="price">750 ₽</td>
+          </tr>
         </table>
       </div>
     </div>
 
     <div class="group">
       <h3>Обучение детей плаванию</h3>
-      <div class="table-scroll stack price-list">
+      <div class="table-scroll stack">
         <table>
-          <tr><th>Тариф</th><th>Цена</th></tr>
-          <tr><td>12 визитов</td><td class="price">4 600 ₽</td></tr>
-          <tr><td>8 визитов</td><td class="price">3 400 ₽</td></tr>
-          <tr><td>4 визита</td><td class="price">2 300 ₽</td></tr>
-          <tr><td>Разовое</td><td class="price">600 ₽</td></tr>
+          <tr><th>12 визитов</th><th>8 визитов</th><th>4 визита</th><th>Разовое</th></tr>
+          <tr>
+            <td class="price">4 600 ₽</td>
+            <td class="price">3 400 ₽</td>
+            <td class="price">2 300 ₽</td>
+            <td class="price">600 ₽</td>
+          </tr>
         </table>
       </div>
     </div>
 
     <div class="group">
       <h3>Обучение взрослых плаванию</h3>
-      <div class="table-scroll stack price-list">
+      <div class="table-scroll stack">
         <table>
-          <tr><th>Тариф</th><th>Цена</th></tr>
-          <tr><td>8 визитов</td><td class="price">4 800 ₽</td></tr>
-          <tr><td>4 визита</td><td class="price">2 800 ₽</td></tr>
-          <tr><td>Разовое</td><td class="price">750 ₽</td></tr>
+          <tr><th>8 визитов</th><th>4 визита</th><th>Разовое</th></tr>
+          <tr>
+            <td class="price">4 800 ₽</td>
+            <td class="price">2 800 ₽</td>
+            <td class="price">750 ₽</td>
+          </tr>
         </table>
       </div>
     </div>
