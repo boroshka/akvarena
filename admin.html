@@ -139,6 +139,12 @@
     .week-grid-mobile{ display:none !important; }
     .table-scroll.stack{ display:block !important; }
     .mobile-cards{ display:none !important; }
+
+    /* Day accordions (e.g. "Обучение плаванию") are collapsed by default
+       and only opened by the page's own click script — which is disabled
+       here too. Force every day open so all entries are visible and
+       editable at once. */
+    .day-panel{ max-height:none !important; overflow:visible !important; }
   `;
 
   function loadPage(file){
