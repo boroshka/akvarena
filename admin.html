@@ -129,6 +129,16 @@
     .adm-edit{ outline:1.5px dashed #1E7FB0; outline-offset:2px; cursor:text; border-radius:3px; }
     .adm-edit:hover{ background:rgba(63,169,218,.14); }
     .adm-edit:focus{ outline:2px solid #1E8A5A; background:rgba(30,138,90,.10); background-color:rgba(30,138,90,.12); }
+
+    /* Some pages hide the real table and show a copy built by the page's
+       own script (disabled here on purpose, so we don't bake stale copies
+       into the saved file). Force the real, editable table to stay visible
+       instead, and hide the un-built duplicate spot so there's only one
+       thing on screen to edit. Stripped again before saving. */
+    .table-scroll.week-grid{ display:block !important; }
+    .week-grid-mobile{ display:none !important; }
+    .table-scroll.stack{ display:block !important; }
+    .mobile-cards{ display:none !important; }
   `;
 
   function loadPage(file){
