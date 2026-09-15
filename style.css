@@ -48,7 +48,7 @@
   .updated{ display:inline-block; margin-top:18px; font-size:13.5px; color:var(--petrol); background:var(--white); padding:6px 14px; border-radius:999px; font-weight:600; }
 
   /* ---------- Подменю (вкладки тарифов/расписания) ---------- */
-  .subnav-shell{ position:sticky; top:76px; z-index:55; background:rgba(2,18,30,0.92); backdrop-filter:blur(16px); }
+  .subnav-shell{ position:sticky; top:76px; z-index:55; background:rgba(243,249,252,0.88); backdrop-filter:blur(14px); }
   .subnav{ display:flex; justify-content:center; gap:6px; overflow-x:auto; padding:14px 0; scrollbar-width:none; }
   .subnav::-webkit-scrollbar{display:none;}
   .subnav a{ flex:0 0 auto; font-size:14px; font-weight:700; color:var(--deep); padding:9px 16px; border-radius:999px; border:none; background:var(--white); white-space:nowrap; box-shadow:0 2px 8px rgba(5,15,26,0.12); }
@@ -88,7 +88,7 @@
 
   /* ---------- Мобильная адаптация ---------- */
   /* ---------- Mobile price tables: stacked cards ---------- */ @media (max-width:640px){ .table-scroll.stack{ overflow-x:visible; border:none; } .table-scroll.stack table{ min-width:0; width:100%; border-collapse:separate; border-spacing:0; } .table-scroll.stack tr{ display:block; } .table-scroll.stack tr:first-child{ display:none; } .table-scroll.stack tr:not(:first-child){ display:block; background:var(--white); border-radius:12px; margin-bottom:10px; box-shadow:0 1px 4px rgba(5,15,26,0.10); } .table-scroll.stack tr:last-child{ margin-bottom:0; } .table-scroll.stack td{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; padding:10px 14px; font-size:13.5px; border-bottom:1px solid var(--line); white-space:normal; text-align:right; } .table-scroll.stack td:last-child{ border-bottom:none; } .table-scroll.stack td::before{ content:attr(data-label); font-weight:700; color:var(--deep); font-size:12px; text-align:left; flex:0 0 auto; max-width:52%; } }
-  .highlight-row-cards{ margin-bottom:8px; }
+  .highlight-row-cards{ margin-bottom:32px; }
 
   @media (max-width:640px){
   .wrap{padding:0 18px;}
