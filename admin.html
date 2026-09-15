@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>АквАренА — редактирование расписания и цен</title>
+<style>
+  :root{
+    --ink:#12212E; --deep:#0B3554; --petrol:#146B8C; --mist:#EAF4F9;
+    --amber:#3FA9DA; --line:rgba(11,53,84,0.14); --white:#FFFFFF;
+    --ok:#1E8A5A; --warn:#B5541A;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:'Manrope',Arial,sans-serif; background:#eef4f7; color:var(--ink);}
+  header{
+    background:var(--deep); color:#fff; padding:14px 20px;
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    position:sticky; top:0; z-index:50; box-shadow:0 2px 10px rgba(0,0,0,.2);
+  }
+  header h1{font-size:16px; margin:0; font-weight:800; white-space:nowrap;}
+  select{
+    padding:9px 12px; border-radius:8px; border:1px solid var(--line);
+    font-size:14px; font-family:inherit; min-width:280px; background:#fff;
+  }
+  button{
+    padding:9px 16px; border-radius:8px; border:none; font-weight:700;
+    font-size:14px; cursor:pointer; font-family:inherit;
+  }
+  .btn-save{background:var(--ok); color:#fff;}
+  .btn-save:hover{background:#166b45;}
+  .btn-reset{background:#8b98a3; color:#fff;}
+  .btn-reset:hover{background:#6f7a83;}
+  .spacer{flex:1;}
+  .status{font-size:13px; color:#cfe8f5; min-width:160px;}
+  .help{
+    background:#fff8e6; border-bottom:1px solid #f0dca6; padding:12px 20px;
+    font-size:14px; line-height:1.55;
+  }
+  .help b{color:var(--warn);}
+  .help ol{margin:6px 0 0 20px; padding:0;}
+  iframe{
+    width:100%; height:calc(100vh - 132px); border:none; display:block; background:#fff;
+  }
+  .frame-wrap{ position:relative; }
+  .loading-note{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:#fff; color:#889; font-size:14px;
+  }
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Редактор сайта АквАренА</h1>
+  <select id="pageSelect"></select>
+  <span class="spacer"></span>
+  <span class="status" id="statusText"></span>
+  <button class="btn-reset" id="resetBtn" type="button">↺ Отменить изменения</button>
+  <button class="btn-save" id="saveBtn" type="button">💾 Скачать обновлённый файл</button>
+</header>
+
+<div class="help">
+  Выберите страницу вверху. Значения с <b>пунктирной рамкой</b> — время, имена тренеров, цены, даты — можно
+  редактировать прямо здесь: кликните на текст и напечатайте новый.
+  <ol>
+    <li>Внесите изменения на странице ниже.</li>
+    <li>Нажмите «💾 Скачать обновлённый файл» — браузер сохранит файл с тем же именем, что и было.</li>
+    <li>Загрузите этот файл на хостинг, заменив старый (через панель управления сайтом / FTP-клиент).</li>
+  </ol>
+  Добавить полностью новую строку или колонку в таблицу этот инструмент не умеет — для этого обратитесь к тому,
+  кто размещал сайт. А вот поменять время, имя, дату или цену — можно прямо тут.
+</div>
+
+<div class="frame-wrap">
+  <iframe id="preview" sandbox="allow-same-origin"></iframe>
+</div>
+
+<script>
+  const pages = [
+    { group: "Расписание", file: "akvarena-raspisanie-aqua.html", label: "Аквааэробика" },
+    { group: "Расписание", file: "akvarena-raspisanie-plavanie.html", label: "Обучение плаванию" },
+    { group: "Расписание", file: "akvarena-raspisanie-zal.html", label: "Зал (фитнес-студия)" },
+    { group: "Тарифы", file: "akvarena-tariffs.html", label: "Тарифы — обзор (мини-цены)" },
+    { group: "Тарифы", file: "akvarena-tariff-bassein.html", label: "Бассейн" },
+    { group: "Тарифы", file: "akvarena-tariff-klub.html", label: "Клубные и семейные карты" },
+    { group: "Тарифы", file: "akvarena-tariff-semya.html", label: "Семейные тарифы" },
+    { group: "Тарифы", file: "akvarena-tariff-fitnes.html", label: "Фитнес" },
+    { group: "Тарифы", file: "akvarena-tariff-fitnes-spa.html", label: "Фитнес и СПА комплекс" },
+    { group: "Тарифы", file: "akvarena-tariff-spa.html", label: "СПА" },
+    { group: "Тарифы", file: "akvarena-tariff-obuchenie.html", label: "Аквааэробика и обучение" },
+    { group: "Тарифы", file: "akvarena-tariff-dop.html", label: "Доп. услуги" }
+  ];
+
+  const select = document.getElementById('pageSelect');
+  const groups = {};
+  pages.forEach(p=>{
+    if(!groups[p.group]){
+      groups[p.group] = document.createElement('optgroup');
+      groups[p.group].label = p.group;
+      select.appendChild(groups[p.group]);
+    }
+    const opt = document.createElement('option');
+    opt.value = p.file;
+    opt.textContent = p.label;
+    groups[p.group].appendChild(opt);
+  });
+
+  const iframe = document.getElementById('preview');
+  const statusText = document.getElementById('statusText');
+  const saveBtn = document.getElementById('saveBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  const EDIT_SELECTORS = [
+    'main td',
+    'main .simple-card .name',
+    'main .simple-card .meta',
+    'main .simple-card .price',
+    'main .from strong',
+    'main .day-item .time',
+    'main .day-item .info',
+    'main .updated',
+    'main p.sub',
+    'main p.note'
+  ].join(', ');
+
+  const EDIT_STYLE_ID = 'adm-inserted-style';
+  const EDIT_STYLE = `
+    .adm-edit{ outline:1.5px dashed #1E7FB0; outline-offset:2px; cursor:text; border-radius:3px; }
+    .adm-edit:hover{ background:rgba(63,169,218,.14); }
+    .adm-edit:focus{ outline:2px solid #1E8A5A; background:rgba(30,138,90,.10); background-color:rgba(30,138,90,.12); }
+  `;
+
+  function loadPage(file){
+    statusText.textContent = 'Загрузка…';
+    iframe.src = file;
+  }
+
+  function enableEditing(){
+    const doc = iframe.contentDocument;
+    if(!doc || !doc.body) return;
+
+    if(!doc.getElementById(EDIT_STYLE_ID)){
+      const style = doc.createElement('style');
+      style.id = EDIT_STYLE_ID;
+      style.textContent = EDIT_STYLE;
+      doc.head.appendChild(style);
+    }
+
+    doc.querySelectorAll(EDIT_SELECTORS).forEach(el=>{
+      el.setAttribute('contenteditable', 'true');
+      el.classList.add('adm-edit');
+    });
+
+    statusText.textContent = 'Готово к редактированию';
+  }
+
+  function currentFile(){
+    return select.value;
+  }
+
+  saveBtn.addEventListener('click', ()=>{
+    const doc = iframe.contentDocument;
+    if(!doc || !doc.documentElement){
+      statusText.textContent = 'Страница ещё не загружена';
+      return;
+    }
+    const clone = doc.documentElement.cloneNode(true);
+
+    const styleTag = clone.querySelector('#' + EDIT_STYLE_ID);
+    if(styleTag) styleTag.remove();
+
+    clone.querySelectorAll('.adm-edit').forEach(el=>{
+      el.removeAttribute('contenteditable');
+      el.classList.remove('adm-edit');
+      if(el.getAttribute('class') === '') el.removeAttribute('class');
+    });
+
+    const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = currentFile();
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 5000);
+    statusText.textContent = 'Файл скачан: ' + currentFile();
+  });
+
+  resetBtn.addEventListener('click', ()=>{
+    loadPage(currentFile());
+  });
+
+  select.addEventListener('change', ()=>{
+    loadPage(select.value);
+  });
+
+  iframe.addEventListener('load', enableEditing);
+
+  loadPage(pages[0].file);
+</script>
+
+</body>
+</html>
