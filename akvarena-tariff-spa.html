@@ -20,11 +20,12 @@
     --white: #FFFFFF;
   }
   *{box-sizing:border-box;}
-  html{ overflow-x:hidden; width:100%; }
+  html{ overflow-x:hidden; width:100%; background:#050A11; }
   html{scroll-behavior:smooth;}
   body{
     margin:0; overflow-x:hidden; max-width:100vw; min-height:100vh;
-    background:linear-gradient(180deg,
+    background-color:#050A11;
+    background-image:linear-gradient(180deg,
       #FFFFFF 0%,
       #F8FBFB 0.38%,
       #F0FAF9 1.12%,
@@ -271,7 +272,7 @@
     padding-top:24px; display:flex; justify-content:space-between; align-items:center;
     font-size:13px; color:rgba(255,255,255,0.5); flex-wrap:wrap; gap:12px;
   }
-  .social-icons{ display:flex; gap:10px; }
+  .social-icons{ display:flex; gap:10px; margin-top:16px; }
   .social-icons a{
     display:flex; align-items:center; justify-content:center;
     width:36px; height:36px; border-radius:50%;
@@ -408,6 +409,14 @@
         <p><a href="tel:+78432001024">+7 (843) 200-10-24</a><br>
         <a href="tel:+78432001025">+7 (843) 200-10-25</a><br>
         <a href="mailto:akvarena@mail.ru">akvarena@mail.ru</a></p>
+        <div class="social-icons">
+          <a href="https://vk.ru/akvarena" target="_blank" rel="noopener" aria-label="АквАренА ВКонтакте">
+            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13.98 17.46c-6.78 0-10.65-4.65-10.81-12.4h3.38c.11 5.71 2.64 8.13 4.65 8.63v-8.63h3.18v4.9c1.98-.21 4.06-2.46 4.76-4.9h3.18c-.54 3.02-2.79 5.27-4.38 6.19 1.59.74 4.15 2.7 5.12 6.21h-3.5c-.75-2.33-2.66-4.13-5.18-4.38v4.38h-.38z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/akvarena_kazan/" target="_blank" rel="noopener" aria-label="АквАренА в Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+        </div>
       </div>
       <div>
         <h4>Часы работы</h4>
@@ -420,14 +429,6 @@
     </div>
     <div class="foot-bottom">
       <span>© АквАренА</span>
-      <div class="social-icons">
-        <a href="https://vk.ru/akvarena" target="_blank" rel="noopener" aria-label="АквАренА ВКонтакте">
-          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13.98 17.46c-6.78 0-10.65-4.65-10.81-12.4h3.38c.11 5.71 2.64 8.13 4.65 8.63v-8.63h3.18v4.9c1.98-.21 4.06-2.46 4.76-4.9h3.18c-.54 3.02-2.79 5.27-4.38 6.19 1.59.74 4.15 2.7 5.12 6.21h-3.5c-.75-2.33-2.66-4.13-5.18-4.38v4.38h-.38z"/></svg>
-        </a>
-        <a href="https://www.instagram.com/akvarena_kazan/" target="_blank" rel="noopener" aria-label="АквАренА в Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
-        </a>
-      </div>
     </div>
   </div>
 </footer>
