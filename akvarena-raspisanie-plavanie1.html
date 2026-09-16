@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Расписание — Обучение плаванию — АквАренА</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #12212E;
+    --deep: #0B3554;
+    --petrol: #146B8C;
+    --mist: #EAF4F9;
+    --paper: #F3F9FC;
+    --amber: #3FA9DA;
+    --amber-deep: #1E7FB0;
+    --line: rgba(11,53,84,0.14);
+    --white: #FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html{ overflow-x:hidden; width:100%; background:#050A11; }
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; overflow-x:hidden; max-width:100vw; min-height:100vh;
+    background-color:#050A11;
+    background-image:linear-gradient(180deg,
+      #FFFFFF 0%,
+      #F8FBFB 0.38%,
+      #F0FAF9 1.12%,
+      #E8F8F5 2.15%,
+      #DEF5F2 3.42%,
+      #D2F2EF 4.88%,
+      #C4EFEE 6.54%,
+      #B6EBEC 8.38%,
+      #A6E3E8 10.35%,
+      #97D8E3 12.5%,
+      #87CDDF 14.81%,
+      #76C0DA 17.23%,
+      #67B3D6 19.81%,
+      #57A7D0 22.54%,
+      #489ACA 25.35%,
+      #3A8CC5 28.31%,
+      #357DB5 31.38%,
+      #306FA5 34.62%,
+      #2B6298 37.92%,
+      #26588D 41.35%,
+      #224E83 44.88%,
+      #1F4579 48.54%,
+      #1B3D6F 52.27%,
+      #183565 56.12%,
+      #152D5B 60.08%,
+      #122650 64.12%,
+      #0F2046 68.27%,
+      #0D1A3C 72.54%,
+      #0B1633 76.88%,
+      #09122A 81.31%,
+      #071022 85.85%,
+      #060D1A 90.5%,
+      #050B16 95.19%,
+      #050A11 100%);
+    font-family:'Manrope', sans-serif; -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background:
+      radial-gradient(600px 500px at 85% 8%, rgba(255,255,255,0.18), transparent 62%),
+      radial-gradient(500px 600px at 6% 40%, rgba(120,210,235,0.12), transparent 60%),
+      radial-gradient(700px 700px at 92% 70%, rgba(63,169,218,0.10), transparent 60%);
+  }
+  h1,h2,h3,.display{ font-family:'Cormorant Garamond', serif; font-weight:600; line-height:1.08; margin:0; color:var(--deep); }
+  a{color:inherit; text-decoration:none;}
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
+  @media (max-width:640px){ .wrap{padding:0 18px;} }
+
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(2,18,30,0.92);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(255,255,255,0.12);
+    box-shadow:0 1px 0 rgba(0,0,0,.1), 0 18px 32px -26px rgba(0,0,0,.55);
+  }
+  .header-row{
+    display:flex; align-items:center; justify-content:space-between;
+    height:76px;
+  }
+  .logo{ display:flex; align-items:center; gap:10px; transition:opacity .15s ease, transform .15s ease; }
+  .logo:hover{ opacity:.86; }
+  .logo-img{ filter:drop-shadow(0 2px 10px rgba(0,0,0,.25)); }
+  .logo-img{ height:38px; width:auto; display:block; }
+
+  .site-nav{ display:flex; align-items:center; gap:2px; }
+  .nav-link{
+    position:relative;
+    font-size:14.5px; font-weight:600; color:#fff;
+    padding:9px 16px; border-radius:999px;
+    border:1px solid transparent;
+    transition:background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  .nav-link:hover{ background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.25); }
+  .nav-link.active,
+  .nav-dropdown.active > .nav-link{
+    background:var(--white); color:var(--petrol); border-color:var(--line);
+    box-shadow:0 4px 12px rgba(11,53,84,.12);
+  }
+
+  .menu-toggle{ display:none; background:none; border:none; cursor:pointer; padding:6px; color:#fff; }
+  .menu-toggle svg{ width:24px; height:24px; }
+
+  @media (max-width:900px){
+    .site-nav{
+      display:none;
+      position:absolute; top:76px; left:0; right:0;
+      background:var(--paper);
+      flex-direction:column; align-items:flex-start;
+      padding:18px 24px; gap:2px;
+      border-bottom:1px solid var(--line);
+      box-shadow:0 14px 28px rgba(5,15,26,0.14);
+    }
+    .site-nav.open{ display:flex; }
+    .nav-link{
+      padding:12px 6px; width:100%; border-radius:10px; color:var(--deep);
+      border:none; box-shadow:none !important; background:transparent !important;
+      border-bottom:1px solid var(--line);
+    }
+    .nav-link.active,
+    .nav-dropdown.active > .nav-link{
+      background:var(--mist) !important; color:var(--petrol);
+    }
+    .nav-dropdown{ width:100%; }
+    .nav-dropdown > .nav-link{ width:100%; justify-content:space-between; }
+    .menu-toggle{ display:block; }
+  }
+
+  /* ---------- Nav dropdown ---------- */
+  .nav-dropdown{ position:relative; display:inline-block; }
+  .nav-dropdown > a{ display:inline-flex; align-items:center; gap:6px; }
+  .nav-dropdown > a::after{
+    content:''; width:6px; height:6px;
+    border-right:2px solid currentColor; border-bottom:2px solid currentColor;
+    transform:rotate(45deg); opacity:.55;
+    transition:transform .15s ease;
+  }
+  .nav-dropdown.open > a::after{ transform:rotate(-135deg); }
+  .nav-dropdown-panel{
+    position:absolute; top:100%; left:50%;
+    transform:translate(-50%,-6px);
+    margin-top:18px;
+    background:var(--white);
+    border-radius:18px;
+    box-shadow:0 24px 48px rgba(5,15,26,0.28);
+    min-width:270px;
+    padding:9px;
+    opacity:0; visibility:hidden;
+    transition:opacity .18s ease, transform .18s ease, visibility .18s;
+    z-index:80;
+  }
+  .nav-dropdown-panel::before{
+    content:''; position:absolute; top:-6px; left:50%;
+    transform:translateX(-50%) rotate(45deg);
+    width:12px; height:12px; background:var(--white);
+    border-radius:3px;
+  }
+  .nav-dropdown-panel a{
+    position:relative; display:flex; align-items:center; gap:10px;
+    padding:11px 14px; border-radius:11px;
+    font-size:14px; font-weight:600; color:var(--deep);
+    transition:background .12s ease, padding-left .12s ease;
+  }
+  .nav-dropdown-panel a::before{
+    content:''; width:6px; height:6px; border-radius:50%;
+    background:var(--amber); flex:0 0 auto;
+    transition:transform .12s ease;
+  }
+  .nav-dropdown-panel a:hover{ background:var(--mist); }
+  .nav-dropdown-panel a:hover::before{ transform:scale(1.35); }
+  @media (hover:hover){
+    .nav-dropdown:hover .nav-dropdown-panel{
+      opacity:1; visibility:visible; transform:translate(-50%,0);
+    }
+  }
+  .nav-dropdown.open .nav-dropdown-panel{
+    opacity:1; visibility:visible; transform:translate(-50%,0);
+  }
+  @media (max-width:900px){
+    .nav-dropdown-panel{
+      position:static !important; transform:none !important;
+      margin-top:6px; margin-left:0; min-width:0; width:100%;
+      box-shadow:none; border-left:2px solid var(--line);
+      border-radius:0; padding:4px 0 4px 12px;
+      display:none; opacity:1 !important; visibility:visible !important;
+      background:transparent;
+    }
+    .nav-dropdown-panel::before{ display:none; }
+    .nav-dropdown.open .nav-dropdown-panel{ display:block !important; }
+    .nav-dropdown-panel a{
+      display:block !important;
+      color:var(--deep) !important;
+      background:transparent !important;
+      padding:10px 8px;
+    }
+    .nav-dropdown-panel a::before{ display:none; }
+  }
+  @media (max-width:640px){ .phone-block{display:none;} }
+
+  .page-hero{ padding:56px 0 28px; text-align:center; }
+  .page-hero h1{ font-size:clamp(30px,4vw,44px); letter-spacing:-0.01em; color:var(--deep); }
+  .page-hero p{ margin-top:14px; max-width:56ch; font-size:16.5px; color:#3B4A55; line-height:1.6; }
+  .updated{ display:inline-block; margin-top:18px; font-size:13.5px; color:var(--petrol); background:var(--white); padding:6px 14px; border-radius:999px; font-weight:600; }
+
+  /* sub-nav */
+  .subnav-shell{
+    position:sticky; top:76px; z-index:55;
+    background:transparent;
+  }
+  .subnav{ display:flex; justify-content:center; gap:6px; overflow-x:auto; padding:14px 0; scrollbar-width:none; }
+  .subnav::-webkit-scrollbar{display:none;}
+  .subnav a{
+    flex:0 0 auto; font-size:14px; font-weight:700; color:var(--deep);
+    padding:9px 16px; border-radius:999px; border:none;
+    background:var(--white);
+    white-space:nowrap;
+    box-shadow:0 2px 8px rgba(5,15,26,0.12);
+  }
+  .subnav a:hover{ background:var(--mist); }
+  .subnav a.active{ background:var(--deep); color:var(--white); box-shadow:none; }
+
+  .section{ padding:40px 0 8px; scroll-margin-top:150px; }
+  .section h2{ font-size:clamp(24px,3vw,30px); color:var(--white); }
+  .section .sub{ margin-top:8px; margin-bottom:28px; font-size:15px; color:rgba(255,255,255,0.75); max-width:60ch; line-height:1.55;}
+
+  .group{
+    margin-bottom:14px;
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.16);
+    border-radius:16px; overflow:hidden;
+  }
+  .day-toggle{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    background:transparent; border:none; cursor:pointer; text-align:left;
+    padding:18px 22px; font-family:'Manrope',sans-serif;
+    transition:background .15s ease;
+  }
+  .day-toggle:hover{ background:rgba(255,255,255,0.05); }
+  .day-toggle:disabled{ cursor:default; }
+  .day-toggle:disabled:hover{ background:transparent; }
+  .day-toggle:disabled .day-toggle-arrow{ display:none; }
+  .day-toggle-title{ font-weight:700; font-size:16px; color:var(--amber); }
+  .day-toggle-arrow{
+    flex:0 0 auto; width:10px; height:10px;
+    border-right:2px solid var(--amber); border-bottom:2px solid var(--amber);
+    transform:rotate(45deg); transition:transform .3s ease;
+  }
+  .group.open .day-toggle-arrow{ transform:rotate(-135deg); }
+  .day-panel{
+    max-height:0; overflow:hidden;
+    transition:max-height .35s ease;
+  }
+  .day-panel-inner{ padding:0 22px 22px; }
+
+  .day-list{ display:flex; flex-direction:column; gap:12px; }
+  .day-item{
+    background:var(--white); border:1px solid var(--line);
+    border-radius:16px; padding:16px 20px;
+    display:flex; align-items:baseline; gap:18px;
+    box-shadow:0 2px 10px rgba(5,15,26,0.06);
+  }
+  .day-item .time{
+    font-weight:700; color:var(--petrol); font-size:14.5px;
+    white-space:nowrap; flex:0 0 92px;
+  }
+  .day-item .info{ font-size:15px; color:var(--ink); line-height:1.45; }
+  .day-item .info .muted{ display:block; font-size:13px; color:#6B7A75; margin-top:3px; }
+  .day-empty{
+    text-align:center; font-size:14.5px; color:rgba(255,255,255,0.7);
+    padding:6px 20px 2px;
+  }
+
+  @media (max-width:560px){
+    .day-item{ flex-direction:column; align-items:flex-start; gap:4px; padding:14px 16px; }
+    .day-item .time{ flex-basis:auto; }
+  }
+
+  table{ width:100%; border-collapse:collapse; background:var(--white); border-radius:14px; overflow:hidden; }
+  .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:14px; }
+  .table-scroll table{ border-radius:0; min-width:560px; }
+  th,td{ padding:13px 16px; font-size:14.5px; text-align:left; border-bottom:1px solid var(--line); }
+  th{ background:var(--mist); font-weight:700; color:var(--deep); font-size:13px; }
+  tr:last-child td{ border-bottom:none; }
+  td.price{ font-weight:700; color:var(--deep); white-space:nowrap; }
+  td.muted, .muted{ color:#6B7A75; font-size:13px; }
+  table td{ line-height:1.4; }
+  .highlight-row td{ background:#E7F3FA; }
+
+  .note{ margin-top:14px; font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.5; }
+
+  /* trainer filter */
+  .trainer-filter{
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    margin-bottom:30px;
+  }
+  .trainer-filter label{
+    font-size:13.5px; font-weight:700; color:rgba(255,255,255,0.82);
+  }
+  .select-wrap{ position:relative; display:inline-block; }
+  .select-wrap::after{
+    content:''; position:absolute; right:18px; top:50%;
+    width:8px; height:8px; margin-top:-6px;
+    border-right:2px solid var(--deep); border-bottom:2px solid var(--deep);
+    transform:rotate(45deg); pointer-events:none;
+  }
+  #trainerSelect{
+    appearance:none; -webkit-appearance:none; -moz-appearance:none;
+    background:var(--white);
+    border:none; border-radius:999px;
+    padding:12px 42px 12px 20px;
+    font-family:'Manrope',sans-serif; font-size:14.5px; font-weight:700; color:var(--deep);
+    box-shadow:0 4px 14px rgba(5,15,26,0.18);
+    cursor:pointer;
+    min-width:260px;
+  }
+  #trainerSelect:hover{ box-shadow:0 6px 18px rgba(5,15,26,0.24); }
+  #trainerSelect:focus{ outline:2px solid var(--amber); outline-offset:2px; }
+  .trainer-empty{
+    display:none;
+    background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.16);
+    color:rgba(255,255,255,0.85); font-size:14.5px;
+    padding:18px 20px; border-radius:14px; margin-bottom:30px;
+  }
+  .group.trainer-hidden{ display:none; }
+
+  /* ---------- Footer ---------- */
+  footer{
+    margin-top:80px; background:var(--ink); color:rgba(255,255,255,0.82);
+    padding:64px 0 32px;
+  }
+  .footer-grid{
+    display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:36px;
+    padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,0.12);
+  }
+  @media (max-width:800px){ .footer-grid{grid-template-columns:1fr 1fr;} }
+  footer h4{font-family:'Cormorant Garamond',serif; color:var(--white); font-size:17px; font-weight:600; margin:0 0 16px;}
+  footer p, footer a{font-size:14.5px; line-height:1.9; color:rgba(255,255,255,0.72);}
+  footer a:hover{color:var(--amber);}
+  .foot-bottom{
+    padding-top:24px; display:flex; justify-content:space-between; align-items:center;
+    font-size:13px; color:rgba(255,255,255,0.5); flex-wrap:wrap; gap:12px;
+  }
+  .social-icons{ display:flex; gap:10px; margin-top:16px; }
+  .social-icons a{
+    display:flex; align-items:center; justify-content:center;
+    width:36px; height:36px; border-radius:50%;
+    background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.16);
+    color:rgba(255,255,255,0.78);
+    transition:background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+  }
+  .social-icons a:hover{ background:var(--amber); border-color:var(--amber); color:var(--ink); transform:translateY(-2px); }
+  .social-icons svg{ width:17px; height:17px; }
+
+  @media (max-width:640px){
+    /* time / activity / trainer tables become fluid, no horizontal scroll */
+    .table-scroll.compact{ overflow-x:visible; }
+    .table-scroll.compact table{ min-width:0; width:100%; table-layout:fixed; }
+    .table-scroll.compact th:nth-child(1), .table-scroll.compact td:nth-child(1){ width:27%; }
+    .table-scroll.compact th:nth-child(2), .table-scroll.compact td:nth-child(2){ width:45%; }
+    .table-scroll.compact th:nth-child(3), .table-scroll.compact td:nth-child(3){ width:28%; }
+    .table-scroll.compact th, .table-scroll.compact td{ padding:10px 8px; font-size:12.8px; word-break:break-word; }
+  }
+</style>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112654414', 'ym');
+
+    ym(112654414, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/112654414" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <a class="logo" href="akvarena-index.html">
+      <img src="akvarena-logo.png" alt="АквАренА" class="logo-img">
+    </a>
+    <nav class="site-nav">
+      <a class="nav-link" href="akvarena-bassein.html">Бассейн</a>
+      <a class="nav-link" href="akvarena-spa.html">СПА</a>
+      <a class="nav-link" href="akvarena-zal.html">Фитнес-студия</a>
+      <div class="nav-dropdown">
+        <a class="nav-link" href="akvarena-tariffs.html">Тарифы</a>
+        <div class="nav-dropdown-panel">
+          <a href="akvarena-tariff-bassein.html">Бассейн</a>
+          <a href="akvarena-tariff-klub.html">Клубные и семейные карты</a>
+          <a href="akvarena-tariff-fitnes.html">Фитнес</a>
+          <a href="akvarena-tariff-spa.html">СПА</a>
+          <a href="akvarena-tariff-obuchenie.html">Аквааэробика и обучение</a>
+          <a href="akvarena-tariff-dop.html">Доп. услуги</a>
+        </div>
+      </div>
+      <div class="nav-dropdown active">
+        <a class="nav-link" href="akvarena-raspisanie.html">Расписание</a>
+        <div class="nav-dropdown-panel">
+          <a href="akvarena-raspisanie-plavanie.html">Обучение плаванию</a>
+                    </div>
+      </div>
+      <div class="nav-dropdown">
+        <a class="nav-link" href="akvarena-trener-bassein.html">Тренеры</a>
+        <div class="nav-dropdown-panel">
+          <a href="akvarena-trener-bassein.html">Тренеры бассейна</a>
+          <a href="akvarena-trener-zal.html">Тренеры фитнес-студии</a>
+        </div>
+      </div>
+    </nav>
+    <button class="menu-toggle" aria-label="Меню">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="wrap page-hero">
+  <h1>Обучение плаванию</h1>
+  <span class="updated">Актуально на сентябрь 2026 — май 2027.</span>
+</div>
+
+<div class="subnav-shell">
+  <div class="wrap subnav">
+    <a href="akvarena-raspisanie.html">Все расписания</a>
+    <a href="akvarena-raspisanie-plavanie.html" class="active">Обучение плаванию</a>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="section" id="plavanie">
+    <h2>Обучение и совершенствование плавания</h2>
+
+    <div class="trainer-filter">
+      <label for="trainerSelect">Показать расписание тренера</label>
+      <div class="select-wrap">
+        <select id="trainerSelect">
+          <option value="all">Все тренеры</option>
+          <option value="Танзиля Рафиковна">Танзиля Рафиковна</option>
+          <option value="Данила Алексеевич">Данила Алексеевич</option>
+          <option value="Татьяна Юрьевна">Татьяна Юрьевна</option>
+          <option value="Елена Алексеевна">Елена Алексеевна</option>
+          <option value="Юлия Анатольевна">Юлия Анатольевна</option>
+          <option value="Александр Юрьевич">Александр Юрьевич</option>
+          <option value="Эмиль Геннадьевич">Эмиль Геннадьевич</option>
+          <option value="Степан Витальевич">Степан Витальевич</option>
+          <option value="Роман Андреевич">Роман Андреевич</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="trainer-empty" id="trainerEmpty">На этой неделе у выбранного тренера нет занятий по плаванию.</p>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Понедельник</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">16:00–17:00</span><span class="info">Совершенствование навыков плавания (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Данила Алексеевич"><span class="time">18:00–19:00</span><span class="info">Совершенствование навыков плавания (7–16 лет)<span class="muted">Данила Алексеевич</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">19:00–20:00</span><span class="info">Совершенствование навыков плавания (18+)<span class="muted">Татьяна Юрьевна</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">20:00–21:00</span><span class="info">Обучение плаванию (18+)<span class="muted">Татьяна Юрьевна</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Вторник</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">08:00–09:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (9–12 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Среда</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Александр Юрьевич"><span class="time">09:00–10:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Александр Юрьевич</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">16:00–17:00</span><span class="info">Совершенствование навыков плавания (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Данила Алексеевич"><span class="time">18:00–19:00</span><span class="info">Совершенствование навыков плавания (7–16 лет)<span class="muted">Данила Алексеевич</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Четверг</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">08:00–09:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (9–12 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">19:00–20:00</span><span class="info">Совершенствование навыков плавания (18+)<span class="muted">Татьяна Юрьевна</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">20:00–21:00</span><span class="info">Обучение плаванию (18+)<span class="muted">Татьяна Юрьевна</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Пятница</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Александр Юрьевич"><span class="time">09:00–10:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Александр Юрьевич</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">16:00–17:00</span><span class="info">Совершенствование навыков плавания (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Эмиль Геннадьевич"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (5–7 лет)<span class="muted">Эмиль Геннадьевич</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Суббота</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">08:00–09:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Степан Витальевич"><span class="time">15:00–16:00</span><span class="info">Обучение плаванию (5–7 лет)<span class="muted">Степан Витальевич</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (9–12 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Степан Витальевич"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (7–14 лет)<span class="muted">Степан Витальевич</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Воскресенье</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Роман Андреевич"><span class="time">14:00–15:00</span><span class="info">Совершенствование навыков плавания (7–16 лет)<span class="muted">Роман Андреевич</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>АквАренА</h4>
+        <p>Бассейн, спа и фитнес-студия<br>ул. Короленко, 28а, Казань</p>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <p><a href="tel:+78432001024">+7 (843) 200-10-24</a><br>
+        <a href="tel:+78432001025">+7 (843) 200-10-25</a><br>
+        <a href="mailto:akvarena@mail.ru">akvarena@mail.ru</a></p>
+        <div class="social-icons">
+          <a href="https://vk.ru/akvarena" target="_blank" rel="noopener" aria-label="АквАренА ВКонтакте">
+            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13.98 17.46c-6.78 0-10.65-4.65-10.81-12.4h3.38c.11 5.71 2.64 8.13 4.65 8.63v-8.63h3.18v4.9c1.98-.21 4.06-2.46 4.76-4.9h3.18c-.54 3.02-2.79 5.27-4.38 6.19 1.59.74 4.15 2.7 5.12 6.21h-3.5c-.75-2.33-2.66-4.13-5.18-4.38v4.38h-.38z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/akvarena_kazan/" target="_blank" rel="noopener" aria-label="АквАренА в Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Часы работы</h4>
+        <p>Пн–Пт: 7:00–23:00<br>Сб–Вс: 8:00–22:00</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© АквАренА</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelector('.menu-toggle').addEventListener('click', ()=>{
+    document.querySelector('.site-nav').classList.toggle('open');
+  });
+
+  document.querySelectorAll('.nav-dropdown').forEach(dd=>{
+    const trigger = dd.querySelector('a');
+    trigger.addEventListener('click', (e)=>{
+      const navOpen = document.querySelector('.site-nav').classList.contains('open');
+      if(window.matchMedia('(hover: none)').matches || navOpen){
+        e.preventDefault();
+        dd.classList.toggle('open');
+      }
+    });
+  });
+  document.addEventListener('click', (e)=>{
+    document.querySelectorAll('.nav-dropdown.open').forEach(dd=>{
+      if(!dd.contains(e.target)) dd.classList.remove('open');
+    });
+  });
+
+  // ---- Day accordion (closed by default) ----
+  function openGroup(group){
+    const panel = group.querySelector('.day-panel');
+    const btn = group.querySelector('.day-toggle');
+    group.classList.add('open');
+    btn.setAttribute('aria-expanded','true');
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+  }
+  function closeGroup(group){
+    const panel = group.querySelector('.day-panel');
+    const btn = group.querySelector('.day-toggle');
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+    requestAnimationFrame(()=>{ panel.style.maxHeight = '0px'; });
+    group.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }
+
+  document.querySelectorAll('.group').forEach(group=>{
+    const btn = group.querySelector('.day-toggle');
+    const panel = group.querySelector('.day-panel');
+    panel.style.maxHeight = '0px';
+
+    panel.addEventListener('transitionend', (e)=>{
+      if(e.propertyName === 'max-height' && group.classList.contains('open')){
+        panel.style.maxHeight = 'none';
+      }
+    });
+
+    btn.addEventListener('click', ()=>{
+      if(btn.disabled) return;
+      group.classList.contains('open') ? closeGroup(group) : openGroup(group);
+    });
+  });
+
+  // ---- Trainer filter ----
+  const trainerSelect = document.getElementById('trainerSelect');
+  const trainerGroups = document.querySelectorAll('#plavanie .group');
+  const trainerEmpty = document.getElementById('trainerEmpty');
+
+  trainerSelect.addEventListener('change', ()=>{
+    const val = trainerSelect.value;
+    const filterActive = val !== 'all';
+    let anyVisible = false;
+
+    trainerGroups.forEach(group=>{
+      const items = group.querySelectorAll('[data-trainer]');
+      const btn = group.querySelector('.day-toggle');
+      let groupHasVisible = false;
+      items.forEach(item=>{
+        const match = val === 'all' || item.dataset.trainer === val;
+        item.style.display = match ? '' : 'none';
+        if(match) groupHasVisible = true;
+      });
+      group.classList.toggle('trainer-hidden', !groupHasVisible);
+      if(groupHasVisible) anyVisible = true;
+
+      // When filtering by a specific trainer, skip the accordion —
+      // show the (short) schedule directly, no click needed.
+      if(filterActive){
+        btn.disabled = true;
+        openGroup(group);
+      } else {
+        btn.disabled = false;
+        closeGroup(group);
+      }
+    });
+
+    trainerEmpty.style.display = anyVisible ? 'none' : 'block';
+  });
+</script>
+</body>
+</html>
