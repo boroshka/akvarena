@@ -1,0 +1,61 @@
+/* =========================================================================
+   АквАренА — common.css
+   Общий файл со ТОЧЕЧНЫМИ добавками для всех страниц сайта.
+   Подключается ПОСЛЕДНИМ в <head>, после встроенного <style> страницы —
+   поэтому ничего не переопределяет из существующей вёрстки/отступов,
+   а только доБАВЛЯЕТ недостающие правила. Ничего не удаляет и не меняет
+   визуально то, что уже работает корректно.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1) Единый безопасный перенос текста в карточках и таблицах,
+      чтобы длинные слова/цены не "выпадали" за пределы блока
+      на узких экранах. Влияет только на перенос текста, не трогает
+      отступы, размеры и позиционирование.
+   ------------------------------------------------------------------------- */
+.simple-card .name,
+.simple-card .meta,
+.simple-card .price,
+.service-body h3,
+.service-body p,
+.group h3,
+.mobile-cards .mlabel,
+.mobile-cards .mvalue,
+table th,
+table td {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* -------------------------------------------------------------------------
+   2) Мобильные price-таблицы: карточки, построенные через JS
+      (см. common.js), вместо CSS display:block на <tr>/<td>.
+      Safari/iOS ненадёжно перерисовывает background/border-radius
+      на строках таблицы даже при display:block — поэтому на мобильных
+      экранах показываем реальные <div>-карточки, собранные из данных
+      таблицы, а саму таблицу скрываем.
+      Работает только там, где есть блок .table-scroll.stack — то есть
+      только на страницах тарифов с таблицами; остальную вёрстку
+      не затрагивает.
+   ------------------------------------------------------------------------- */
+.mobile-cards{ display:none; }
+.mobile-cards .mcard{
+  background:var(--white); border-radius:12px; margin-bottom:10px;
+  box-shadow:0 1px 4px rgba(5,15,26,0.10); overflow:hidden;
+}
+.mobile-cards .mcard:last-child{ margin-bottom:0; }
+.mobile-cards .mcard.highlight{ background:#E7F3FA; }
+.mobile-cards .mrow{
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  padding:10px 14px; font-size:13.5px; border-bottom:1px solid var(--line);
+}
+.mobile-cards .mrow:last-child{ border-bottom:none; }
+.mobile-cards .mlabel{ font-weight:700; color:var(--deep); font-size:12px; text-align:left; flex:0 0 auto; max-width:52%; }
+.mobile-cards .mvalue{ text-align:right; }
+.mobile-cards .mvalue.price{ font-weight:700; color:var(--deep); white-space:nowrap; }
+.mobile-cards .mvalue.muted{ color:#6B7A75; font-size:13.5px; }
+
+@media (max-width:640px){
+  .table-scroll.stack{ display:none; }
+  .mobile-cards{ display:block; }
+}
