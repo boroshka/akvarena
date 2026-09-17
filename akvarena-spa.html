@@ -6,7 +6,7 @@
 <title>СПА-комплекс — АквАренА</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink: #12212E;
@@ -375,6 +375,43 @@
   }
   .social-icons a:hover{ background:var(--amber); border-color:var(--amber); color:var(--ink); transform:translateY(-2px); }
   .social-icons svg{ width:17px; height:17px; }
+
+/* Тонкая водная окантовка: декоративные блики по краям экрана.
+   Только transform/opacity — не грузит браузер, не мешает кликам. */
+.edge-glint{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;}
+.edge-glint__streak{
+  position:absolute; top:-15%; width:170px; height:60%;
+  background:linear-gradient(180deg, transparent, rgba(63,169,218,.16) 30%, rgba(180,245,255,.22) 55%, rgba(63,169,218,.1) 75%, transparent);
+  filter:blur(22px);
+  animation: edgeGlintDrift 16s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+.edge-glint__streak--left{ left:-60px; }
+.edge-glint__streak--right{ right:-60px; animation-delay:-8s; }
+@keyframes edgeGlintDrift{
+  0%,100%{ transform:translateY(0) scaleY(1); opacity:.5; }
+  50%{ transform:translateY(10%) scaleY(1.06); opacity:.85; }
+}
+.edge-glint__top{
+  position:absolute; top:0; left:-50%; width:200%; height:2px;
+  background:linear-gradient(90deg, transparent 0%, transparent 42%, rgba(180,245,255,.85) 50%, transparent 58%, transparent 100%);
+  animation: edgeGlintSweep 11s linear infinite;
+  opacity:.45;
+  will-change: transform;
+}
+@keyframes edgeGlintSweep{
+  0%{ transform:translateX(-20%); }
+  100%{ transform:translateX(20%); }
+}
+/* На телефоне — заметно тише: один тонкий блик слева, верхняя линия почти не видна */
+@media (max-width:640px){
+  .edge-glint__streak{ width:90px; opacity:.45; filter:blur(16px); }
+  .edge-glint__streak--right{ display:none; }
+  .edge-glint__top{ opacity:.22; }
+}
+@media (prefers-reduced-motion: reduce){
+  .edge-glint__streak, .edge-glint__top{ animation:none; }
+}
 </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -391,6 +428,8 @@
 <!-- /Yandex.Metrika counter -->
 </head>
 <body>
+<div class="edge-glint" aria-hidden="true"><span class="edge-glint__streak edge-glint__streak--left"></span><span class="edge-glint__streak edge-glint__streak--right"></span><span class="edge-glint__top"></span></div>
+
 
 <header>
   <div class="wrap header-row">

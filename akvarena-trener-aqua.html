@@ -11,6 +11,43 @@
     background:#0B3554; color:#fff; font-family:Manrope,sans-serif; text-align:center; padding:24px;
   }
   a{ color:#3FA9DA; }
+
+/* Тонкая водная окантовка: декоративные блики по краям экрана.
+   Только transform/opacity — не грузит браузер, не мешает кликам. */
+.edge-glint{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;}
+.edge-glint__streak{
+  position:absolute; top:-15%; width:170px; height:60%;
+  background:linear-gradient(180deg, transparent, rgba(63,169,218,.16) 30%, rgba(180,245,255,.22) 55%, rgba(63,169,218,.1) 75%, transparent);
+  filter:blur(22px);
+  animation: edgeGlintDrift 16s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+.edge-glint__streak--left{ left:-60px; }
+.edge-glint__streak--right{ right:-60px; animation-delay:-8s; }
+@keyframes edgeGlintDrift{
+  0%,100%{ transform:translateY(0) scaleY(1); opacity:.5; }
+  50%{ transform:translateY(10%) scaleY(1.06); opacity:.85; }
+}
+.edge-glint__top{
+  position:absolute; top:0; left:-50%; width:200%; height:2px;
+  background:linear-gradient(90deg, transparent 0%, transparent 42%, rgba(180,245,255,.85) 50%, transparent 58%, transparent 100%);
+  animation: edgeGlintSweep 11s linear infinite;
+  opacity:.45;
+  will-change: transform;
+}
+@keyframes edgeGlintSweep{
+  0%{ transform:translateX(-20%); }
+  100%{ transform:translateX(20%); }
+}
+/* На телефоне — заметно тише: один тонкий блик слева, верхняя линия почти не видна */
+@media (max-width:640px){
+  .edge-glint__streak{ width:90px; opacity:.45; filter:blur(16px); }
+  .edge-glint__streak--right{ display:none; }
+  .edge-glint__top{ opacity:.22; }
+}
+@media (prefers-reduced-motion: reduce){
+  .edge-glint__streak, .edge-glint__top{ animation:none; }
+}
 </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -27,6 +64,8 @@
 <!-- /Yandex.Metrika counter -->
 </head>
 <body>
+<div class="edge-glint" aria-hidden="true"><span class="edge-glint__streak edge-glint__streak--left"></span><span class="edge-glint__streak edge-glint__streak--right"></span><span class="edge-glint__top"></span></div>
+
   <p>Тренеры аквааэробики теперь во вкладке «Тренеры бассейна». Если перенаправление не сработало —
   <a href="akvarena-trener-bassein.html">перейдите по ссылке</a>.</p>
 </body>

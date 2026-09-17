@@ -6,7 +6,7 @@
 <title>АквАрена — бассейн, спа и фитнес в Казани</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink: #12212E;
@@ -576,6 +576,43 @@
 .hero-scroll{position:absolute;bottom:25px;left:50%;transform:translateX(-50%);z-index:7;color:rgba(255,255,255,.7);font-size:10px;letter-spacing:.2em;display:flex;flex-direction:column;align-items:center;gap:9px}.hero-scroll:after{content:"";width:20px;height:32px;border:1px solid rgba(255,255,255,.42);border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.9) 0 5px,transparent 5px);animation:scrollPulse 1.8s infinite}@keyframes scrollPulse{0%,100%{background-position:0 0;opacity:.55}50%{background-position:0 8px;opacity:1}}
 @media(max-width:900px){.site-header .site-nav{top:76px;background:rgba(3,24,38,.97);color:#fff}.site-header .nav-link{color:#fff;border-bottom-color:rgba(255,255,255,.12)}.site-header .nav-dropdown-panel{border-left-color:rgba(255,255,255,.18)}.site-header .nav-dropdown-panel a{color:#fff !important}.hero-copy{padding-top:105px}.hero-meta{gap:20px}.hero-meta div{font-size:12px}}
 @media(max-width:640px){.site-header .logo-img{height:38px}.hero h1{font-size:clamp(39px,12vw,62px);letter-spacing:-.06em}.hero p.lede{font-size:15px;line-height:1.55}.hero-copy{padding:98px 0 85px}.hero-meta{gap:18px;margin-top:35px}.hero-meta strong{font-size:17px}.hero-meta div{font-size:11px}.hero-bg-waves{opacity:.35}.hero-water{opacity:.36}.hero-water2{opacity:.12}}
+
+/* Тонкая водная окантовка: декоративные блики по краям экрана.
+   Только transform/opacity — не грузит браузер, не мешает кликам. */
+.edge-glint{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;}
+.edge-glint__streak{
+  position:absolute; top:-15%; width:170px; height:60%;
+  background:linear-gradient(180deg, transparent, rgba(63,169,218,.16) 30%, rgba(180,245,255,.22) 55%, rgba(63,169,218,.1) 75%, transparent);
+  filter:blur(22px);
+  animation: edgeGlintDrift 16s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+.edge-glint__streak--left{ left:-60px; }
+.edge-glint__streak--right{ right:-60px; animation-delay:-8s; }
+@keyframes edgeGlintDrift{
+  0%,100%{ transform:translateY(0) scaleY(1); opacity:.5; }
+  50%{ transform:translateY(10%) scaleY(1.06); opacity:.85; }
+}
+.edge-glint__top{
+  position:absolute; top:0; left:-50%; width:200%; height:2px;
+  background:linear-gradient(90deg, transparent 0%, transparent 42%, rgba(180,245,255,.85) 50%, transparent 58%, transparent 100%);
+  animation: edgeGlintSweep 11s linear infinite;
+  opacity:.45;
+  will-change: transform;
+}
+@keyframes edgeGlintSweep{
+  0%{ transform:translateX(-20%); }
+  100%{ transform:translateX(20%); }
+}
+/* На телефоне — заметно тише: один тонкий блик слева, верхняя линия почти не видна */
+@media (max-width:640px){
+  .edge-glint__streak{ width:90px; opacity:.45; filter:blur(16px); }
+  .edge-glint__streak--right{ display:none; }
+  .edge-glint__top{ opacity:.22; }
+}
+@media (prefers-reduced-motion: reduce){
+  .edge-glint__streak, .edge-glint__top{ animation:none; }
+}
 </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -592,6 +629,8 @@
 <!-- /Yandex.Metrika counter -->
 </head>
 <body>
+<div class="edge-glint" aria-hidden="true"><span class="edge-glint__streak edge-glint__streak--left"></span><span class="edge-glint__streak edge-glint__streak--right"></span><span class="edge-glint__top"></span></div>
+
 
 <header class="site-header">
   <div class="wrap header-row">
@@ -855,22 +894,6 @@
       if(!dd.contains(e.target)) dd.classList.remove('open');
     });
   });
-</script>
-
-<script>
-(() => {
-  const canvas=document.getElementById('waterCanvas'); if(!canvas)return;
-  const ctx=canvas.getContext('2d'); let w=0,h=0,dpr=1,t=0;
-  function resize(){dpr=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;canvas.width=w*dpr;canvas.height=h*dpr;canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
-  function draw(){
-    t+=.012;ctx.clearRect(0,0,w,h);ctx.globalCompositeOperation='screen';
-    const step=w<600?36:28;
-    for(let y=-20;y<h+30;y+=step){ctx.beginPath();for(let x=-20;x<w+30;x+=12){let yy=y+Math.sin(x*.018+t*2.1+y*.011)*10+Math.sin(x*.043-t*1.3)*5;let xx=x+Math.sin(y*.025+t*1.4)*4;if(x===-20)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy)}ctx.strokeStyle='rgba(180,245,255,.085)';ctx.lineWidth=1.1;ctx.stroke()}
-    for(let i=0;i<34;i++){let x=(i*211+t*22*(i%3+1))%(w+160)-80;let y=(i*97+Math.sin(t+i)*55)%(h+120)-60;let rx=30+(i%5)*18,ry=8+(i%4)*4;ctx.beginPath();ctx.ellipse(x,y,rx,ry,Math.sin(i)*.4,0,Math.PI*2);ctx.fillStyle='rgba(150,240,255,.04)';ctx.fill()}
-    ctx.globalCompositeOperation='source-over';requestAnimationFrame(draw)
-  }
-  addEventListener('resize',resize,{passive:true});resize();draw();
-})();
 </script>
 
 <script>
