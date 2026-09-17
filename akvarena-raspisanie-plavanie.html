@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Расписание — Обучение плаванию (летний период) — АквАренА</title>
+<title>Расписание — Обучение плаванию — АквАренА</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -430,7 +430,7 @@
 
 <div class="wrap page-hero">
   <h1>Обучение плаванию</h1>
-  <span class="updated">Летний период</span>
+  <span class="updated">Актуально на сентябрь 2026 — май 2027.</span>
 </div>
 
 <div class="subnav-shell">
@@ -442,12 +442,113 @@
 
 <main class="wrap">
 
-  <section class="section" id="plavanie" style="padding-bottom:80px;">
-    <div style="max-width:640px;margin:24px auto 0;text-align:center;background:var(--mist);border:1px solid var(--line);border-radius:18px;padding:48px 32px;">
-      <div style="font-size:40px;margin-bottom:18px;">🏊</div>
-      <h2 style="margin:0 0 14px;">Групповые занятия по плаванию не проводятся</h2>
-      <p class="sub" style="margin:0 auto;max-width:44ch;color:var(--ink);opacity:.8;">Расписание появится на этой странице после 15 августа.</p>
+  <section class="section" id="plavanie">
+    <h2>Обучение и совершенствование плавания</h2>
+
+    <div class="trainer-filter">
+      <label for="trainerSelect">Показать расписание тренера</label>
+      <div class="select-wrap">
+        <select id="trainerSelect">
+          <option value="all">Все тренеры</option>
+          <option value="Танзиля Рафиковна">Танзиля Рафиковна</option>
+          <option value="Данила Алексеевич">Данила Алексеевич</option>
+          <option value="Татьяна Юрьевна">Татьяна Юрьевна</option>
+          <option value="Елена Алексеевна">Елена Алексеевна</option>
+          <option value="Юлия Анатольевна">Юлия Анатольевна</option>
+          <option value="Александр Юрьевич">Александр Юрьевич</option>
+          <option value="Эмиль Геннадьевич">Эмиль Геннадьевич</option>
+          <option value="Степан Витальевич">Степан Витальевич</option>
+          <option value="Роман Андреевич">Роман Андреевич</option>
+        </select>
+      </div>
     </div>
+
+    <p class="trainer-empty" id="trainerEmpty">На этой неделе у выбранного тренера нет занятий по плаванию.</p>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Понедельник</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">16:00–17:00</span><span class="info">Совершенствование навыков плавания (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Данила Алексеевич"><span class="time">18:00–19:00</span><span class="info">Совершенствование навыков плавания (7–16 лет)<span class="muted">Данила Алексеевич</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">19:00–20:00</span><span class="info">Совершенствование навыков плавания (18+)<span class="muted">Татьяна Юрьевна</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">20:00–21:00</span><span class="info">Обучение плаванию (18+)<span class="muted">Татьяна Юрьевна</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Вторник</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">08:00–09:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (9–12 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Среда</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Александр Юрьевич"><span class="time">09:00–10:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Александр Юрьевич</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">16:00–17:00</span><span class="info">Совершенствование навыков плавания (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Данила Алексеевич"><span class="time">18:00–19:00</span><span class="info">Совершенствование навыков плавания (7–16 лет)<span class="muted">Данила Алексеевич</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Четверг</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">08:00–09:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (9–12 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">19:00–20:00</span><span class="info">Совершенствование навыков плавания (18+)<span class="muted">Татьяна Юрьевна</span></span></div><div class="day-item" data-trainer="Татьяна Юрьевна"><span class="time">20:00–21:00</span><span class="info">Обучение плаванию (18+)<span class="muted">Татьяна Юрьевна</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Пятница</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Александр Юрьевич"><span class="time">09:00–10:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Александр Юрьевич</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">16:00–17:00</span><span class="info">Совершенствование навыков плавания (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Танзиля Рафиковна"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (с 7 лет)<span class="muted">Танзиля Рафиковна</span></span></div><div class="day-item" data-trainer="Эмиль Геннадьевич"><span class="time">17:00–18:00</span><span class="info">Обучение плаванию (5–7 лет)<span class="muted">Эмиль Геннадьевич</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Суббота</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">08:00–09:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div><div class="day-item" data-trainer="Степан Витальевич"><span class="time">15:00–16:00</span><span class="info">Обучение плаванию (5–7 лет)<span class="muted">Степан Витальевич</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (9–12 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Степан Витальевич"><span class="time">16:00–17:00</span><span class="info">Обучение плаванию (7–14 лет)<span class="muted">Степан Витальевич</span></span></div><div class="day-item" data-trainer="Юлия Анатольевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–18 лет)<span class="muted">Юлия Анатольевна</span></span></div><div class="day-item" data-trainer="Елена Алексеевна"><span class="time">17:00–18:00</span><span class="info">Совершенствование навыков плавания (7–17 лет)<span class="muted">Елена Алексеевна</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <button class="day-toggle" type="button" aria-expanded="false">
+        <span class="day-toggle-title">Воскресенье</span>
+        <span class="day-toggle-arrow"></span>
+      </button>
+      <div class="day-panel">
+        <div class="day-panel-inner">
+          <div class="day-list"><div class="day-item" data-trainer="Роман Андреевич"><span class="time">14:00–15:00</span><span class="info">Совершенствование навыков плавания (7–16 лет)<span class="muted">Роман Андреевич</span></span></div></div>
+        </div>
+      </div>
+    </div>
+
   </section>
 
 </main>
@@ -503,6 +604,76 @@
     document.querySelectorAll('.nav-dropdown.open').forEach(dd=>{
       if(!dd.contains(e.target)) dd.classList.remove('open');
     });
+  });
+
+  // ---- Day accordion (closed by default) ----
+  function openGroup(group){
+    const panel = group.querySelector('.day-panel');
+    const btn = group.querySelector('.day-toggle');
+    group.classList.add('open');
+    btn.setAttribute('aria-expanded','true');
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+  }
+  function closeGroup(group){
+    const panel = group.querySelector('.day-panel');
+    const btn = group.querySelector('.day-toggle');
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+    requestAnimationFrame(()=>{ panel.style.maxHeight = '0px'; });
+    group.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }
+
+  document.querySelectorAll('.group').forEach(group=>{
+    const btn = group.querySelector('.day-toggle');
+    const panel = group.querySelector('.day-panel');
+    panel.style.maxHeight = '0px';
+
+    panel.addEventListener('transitionend', (e)=>{
+      if(e.propertyName === 'max-height' && group.classList.contains('open')){
+        panel.style.maxHeight = 'none';
+      }
+    });
+
+    btn.addEventListener('click', ()=>{
+      if(btn.disabled) return;
+      group.classList.contains('open') ? closeGroup(group) : openGroup(group);
+    });
+  });
+
+  // ---- Trainer filter ----
+  const trainerSelect = document.getElementById('trainerSelect');
+  const trainerGroups = document.querySelectorAll('#plavanie .group');
+  const trainerEmpty = document.getElementById('trainerEmpty');
+
+  trainerSelect.addEventListener('change', ()=>{
+    const val = trainerSelect.value;
+    const filterActive = val !== 'all';
+    let anyVisible = false;
+
+    trainerGroups.forEach(group=>{
+      const items = group.querySelectorAll('[data-trainer]');
+      const btn = group.querySelector('.day-toggle');
+      let groupHasVisible = false;
+      items.forEach(item=>{
+        const match = val === 'all' || item.dataset.trainer === val;
+        item.style.display = match ? '' : 'none';
+        if(match) groupHasVisible = true;
+      });
+      group.classList.toggle('trainer-hidden', !groupHasVisible);
+      if(groupHasVisible) anyVisible = true;
+
+      // When filtering by a specific trainer, skip the accordion —
+      // show the (short) schedule directly, no click needed.
+      if(filterActive){
+        btn.disabled = true;
+        openGroup(group);
+      } else {
+        btn.disabled = false;
+        closeGroup(group);
+      }
+    });
+
+    trainerEmpty.style.display = anyVisible ? 'none' : 'block';
   });
 </script>
 </body>
