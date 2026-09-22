@@ -3,24 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>АквАренА — редактирование расписания и цен</title>
+<title>АквАрена — редактор сайта</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
 <style>
   :root{
     --ink:#12212E; --deep:#0B3554; --petrol:#146B8C; --mist:#EAF4F9;
     --amber:#3FA9DA; --line:rgba(11,53,84,0.14); --white:#FFFFFF;
-    --ok:#1E8A5A; --warn:#B5541A;
+    --ok:#1E8A5A; --warn:#B5541A; --danger:#C0392B;
   }
   *{box-sizing:border-box;}
-  body{margin:0; font-family:'Manrope',Arial,sans-serif; background:#eef4f7; color:var(--ink);}
+  html,body{height:100%;}
+  body{
+    margin:0; font-family:'Manrope',Arial,sans-serif; background:#eef4f7; color:var(--ink);
+    display:flex; flex-direction:column;
+  }
   header{
-    background:var(--deep); color:#fff; padding:14px 20px;
-    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
-    position:sticky; top:0; z-index:50; box-shadow:0 2px 10px rgba(0,0,0,.2);
+    background:var(--deep); color:#fff; padding:12px 20px;
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    box-shadow:0 2px 10px rgba(0,0,0,.2); flex:0 0 auto; z-index:50;
   }
   header h1{font-size:16px; margin:0; font-weight:800; white-space:nowrap;}
   select{
     padding:9px 12px; border-radius:8px; border:1px solid var(--line);
-    font-size:14px; font-family:inherit; min-width:280px; background:#fff;
+    font-size:14px; font-family:inherit; min-width:280px; max-width:100%; background:#fff;
   }
   button{
     padding:9px 16px; border-radius:8px; border:none; font-weight:700;
@@ -30,192 +39,919 @@
   .btn-save:hover{background:#166b45;}
   .btn-reset{background:#8b98a3; color:#fff;}
   .btn-reset:hover{background:#6f7a83;}
-  .spacer{flex:1;}
-  .status{font-size:13px; color:#cfe8f5; min-width:160px;}
+  .status{font-size:13px; color:#cfe8f5; flex:1 1 200px; min-width:0; text-align:right; line-height:1.35;}
+  .status.ok{color:#9be3bf;}
+  .status.err{color:#ffb4a6; font-weight:700;}
   .help{
-    background:#fff8e6; border-bottom:1px solid #f0dca6; padding:12px 20px;
-    font-size:14px; line-height:1.55;
+    background:#fff8e6; border-bottom:1px solid #f0dca6; padding:10px 20px;
+    font-size:13.5px; line-height:1.55; flex:0 0 auto;
   }
   .help b{color:var(--warn);}
-  .help ol{margin:6px 0 0 20px; padding:0;}
-  iframe{
-    width:100%; height:calc(100vh - 132px); border:none; display:block; background:#fff;
+  .help ol{margin:4px 0 0 20px; padding:0;}
+  .help .warnline{margin-top:4px; color:#6b5a1f;}
+  .frame-wrap{ position:relative; flex:1 1 auto; min-height:0; background:#fff; }
+  .frame-wrap iframe{ width:100%; height:100%; border:none; display:block; background:#fff; }
+  .hidden{display:none !important;}
+
+  /* ---------- Модальное окно ---------- */
+  .modal-back{
+    position:fixed; inset:0; background:rgba(5,15,26,.55); z-index:200;
+    display:flex; align-items:center; justify-content:center; padding:16px;
   }
-  .frame-wrap{ position:relative; }
-  .loading-note{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    background:#fff; color:#889; font-size:14px;
+  .modal{
+    background:#fff; border-radius:16px; width:100%; max-width:480px;
+    padding:22px 24px 20px; box-shadow:0 24px 60px rgba(5,15,26,.4);
+    max-height:100%; overflow:auto;
   }
-  .hidden{display:none;}
+  .modal h2{margin:0 0 16px; font-size:18px; color:var(--deep); line-height:1.25;}
+  .frow{margin-bottom:14px;}
+  .frow > label{display:block; font-size:13px; font-weight:700; color:var(--deep); margin-bottom:5px;}
+  .frow input[type=text], .frow select{
+    width:100%; min-width:0; padding:10px 12px; border-radius:8px;
+    border:1px solid #b9c9d3; font-size:15px; font-family:inherit; background:#fff;
+  }
+  .frow input[type=text]:focus, .frow select:focus{outline:2px solid var(--amber); border-color:var(--amber);}
+  .frow .other-input{margin-top:8px;}
+  .frow label.chk{display:flex; gap:8px; align-items:center; font-weight:600; font-size:14px; color:var(--ink); cursor:pointer;}
+  .frow label.chk input{width:18px; height:18px;}
+  .merror{color:var(--danger); font-size:13.5px; font-weight:700; min-height:18px; margin:2px 0 8px;}
+  .mactions{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;}
+  .mbtn{background:#e3ebf0; color:var(--deep);}
+  .mbtn:hover{background:#d3dfe7;}
+  .mbtn.primary{background:var(--petrol); color:#fff;}
+  .mbtn.primary:hover{background:#0f5a76;}
+  .mbtn.danger{background:#fdecea; color:var(--danger); margin-right:auto;}
+  .mbtn.danger:hover{background:#fbd9d4;}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Редактор сайта АквАренА</h1>
-  <select id="pageSelect"></select>
-  <span class="spacer"></span>
+  <h1>Редактор сайта АквАрена</h1>
+  <select id="pageSelect" aria-label="Страница для редактирования"></select>
   <span class="status" id="statusText"></span>
   <button class="btn-reset" id="resetBtn" type="button">↺ Отменить изменения</button>
   <button class="btn-save" id="saveBtn" type="button">💾 Скачать обновлённый файл</button>
 </header>
 
-<div class="help">
-  Выберите страницу вверху. Значения с <b>пунктирной рамкой</b> — время, имена тренеров, цены, даты — можно
-  редактировать прямо здесь: кликните на текст и напечатайте новый.
-  <ol>
-    <li>Внесите изменения на странице ниже.</li>
-    <li>Нажмите «💾 Скачать обновлённый файл» — браузер сохранит файл с тем же именем, что и было.</li>
-    <li>Загрузите этот файл на хостинг, заменив старый (через панель управления сайтом / FTP-клиент).</li>
-  </ol>
-  Добавить полностью новую строку или колонку в таблицу этот инструмент не умеет — для этого обратитесь к тому,
-  кто размещал сайт. А вот поменять время, имя, дату или цену — можно прямо тут.
-</div>
+<div class="help" id="help"></div>
 
-<div class="frame-wrap">
-  <iframe id="preview" sandbox="allow-same-origin"></iframe>
+<div class="frame-wrap" id="frameWrap"></div>
+
+<div class="modal-back hidden" id="modalBack">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle"></h2>
+    <div id="modalBody"></div>
+    <div class="merror" id="modalError"></div>
+    <div class="mactions" id="modalActions"></div>
+  </div>
 </div>
 
 <script>
-  const pages = [
-    { group: "Расписание", file: "akvarena-raspisanie-aqua.html", label: "Аквааэробика" },
-    { group: "Расписание", file: "akvarena-raspisanie-plavanie.html", label: "Обучение плаванию" },
-    { group: "Расписание", file: "akvarena-raspisanie-zal.html", label: "Зал (фитнес-студия)" },
-    { group: "Тарифы", file: "akvarena-tariffs.html", label: "Тарифы — обзор (мини-цены)" },
-    { group: "Тарифы", file: "akvarena-tariff-bassein.html", label: "Бассейн" },
-    { group: "Тарифы", file: "akvarena-tariff-klub.html", label: "Клубные и семейные карты" },
-    { group: "Тарифы", file: "akvarena-tariff-semya.html", label: "Семейные тарифы" },
-    { group: "Тарифы", file: "akvarena-tariff-fitnes.html", label: "Фитнес-студия" },
-    { group: "Тарифы", file: "akvarena-tariff-fitnes-spa.html", label: "Фитнес-студия и СПА комплекс" },
-    { group: "Тарифы", file: "akvarena-tariff-spa.html", label: "СПА" },
-    { group: "Тарифы", file: "akvarena-tariff-obuchenie.html", label: "Аквааэробика и обучение" },
-    { group: "Тарифы", file: "akvarena-tariff-dop.html", label: "Доп. услуги" }
+'use strict';
+
+/* ==========================================================================
+   Список страниц.
+   kind:
+     text          — правка текста и цен на месте (как раньше)
+     trainers      — карточки тренеров: добавить / удалить / изменить / фото
+     pool-schedule — расписание плавания по дням: добавить / изменить / удалить занятие
+     grid          — таблица «время × дни недели» (зал, аквааэробика)
+   ========================================================================== */
+const pages = [
+  { group: "Расписание", file: "akvarena-raspisanie-plavanie.html", label: "Бассейн — обучение плаванию", kind: "pool-schedule" },
+  { group: "Расписание", file: "akvarena-raspisanie-aqua.html",     label: "Бассейн — аквааэробика",      kind: "grid", cell: "single", timeHint: "например, 19:00–19:45" },
+  { group: "Расписание", file: "akvarena-raspisanie-zal.html",      label: "Фитнес-студия (зал)",         kind: "grid", cell: "class",  timeHint: "например, 19:00" },
+
+  { group: "Тренеры", file: "akvarena-trener-bassein.html", label: "Тренеры бассейна",
+    kind: "trainers", photoPrefix: "akvarena-trener-bassein-", altSuffix: "тренер бассейна", newRole: true },
+  { group: "Тренеры", file: "akvarena-trener-zal.html",     label: "Тренеры фитнес-студии",
+    kind: "trainers", photoPrefix: "akvarena-trener-zal-",     altSuffix: "тренер фитнес-студии", newRole: false },
+
+  { group: "Тарифы", file: "akvarena-tariffs.html",            label: "Тарифы — обзор (мини-цены)", kind: "text" },
+  { group: "Тарифы", file: "akvarena-tariff-bassein.html",     label: "Бассейн", kind: "text" },
+  { group: "Тарифы", file: "akvarena-tariff-klub.html",        label: "Клубные и семейные карты", kind: "text" },
+  { group: "Тарифы", file: "akvarena-tariff-semya.html",       label: "Семейные тарифы", kind: "text" },
+  { group: "Тарифы", file: "akvarena-tariff-fitnes.html",      label: "Фитнес-студия", kind: "text" },
+  { group: "Тарифы", file: "akvarena-tariff-fitnes-spa.html",  label: "Фитнес-студия и СПА комплекс", kind: "text" },
+  { group: "Тарифы", file: "akvarena-tariff-spa.html",         label: "СПА", kind: "text" },
+  { group: "Тарифы", file: "akvarena-tariff-obuchenie.html",   label: "Аквааэробика и обучение", kind: "text" },
+  { group: "Тарифы", file: "akvarena-tariff-dop.html",         label: "Доп. услуги", kind: "text" }
+];
+
+const HELP = {
+  common: `<div class="warnline">Правки попадут на сайт только после того, как вы нажмёте «💾 Скачать обновлённый файл» и загрузите скачанный файл на хостинг вместо старого (с тем же именем).</div>`,
+  text: `Значения с <b>пунктирной рамкой</b> — время, имена тренеров, цены, даты — можно редактировать прямо здесь: кликните на текст и напечатайте новый.
+         Добавить новую строку или колонку на этой странице нельзя.`,
+  trainers: `Кликните по <b>имени</b> или <b>должности</b>, чтобы изменить. Под каждой карточкой: «+ Строка» — добавить должность/разряд (пустая строка при сохранении исчезнет),
+         «📷 Фото» — загрузить фото, «✕ Удалить» — убрать тренера. Новый тренер — плитка «+ Добавить тренера» в конце списка.`,
+  'pool-schedule': `Кликните по <b>занятию</b> — откроется форма (время, название, тренер), в ней же можно удалить. «+ Добавить занятие» — под каждым днём.
+         Фильтр «Показать расписание тренера» на сайте обновится сам.`,
+  grid: `Кликните по <b>ячейке</b> — откроется форма (занятие, тренер, «очистить»). Время в левом столбце правится прямо на месте.
+         «+ Добавить строку» — новое время; справа у строки: «★» — подсветить, «✕» — удалить строку.`
+};
+
+/* ---------- элементы интерфейса ---------- */
+const $ = id => document.getElementById(id);
+const select = $('pageSelect'), statusText = $('statusText'), saveBtn = $('saveBtn'), resetBtn = $('resetBtn');
+const frameWrap = $('frameWrap'), helpBox = $('help');
+
+let current = pages[0];
+let iframe = null;
+let dirty = false;
+let loadToken = 0;
+const sources = {};             // file -> исходный текст страницы, как он лежит на сайте
+const photoStore = new WeakMap(); // карточка тренера -> {blob, w, h, url} (новое фото)
+
+function setStatus(msg, type){ statusText.textContent = msg; statusText.className = 'status' + (type ? ' ' + type : ''); }
+function markDirty(){ dirty = true; }
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+/* ---------- мелкие помощники ---------- */
+const norm = s => String(s == null ? '' : s).replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').trim();
+const normTime = s => norm(s).replace(/\s*[-–—]\s*/g, '–');
+function timeKey(s){ const m = /(\d{1,2})[:.](\d{2})/.exec(s || ''); return m ? (+m[1]) * 60 + (+m[2]) : Infinity; }
+const cmp = (a, b) => a < b ? -1 : a > b ? 1 : 0;
+
+function mk(doc, tag, props, attrs){
+  const e = doc.createElement(tag);
+  if(props) Object.assign(e, props);
+  if(attrs) Object.keys(attrs).forEach(k => e.setAttribute(k, attrs[k]));
+  return e;
+}
+function mkBtn(doc, label, cls, fn, title){
+  const b = mk(doc, 'button', { type: 'button', className: 'adm-ui adm-btn ' + (cls || ''), textContent: label });
+  if(title) b.title = title;
+  b.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); fn(e); });
+  return b;
+}
+
+const TR = { 'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n',
+  'о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya' };
+function translit(s){
+  return norm(s).toLowerCase().split('').map(c => TR[c] !== undefined ? TR[c] : c).join('')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'trener';
+}
+
+/* ==========================================================================
+   Модальное окно с формой
+   ========================================================================== */
+const modalBack = $('modalBack'), modalTitle = $('modalTitle'), modalBody = $('modalBody'),
+      modalError = $('modalError'), modalActions = $('modalActions');
+let modalPrimary = null;
+
+function closeModal(){ modalBack.classList.add('hidden'); modalPrimary = null; }
+
+function showModal(cfg){
+  modalTitle.textContent = cfg.title;
+  modalBody.textContent = ''; modalActions.textContent = ''; modalError.textContent = '';
+  const getters = {};
+  let firstInput = null;
+
+  cfg.fields.forEach(f => {
+    const row = document.createElement('div'); row.className = 'frow';
+    if(f.type === 'checkbox'){
+      const lab = document.createElement('label'); lab.className = 'chk';
+      const inp = document.createElement('input'); inp.type = 'checkbox'; inp.checked = !!f.value;
+      lab.append(inp, document.createTextNode(f.label)); row.append(lab);
+      getters[f.id] = () => inp.checked;
+    } else if(f.type === 'trainer'){
+      const lab = document.createElement('label'); lab.textContent = f.label; lab.htmlFor = 'mf-' + f.id;
+      const sel = document.createElement('select'); sel.id = 'mf-' + f.id;
+      const ph = document.createElement('option'); ph.value = ''; ph.textContent = '— выберите тренера —'; sel.append(ph);
+      const all = [];
+      f.groups.forEach(g => {
+        if(!g.names.length) return;
+        const og = document.createElement('optgroup'); og.label = g.label;
+        g.names.forEach(n => { const o = document.createElement('option'); o.value = n; o.textContent = n; og.append(o); all.push(n); });
+        sel.append(og);
+      });
+      const oth = document.createElement('option'); oth.value = '__other__'; oth.textContent = 'Другой тренер (ввести вручную)…'; sel.append(oth);
+      const txt = document.createElement('input'); txt.type = 'text'; txt.className = 'other-input'; txt.placeholder = 'Имя тренера, как на сайте';
+      if(f.value && all.includes(f.value)){ sel.value = f.value; }
+      else if(f.value){ sel.value = '__other__'; txt.value = f.value; }
+      else { sel.value = all.length ? '' : '__other__'; }
+      const sync = () => { txt.classList.toggle('hidden', sel.value !== '__other__'); };
+      sel.addEventListener('change', () => { sync(); if(sel.value === '__other__') txt.focus(); });
+      sync();
+      row.append(lab, sel, txt);
+      getters[f.id] = () => sel.value === '__other__' ? norm(txt.value) : sel.value;
+      if(!firstInput) firstInput = sel;
+    } else {
+      const lab = document.createElement('label'); lab.textContent = f.label; lab.htmlFor = 'mf-' + f.id;
+      const inp = document.createElement('input'); inp.type = 'text'; inp.id = 'mf-' + f.id;
+      inp.value = f.value || ''; inp.placeholder = f.placeholder || ''; inp.autocomplete = 'off';
+      row.append(lab, inp);
+      if(f.list && f.list.length){
+        const dl = document.createElement('datalist'); dl.id = 'dl-' + f.id;
+        f.list.forEach(v => { const o = document.createElement('option'); o.value = v; dl.append(o); });
+        inp.setAttribute('list', dl.id); row.append(dl);
+      }
+      getters[f.id] = () => norm(inp.value);
+      if(!firstInput) firstInput = inp;
+    }
+    modalBody.append(row);
+  });
+
+  modalPrimary = null;
+  cfg.actions.filter(Boolean).forEach(a => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'mbtn ' + (a.cls || ''); b.textContent = a.label;
+    b.addEventListener('click', () => {
+      if(!a.run){ closeModal(); return; }
+      const vals = {}; Object.keys(getters).forEach(k => vals[k] = getters[k]());
+      const err = a.run(vals);
+      if(err){ modalError.textContent = err; } else { closeModal(); }
+    });
+    modalActions.append(b);
+    if(a.cls === 'primary') modalPrimary = b;
+  });
+
+  modalBack.classList.remove('hidden');
+  if(firstInput){ firstInput.focus(); if(firstInput.select) firstInput.select(); }
+}
+
+modalBack.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){ e.preventDefault(); closeModal(); }
+  else if(e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type === 'text' && modalPrimary){ e.preventDefault(); modalPrimary.click(); }
+});
+modalBack.addEventListener('mousedown', e => { if(e.target === modalBack) closeModal(); });
+
+/* ==========================================================================
+   Загрузка страницы в окно предпросмотра
+   ==========================================================================
+   Страница берётся обычным запросом (без кэша) и показывается через srcdoc:
+   так «Отменить изменения» всегда возвращает то, что сейчас лежит на сайте.
+   Из предпросмотра убираются <noscript>-блоки (пиксель Метрики), чтобы
+   просмотр в редакторе не засчитывался как визит на сайт.
+   ========================================================================== */
+const EDIT_STYLE_ID = 'adm-inserted-style';
+const EDIT_STYLE = `
+  .adm-edit{ outline:1.5px dashed #1E7FB0; outline-offset:2px; cursor:text; border-radius:3px; }
+  .adm-edit:hover{ background:rgba(63,169,218,.14); }
+  .adm-edit:focus{ outline:2px solid #1E8A5A; background:rgba(30,138,90,.12); }
+  [data-adm-ph]:empty::before{ content:attr(data-adm-ph); color:#7f95a3; font-style:italic; font-weight:400; text-transform:none; letter-spacing:0; }
+
+  /* Страницы прячут настоящую таблицу и строят копию своим скриптом (здесь скрипты
+     отключены). Показываем настоящую, редактируемую, и прячем пустую копию. */
+  .table-scroll.week-grid{ display:block !important; }
+  .week-grid-mobile{ display:none !important; }
+  .table-scroll.stack{ display:block !important; }
+  .mobile-cards{ display:none !important; }
+  /* Дни-«гармошки» закрыты по умолчанию — открываем все сразу. */
+  .day-panel{ max-height:none !important; overflow:visible !important; }
+  .schedule-wrap{ max-width:none !important; }
+
+  .adm-ui{ user-select:none; -webkit-user-select:none; }
+  .adm-btn{
+    font:700 12.5px/1 Manrope,Arial,sans-serif; padding:8px 11px; border-radius:8px;
+    border:1px solid #1E7FB0; background:#fff; color:#0B3554; cursor:pointer; text-transform:none; letter-spacing:0;
+  }
+  .adm-btn:hover{ background:#EAF4F9; }
+  .adm-btn.danger{ border-color:#C0392B; color:#C0392B; }
+  .adm-btn.danger:hover{ background:#fdecea; }
+  .adm-btn.solid{ background:#146B8C; color:#fff; border-color:#146B8C; }
+  .adm-btn.solid:hover{ background:#0f5a76; }
+
+  .adm-tools{ display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+  .adm-addtile{
+    min-height:240px; border-radius:20px; border:2.5px dashed #146B8C; background:#fff; color:#146B8C;
+    font:800 16px/1.3 Manrope,Arial,sans-serif; cursor:pointer;
+  }
+  .adm-addtile:hover{ background:#EAF4F9; }
+
+  .adm-item{ cursor:pointer; }
+  .adm-item:hover{ outline:2px solid #3FA9DA; outline-offset:1px; }
+  .adm-itemtools{ margin-left:auto; display:flex; gap:6px; flex:0 0 auto; align-self:center; }
+  .adm-add{ margin-top:14px; }
+
+  td.adm-cell{ cursor:pointer; }
+  td.adm-cell:hover{ background:rgba(63,169,218,.22) !important; }
+  td.adm-rowtools, th.adm-ui{ white-space:nowrap; width:1%; }
+  td.adm-rowtools .adm-btn{ padding:6px 9px; margin-left:4px; }
+  .adm-rowadd{ margin-top:14px; }
+  .highlight-row td.adm-rowtools{ background:#E7F3FA; }
+`;
+
+async function loadPage(page){
+  const token = ++loadToken;
+  current = page; dirty = false;
+  helpBox.innerHTML = (HELP[page.kind] || '') + HELP.common;
+  setStatus('Загрузка…');
+  let text;
+  try{
+    const r = await fetch(page.file, { cache: 'no-store' });
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    text = await r.text();
+  }catch(err){
+    if(token !== loadToken) return;
+    setStatus('Не удалось загрузить страницу. Откройте редактор по адресу сайта (https://…/admin.html), а не файлом с компьютера.', 'err');
+    return;
+  }
+  if(token !== loadToken) return;
+  sources[page.file] = text;
+
+  const f = document.createElement('iframe');
+  f.setAttribute('sandbox', 'allow-same-origin');
+  f.addEventListener('load', () => {
+    if(token !== loadToken || f !== iframe || f.dataset.ready) return;
+    const doc = f.contentDocument;
+    if(!doc || !doc.querySelector('main')) return;
+    f.dataset.ready = '1';
+    enableEditing(doc, page);
+  });
+  iframe = f;
+  frameWrap.replaceChildren(f);
+  f.srcdoc = text.replace(/<noscript>[\s\S]*?<\/noscript>/gi, '');
+}
+
+/* ==========================================================================
+   Включение редактирования
+   ========================================================================== */
+const TEXT_SELECTORS = [
+  'main td', 'main .simple-card .name', 'main .simple-card .meta', 'main .simple-card .price',
+  'main .from strong', 'main .day-item .time', 'main .day-item .info',
+  'main .updated', 'main p.sub', 'main p.note'
+].join(', ');
+const COMMON_SELECTORS = 'main .updated, main p.sub, main p.note';
+
+function makeEditable(el, opts){
+  opts = opts || {};
+  el.setAttribute('contenteditable', 'true');
+  el.setAttribute('spellcheck', 'false');
+  el.classList.add('adm-edit');
+  if(opts.line) el.classList.add('adm-line');
+  if(opts.ph) el.setAttribute('data-adm-ph', opts.ph);
+}
+
+function enableEditing(doc, page){
+  const style = doc.createElement('style');
+  style.id = EDIT_STYLE_ID;
+  style.textContent = EDIT_STYLE + (page.kind === 'grid' ? '\n  main.wrap{ max-width:1500px !important; }' : '');
+  doc.head.appendChild(style);
+
+  if(page.kind === 'text'){
+    doc.querySelectorAll(TEXT_SELECTORS).forEach(el => makeEditable(el));
+  } else {
+    doc.querySelectorAll(COMMON_SELECTORS).forEach(el => makeEditable(el));
+  }
+
+  // ссылки внутри предпросмотра не должны уводить со страницы
+  doc.addEventListener('click', e => { const a = e.target.closest && e.target.closest('a'); if(a) e.preventDefault(); }, true);
+  // вставка только простым текстом — без чужого форматирования
+  doc.addEventListener('paste', e => {
+    const t = e.target.closest && e.target.closest('[contenteditable="true"]');
+    if(!t) return;
+    e.preventDefault();
+    const txt = ((e.clipboardData || window.clipboardData).getData('text/plain') || '').replace(/\s+/g, ' ');
+    doc.execCommand('insertText', false, txt);
+  }, true);
+  // в однострочных полях Enter не делает новую строку
+  doc.addEventListener('keydown', e => {
+    if(e.key === 'Enter' && e.target.closest && e.target.closest('.adm-line')){ e.preventDefault(); e.target.blur(); }
+  }, true);
+  doc.addEventListener('input', markDirty);
+
+  const setup = SETUP[page.kind];
+  if(setup) setup(doc, page);
+  setStatus('Готово к редактированию');
+}
+
+/* ==========================================================================
+   ТРЕНЕРЫ
+   ========================================================================== */
+function processImage(file){
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, 800 / img.naturalWidth);
+      const w = Math.max(1, Math.round(img.naturalWidth * scale)), h = Math.max(1, Math.round(img.naturalHeight * scale));
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
+      c.toBlob(blob => { URL.revokeObjectURL(url); blob ? resolve({ blob, w, h }) : reject(new Error('toBlob')); }, 'image/jpeg', 0.86);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('image')); };
+    img.src = url;
+  });
+}
+
+function cardName(card){ const h = card.querySelector('h3'); return h ? norm(h.textContent) : ''; }
+
+function buildCard(doc, page){
+  const card = mk(doc, 'div', { className: 'trainer-card' });
+  const info = mk(doc, 'div', { className: 'info' });
+  info.appendChild(mk(doc, 'h3'));
+  if(page.newRole) info.appendChild(mk(doc, 'div', { className: 'role' }));
+  card.append(mk(doc, 'div', { className: 'photo' }), info);
+  return card;
+}
+
+function buildTools(doc, card, page){
+  const old = card.querySelector('.adm-tools'); if(old) old.remove();
+  const info = card.querySelector('.info');
+  const tools = mk(doc, 'div', { className: 'adm-ui adm-tools' });
+
+  tools.append(
+    mkBtn(doc, '+ Строка', '', () => {
+      const r = mk(doc, 'div', { className: 'role' });
+      makeEditable(r, { line: true, ph: 'Должность / разряд' });
+      info.insertBefore(r, tools); r.focus(); markDirty();
+    }, 'Добавить строку с должностью или разрядом под именем'),
+    mkBtn(doc, '📷 Фото', '', () => {
+      const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+      inp.addEventListener('change', async () => {
+        const file = inp.files && inp.files[0]; if(!file) return;
+        try{
+          const { blob, w, h } = await processImage(file);
+          const prev = photoStore.get(card); if(prev) URL.revokeObjectURL(prev.url);
+          const url = URL.createObjectURL(blob);
+          photoStore.set(card, { blob, w, h, url });
+          const photo = card.querySelector('.photo');
+          photo.textContent = '';
+          photo.appendChild(mk(doc, 'img', { src: url, width: w, height: h, alt: '' }));
+          markDirty(); buildTools(doc, card, page);
+        }catch(err){ alert('Не удалось прочитать это изображение. Попробуйте другой файл (JPG или PNG).'); }
+      });
+      inp.click();
+    }, 'Загрузить или заменить фото')
+  );
+  if(card.querySelector('.photo img')){
+    tools.append(mkBtn(doc, 'Убрать фото', '', () => {
+      const prev = photoStore.get(card); if(prev){ URL.revokeObjectURL(prev.url); photoStore.delete(card); }
+      card.querySelector('.photo').textContent = ''; markDirty(); buildTools(doc, card, page);
+    }));
+  }
+  tools.append(mkBtn(doc, '✕ Удалить', 'danger', () => {
+    const n = cardName(card) || 'без имени';
+    if(!confirm('Удалить тренера «' + n + '»?\n\nКарточка исчезнет со страницы. Расписание занятий от этого само не меняется — при необходимости поправьте его на страницах расписания.')) return;
+    const prev = photoStore.get(card); if(prev) URL.revokeObjectURL(prev.url);
+    card.remove(); markDirty();
+  }));
+  info.appendChild(tools);
+}
+
+function decorateCard(doc, card, page){
+  const h3 = card.querySelector('h3');
+  if(h3) makeEditable(h3, { line: true, ph: 'Имя и фамилия тренера' });
+  card.querySelectorAll('.role').forEach(r => makeEditable(r, { line: true, ph: 'Должность / разряд' }));
+  buildTools(doc, card, page);
+}
+
+function setupTrainers(doc, page){
+  const grid = doc.querySelector('main .trainer-grid');
+  if(!grid) return;
+  grid.querySelectorAll('.trainer-card').forEach(c => decorateCard(doc, c, page));
+  const add = mk(doc, 'button', { type: 'button', className: 'adm-ui adm-addtile', textContent: '+ Добавить тренера' });
+  add.addEventListener('click', e => {
+    e.preventDefault();
+    const card = buildCard(doc, page);
+    grid.insertBefore(card, add);
+    decorateCard(doc, card, page);
+    markDirty();
+    card.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    card.querySelector('h3').focus();
+  });
+  grid.appendChild(add);
+}
+
+function validateTrainers(doc){
+  const bad = [...doc.querySelectorAll('main .trainer-card')].find(c => !cardName(c));
+  return bad ? { msg: 'У одного из тренеров не заполнено имя.\nВпишите имя или удалите пустую карточку (✕ Удалить).', focus: bad.querySelector('h3') } : null;
+}
+
+/* Новые карточки (их создал редактор) записываем с теми же отступами, что и у остальных на сайте. */
+function prettifyNewCards(grid){
+  const doc = grid.ownerDocument;
+  const cards = [...grid.children].filter(c => c.classList && c.classList.contains('trainer-card'));
+  const fresh = cards.filter(c => c.firstChild && c.firstChild.nodeType === 1);
+  if(!fresh.length) return;
+  fresh.forEach(c => {
+    const photo = c.querySelector(':scope > .photo'), info = c.querySelector(':scope > .info');
+    const img = photo.querySelector('img');
+    photo.textContent = '';
+    if(img) photo.append('\n          ', img, '\n        ');
+    const kids = [...info.children];
+    info.textContent = '';
+    kids.forEach(k => info.append('\n          ', k));
+    info.append('\n        ');
+    c.textContent = '';
+    c.append('\n        ', photo, '\n        ', info, '\n      ');
+    const prev = c.previousSibling;
+    if(prev && prev.nodeType === 3) prev.textContent = '\n\n      ';
+    else grid.insertBefore(doc.createTextNode('\n\n      '), c);
+  });
+  const next = fresh[fresh.length - 1].nextSibling;
+  if(next && next.nodeType === 3) next.textContent = '\n\n    ';
+  else grid.insertBefore(doc.createTextNode('\n\n    '), next);
+}
+
+function normalizeTrainers(clone, live, page, files){
+  const liveCards = [...live.querySelectorAll('.trainer-card')];
+  const cloneCards = [...clone.querySelectorAll('.trainer-card')];
+  const used = new Set([...clone.querySelectorAll('.photo img')].map(i => (i.getAttribute('src') || '').split('/').pop()));
+  cloneCards.forEach((cc, i) => {
+    const h3 = cc.querySelector('h3'); const name = norm(h3.textContent); h3.textContent = name;
+    cc.querySelectorAll('.role').forEach(r => { const t = norm(r.textContent); if(t) r.textContent = t; else r.remove(); });
+    const ph = photoStore.get(liveCards[i]);
+    const img = cc.querySelector('.photo img');
+    if(ph && img){
+      let base = page.photoPrefix + translit(name), fname = base + '.jpg', n = 2;
+      while(used.has(fname)){ fname = base + '-' + n + '.jpg'; n++; }
+      used.add(fname);
+      img.setAttribute('src', fname);
+      img.setAttribute('width', ph.w); img.setAttribute('height', ph.h);
+      files.push({ name: fname, blob: ph.blob });
+    }
+    if(img) img.setAttribute('alt', name + ' — ' + page.altSuffix);
+  });
+  const grid = clone.querySelector('.trainer-grid');
+  if(grid) prettifyNewCards(grid);
+}
+
+/* ==========================================================================
+   РАСПИСАНИЕ БАССЕЙНА (по дням)
+   ========================================================================== */
+let poolNamesPromise = null;
+function loadPoolTrainerNames(){
+  if(!poolNamesPromise){
+    poolNamesPromise = fetch('akvarena-trener-bassein.html', { cache: 'no-store' })
+      .then(r => r.ok ? r.text() : '')
+      .then(t => [...new DOMParser().parseFromString(t, 'text/html').querySelectorAll('.trainer-card h3')].map(h => norm(h.textContent)).filter(Boolean))
+      .catch(() => []);
+  }
+  return poolNamesPromise;
+}
+
+const dayTitle = g => { const t = g.querySelector('.day-toggle-title'); return t ? norm(t.textContent) : 'день'; };
+
+function readItem(item){
+  const info = item.querySelector('.info');
+  const muted = info && info.querySelector('.muted');
+  let title = '';
+  if(info) info.childNodes.forEach(n => { if(n.nodeType === 3) title += n.textContent; });
+  const t = item.querySelector('.time');
+  return { time: t ? norm(t.textContent) : '', title: norm(title), trainer: norm(muted ? muted.textContent : (item.getAttribute('data-trainer') || '')) };
+}
+
+function poolTrainersInSchedule(doc){
+  const names = [];
+  doc.querySelectorAll('main .day-item').forEach(it => { const t = readItem(it).trainer; if(t && !names.includes(t)) names.push(t); });
+  return names;
+}
+
+/* Если у дня не осталось занятий — вместо пустого списка показываем «Занятий нет».
+   data-trainer нужен, чтобы фильтр по тренеру на сайте не прятал такой день при выборе «Все тренеры». */
+function ensureDayState(group){
+  const doc = group.ownerDocument;
+  const inner = group.querySelector('.day-panel-inner'); if(!inner) return;
+  const list = inner.querySelector('.day-list');
+  if(list && !list.querySelector('.day-item')){
+    list.replaceWith(mk(doc, 'div', { className: 'day-empty', textContent: 'Занятий нет' }, { 'data-trainer': '—' }));
+  }
+}
+
+function sortList(list){
+  const items = [...list.querySelectorAll(':scope > .day-item')]
+    .map((el, i) => ({ el, k: timeKey(readItem(el).time), i }))
+    .sort((a, b) => cmp(a.k, b.k) || cmp(a.i, b.i));
+  items.forEach(x => list.appendChild(x.el));
+}
+
+function decorateItem(doc, item, group, page){
+  item.classList.add('adm-item');
+  const tools = mk(doc, 'span', { className: 'adm-ui adm-itemtools' });
+  tools.append(
+    mkBtn(doc, '✎', '', () => editItem(doc, item, group, page), 'Изменить'),
+    mkBtn(doc, '✕', 'danger', () => removeItem(item, group), 'Удалить занятие')
+  );
+  item.appendChild(tools);
+  item.addEventListener('click', e => { if(e.target.closest('.adm-ui')) return; editItem(doc, item, group, page); });
+}
+
+function removeItem(item, group){
+  const r = readItem(item);
+  if(!confirm('Удалить занятие?\n\n' + dayTitle(group) + ', ' + r.time + '\n' + r.title + (r.trainer ? ' — ' + r.trainer : ''))) return false;
+  item.remove(); ensureDayState(group); markDirty();
+  return true;
+}
+
+async function editItem(doc, item, group, page){
+  const cur = item ? readItem(item) : { time: '', title: '', trainer: '' };
+  const fromTrainers = await loadPoolTrainerNames();
+  const inSched = poolTrainersInSchedule(doc);
+  if(cur.trainer && !inSched.includes(cur.trainer)) inSched.push(cur.trainer);
+  const others = fromTrainers.filter(n => !inSched.includes(n)).sort((a, b) => a.localeCompare(b, 'ru'));
+
+  showModal({
+    title: (item ? 'Изменить занятие' : 'Новое занятие') + ' — ' + dayTitle(group),
+    fields: [
+      { id: 'time',  label: 'Время', type: 'text', value: cur.time, placeholder: 'например, 18:00–19:00' },
+      { id: 'title', label: 'Название занятия (с возрастом)', type: 'text', value: cur.title, placeholder: 'например, Обучение плаванию (7–14 лет)' },
+      { id: 'trainer', label: 'Тренер', type: 'trainer', value: cur.trainer,
+        groups: [ { label: 'Ведут занятия по расписанию', names: inSched }, { label: 'Остальные тренеры бассейна', names: others } ] }
+    ],
+    actions: [
+      item ? { label: 'Удалить занятие', cls: 'danger', run: () => { closeModal(); removeItem(item, group); return null; } } : null,
+      { label: 'Отмена' },
+      { label: 'Сохранить', cls: 'primary', run: v => {
+          const time = normTime(v.time);
+          if(!time) return 'Укажите время.';
+          if(!v.title) return 'Укажите название занятия.';
+          if(!v.trainer) return 'Выберите тренера (или введите имя вручную).';
+          applyItem(doc, item, group, page, { time, title: v.title, trainer: v.trainer });
+          return null;
+      } }
+    ]
+  });
+}
+
+function applyItem(doc, item, group, page, d){
+  const inner = group.querySelector('.day-panel-inner');
+  let list = inner.querySelector('.day-list');
+  if(!list){
+    list = mk(doc, 'div', { className: 'day-list' });
+    const empty = inner.querySelector('.day-empty');
+    if(empty) empty.replaceWith(list); else inner.insertBefore(list, inner.querySelector('.adm-add'));
+  }
+  let isNew = false;
+  if(!item){
+    isNew = true;
+    item = mk(doc, 'div', { className: 'day-item' });
+    item.append(mk(doc, 'span', { className: 'time' }), mk(doc, 'span', { className: 'info' }));
+    list.appendChild(item);
+  }
+  item.setAttribute('data-trainer', d.trainer);
+  item.querySelector('.time').textContent = d.time;
+  const info = item.querySelector('.info');
+  info.textContent = d.title;
+  info.appendChild(mk(doc, 'span', { className: 'muted', textContent: d.trainer }));
+  if(isNew) decorateItem(doc, item, group, page);
+  sortList(list);
+  markDirty();
+}
+
+function setupPool(doc, page){
+  loadPoolTrainerNames();
+  doc.querySelectorAll('main .group').forEach(group => {
+    const inner = group.querySelector('.day-panel-inner'); if(!inner) return;
+    group.querySelectorAll('.day-item').forEach(it => decorateItem(doc, it, group, page));
+    inner.appendChild(mkBtn(doc, '+ Добавить занятие', 'solid adm-add', () => editItem(doc, null, group, page)));
+  });
+}
+
+function normalizePool(clone){
+  clone.querySelectorAll('.group').forEach(ensureDayState);
+  clone.querySelectorAll('.day-item').forEach(it => {
+    const m = it.querySelector('.info .muted');
+    it.setAttribute('data-trainer', norm(m ? m.textContent : it.getAttribute('data-trainer')));
+  });
+  // фильтр «Показать расписание тренера»: остаются только те, кто есть в расписании; новые добавляются в конец
+  const sel = clone.querySelector('#trainerSelect'); if(!sel) return;
+  const used = [];
+  clone.querySelectorAll('.day-item[data-trainer]').forEach(it => { const t = it.getAttribute('data-trainer'); if(t && !used.includes(t)) used.push(t); });
+  const allOpt = [...sel.options].find(o => o.value === 'all');
+  const keep = [...sel.options].filter(o => o !== allOpt && used.includes(o.value));
+  const keptNames = keep.map(o => o.value);
+  const fresh = used.filter(n => !keptNames.includes(n)).map(n => mk(sel.ownerDocument, 'option', { value: n, textContent: n }));
+  sel.textContent = '';
+  [allOpt, ...keep, ...fresh].filter(Boolean).forEach(o => sel.append('\n          ', o));
+  sel.append('\n        ');
+}
+
+/* ==========================================================================
+   РАСПИСАНИЕ-ТАБЛИЦА (зал, аквааэробика)
+   ========================================================================== */
+const isEmptyCell = td => td.classList.contains('muted') && norm(td.textContent) === '—';
+const dataCells = tr => [...tr.children].filter(c => c.tagName === 'TD' && !c.classList.contains('adm-ui'));
+
+function readCell(td, page){
+  if(isEmptyCell(td)) return { name: '', trainer: '', paid: false, empty: true };
+  if(page.cell === 'single') return { name: '', trainer: norm(td.textContent), paid: false, empty: false };
+  const sp = td.querySelector('span.muted');
+  let name = '';
+  td.childNodes.forEach(n => { if(n.nodeType === 3) name += n.textContent; });
+  if(!sp && !name) name = td.textContent;
+  name = norm(name);
+  const paid = /^\$/.test(name);
+  return { name: name.replace(/^\$\s*/, ''), trainer: sp ? norm(sp.textContent) : '', paid, empty: false };
+}
+
+function writeCell(td, page, d){
+  const doc = td.ownerDocument;
+  td.textContent = '';
+  if(!d){ td.className = 'muted adm-cell'; td.textContent = '—'; return; }
+  td.className = 'adm-cell';
+  if(page.cell === 'single'){ td.textContent = d.trainer; return; }
+  td.appendChild(doc.createTextNode((d.paid ? '$ ' : '') + d.name));
+  if(d.trainer){ td.appendChild(doc.createElement('br')); td.appendChild(mk(doc, 'span', { className: 'muted', textContent: d.trainer })); }
+}
+
+function gridContext(table){
+  const rows = [...table.querySelectorAll('tr')];
+  const days = [...rows[0].children].filter(c => c.tagName === 'TH' && !c.classList.contains('adm-ui')).map(th => norm(th.textContent));
+  const names = new Set(), trainers = new Set();
+  return { rows, days, names, trainers };
+}
+
+function editCell(doc, td, page){
+  const tr = td.parentElement, table = td.closest('table');
+  const ctx = gridContext(table);
+  const cells = dataCells(tr);
+  const col = cells.indexOf(td);
+  const time = norm(cells[0].textContent);
+  const day = ctx.days[col] || '';
+  const suggestions = { names: new Set(), trainers: new Set() };
+  ctx.rows.slice(1).forEach(r => dataCells(r).slice(1).forEach(c => {
+    const d = readCell(c, page); if(d.empty) return;
+    if(d.name) suggestions.names.add(d.name); if(d.trainer) suggestions.trainers.add(d.trainer);
+  }));
+  const cur = readCell(td, page);
+  const fields = page.cell === 'class' ? [
+    { id: 'name', label: 'Занятие', type: 'text', value: cur.name, placeholder: 'например, Пилатес', list: [...suggestions.names].sort((a, b) => a.localeCompare(b, 'ru')) },
+    { id: 'trainer', label: 'Тренер', type: 'text', value: cur.trainer, placeholder: 'например, Светлана', list: [...suggestions.trainers].sort((a, b) => a.localeCompare(b, 'ru')) },
+    { id: 'paid', label: 'Платное занятие ($, по записи)', type: 'checkbox', value: cur.paid }
+  ] : [
+    { id: 'trainer', label: 'Тренер', type: 'text', value: cur.trainer, placeholder: 'например, Дарья К.', list: [...suggestions.trainers].sort((a, b) => a.localeCompare(b, 'ru')) }
   ];
-
-  const select = document.getElementById('pageSelect');
-  const groups = {};
-  pages.forEach(p=>{
-    if(!groups[p.group]){
-      groups[p.group] = document.createElement('optgroup');
-      groups[p.group].label = p.group;
-      select.appendChild(groups[p.group]);
-    }
-    const opt = document.createElement('option');
-    opt.value = p.file;
-    opt.textContent = p.label;
-    groups[p.group].appendChild(opt);
+  showModal({
+    title: (day ? day + ', ' : '') + time,
+    fields,
+    actions: [
+      { label: 'Очистить ячейку (—)', cls: 'danger', run: () => { writeCell(td, page, null); markDirty(); return null; } },
+      { label: 'Отмена' },
+      { label: 'Сохранить', cls: 'primary', run: v => {
+          if(page.cell === 'class'){
+            if(!v.name && !v.trainer){ writeCell(td, page, null); markDirty(); return null; }
+            if(!v.name) return 'Укажите название занятия (или нажмите «Очистить ячейку»).';
+            writeCell(td, page, { name: v.name.replace(/^\$\s*/, ''), trainer: v.trainer, paid: v.paid });
+          } else {
+            if(!v.trainer){ writeCell(td, page, null); markDirty(); return null; }
+            writeCell(td, page, { trainer: v.trainer });
+          }
+          markDirty(); return null;
+      } }
+    ]
   });
+}
 
-  const iframe = document.getElementById('preview');
-  const statusText = document.getElementById('statusText');
-  const saveBtn = document.getElementById('saveBtn');
-  const resetBtn = document.getElementById('resetBtn');
+function decorateRow(doc, tr, page){
+  const cells = dataCells(tr);
+  if(!cells.length) return;
+  makeEditable(cells[0], { line: true, ph: 'время' });
+  cells.slice(1).forEach(td => { td.classList.add('adm-cell'); td.addEventListener('click', () => editCell(doc, td, page)); });
+  const tools = mk(doc, 'td', { className: 'adm-ui adm-rowtools' });
+  tools.append(
+    mkBtn(doc, '★', '', () => { tr.classList.toggle('highlight-row'); markDirty(); }, 'Подсветить / снять подсветку строки'),
+    mkBtn(doc, '✕', 'danger', () => {
+      if(!confirm('Удалить строку «' + norm(cells[0].textContent) + '» со всеми занятиями в ней?')) return;
+      tr.remove(); markDirty();
+    }, 'Удалить строку')
+  );
+  tr.appendChild(tools);
+}
 
-  const EDIT_SELECTORS = [
-    'main td',
-    'main .simple-card .name',
-    'main .simple-card .meta',
-    'main .simple-card .price',
-    'main .from strong',
-    'main .day-item .time',
-    'main .day-item .info',
-    'main .updated',
-    'main p.sub',
-    'main p.note'
-  ].join(', ');
+function setupGrid(doc, page){
+  const table = doc.querySelector('main .table-scroll table') || doc.querySelector('main table');
+  if(!table) return;
+  const rows = [...table.querySelectorAll('tr')];
+  rows[0].appendChild(mk(doc, 'th', { className: 'adm-ui' }));
+  rows.slice(1).forEach(tr => decorateRow(doc, tr, page));
 
-  const EDIT_STYLE_ID = 'adm-inserted-style';
-  const EDIT_STYLE = `
-    .adm-edit{ outline:1.5px dashed #1E7FB0; outline-offset:2px; cursor:text; border-radius:3px; }
-    .adm-edit:hover{ background:rgba(63,169,218,.14); }
-    .adm-edit:focus{ outline:2px solid #1E8A5A; background:rgba(30,138,90,.10); background-color:rgba(30,138,90,.12); }
-
-    /* Some pages hide the real table and show a copy built by the page's
-       own script (disabled here on purpose, so we don't bake stale copies
-       into the saved file). Force the real, editable table to stay visible
-       instead, and hide the un-built duplicate spot so there's only one
-       thing on screen to edit. Stripped again before saving. */
-    .table-scroll.week-grid{ display:block !important; }
-    .week-grid-mobile{ display:none !important; }
-    .table-scroll.stack{ display:block !important; }
-    .mobile-cards{ display:none !important; }
-
-    /* Day accordions (e.g. "Обучение плаванию") are collapsed by default
-       and only opened by the page's own click script — which is disabled
-       here too. Force every day open so all entries are visible and
-       editable at once. */
-    .day-panel{ max-height:none !important; overflow:visible !important; }
-  `;
-
-  function loadPage(file){
-    statusText.textContent = 'Загрузка…';
-    iframe.src = file;
-  }
-
-  function enableEditing(){
-    const doc = iframe.contentDocument;
-    if(!doc || !doc.body) return;
-
-    if(!doc.getElementById(EDIT_STYLE_ID)){
-      const style = doc.createElement('style');
-      style.id = EDIT_STYLE_ID;
-      style.textContent = EDIT_STYLE;
-      doc.head.appendChild(style);
-    }
-
-    doc.querySelectorAll(EDIT_SELECTORS).forEach(el=>{
-      el.setAttribute('contenteditable', 'true');
-      el.classList.add('adm-edit');
+  const wrap = table.closest('.table-scroll') || table;
+  wrap.insertAdjacentElement('afterend', mkBtn(doc, '+ Добавить строку (время)', 'solid adm-rowadd', () => {
+    showModal({
+      title: 'Новая строка расписания',
+      fields: [{ id: 'time', label: 'Время', type: 'text', value: '', placeholder: page.timeHint || 'например, 19:00' }],
+      actions: [
+        { label: 'Отмена' },
+        { label: 'Добавить', cls: 'primary', run: v => {
+            const time = normTime(v.time);
+            if(!time) return 'Укажите время.';
+            const ncols = gridContext(table).days.length - 1;
+            const tr = mk(doc, 'tr');
+            tr.appendChild(mk(doc, 'td', { className: 'price', textContent: time }));
+            for(let i = 0; i < ncols; i++) tr.appendChild(mk(doc, 'td', { className: 'muted', textContent: '—' }));
+            const body = rows[0].parentNode;
+            const all = [...table.querySelectorAll('tr')].slice(1);
+            const k = timeKey(time);
+            let after = null;
+            all.forEach(r => { const rk = timeKey(norm((dataCells(r)[0] || {}).textContent)); if(k !== Infinity && rk <= k) after = r; });
+            if(k === Infinity || !all.length) body.appendChild(tr);
+            else if(after) after.after(tr); else all[0].before(tr);
+            decorateRow(doc, tr, page);
+            markDirty();
+            tr.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            return null;
+        } }
+      ]
     });
+  }));
+}
 
-    statusText.textContent = 'Готово к редактированию';
+function validateGrid(doc){
+  const bad = [...doc.querySelectorAll('main table tr')].slice(1).find(tr => { const c = dataCells(tr)[0]; return c && !norm(c.textContent); });
+  return bad ? { msg: 'В одной из строк не указано время. Впишите время в левой ячейке или удалите строку (✕).', focus: dataCells(bad)[0] } : null;
+}
+
+function normalizeGrid(clone){
+  clone.querySelectorAll('table tr').forEach((tr, i) => {
+    if(i === 0) return;
+    const c = [...tr.children].find(x => x.tagName === 'TD'); if(c) c.textContent = normTime(c.textContent);
+    // строка должна стоять на своей строке в исходнике, с тем же отступом, что и соседние
+    const prev = tr.previousSibling;
+    if(!prev || prev.nodeType !== 3 || !/\n\s*$/.test(prev.textContent)) tr.before('\n        ');
+  });
+}
+
+/* ==========================================================================
+   Реестры по типам страниц
+   ========================================================================== */
+const SETUP = { trainers: setupTrainers, 'pool-schedule': setupPool, grid: setupGrid };
+const VALIDATE = { trainers: validateTrainers, grid: validateGrid };
+const NORMALIZE = { trainers: normalizeTrainers, 'pool-schedule': normalizePool, grid: normalizeGrid };
+
+/* ==========================================================================
+   Сохранение
+   ========================================================================== */
+function cleanCommon(clone){
+  clone.querySelectorAll('.adm-ui').forEach(n => n.remove());
+  clone.querySelectorAll('.adm-edit').forEach(n => {
+    n.removeAttribute('contenteditable'); n.removeAttribute('spellcheck');
+    if(n.getAttribute('style') === '') n.removeAttribute('style');   // браузер иногда оставляет пустой style
+  });
+  clone.querySelectorAll('[data-adm-ph]').forEach(n => n.removeAttribute('data-adm-ph'));
+  clone.querySelectorAll('[class]').forEach(n => {
+    ['adm-edit', 'adm-line', 'adm-cell', 'adm-item'].forEach(c => n.classList.remove(c));
+    if(!n.getAttribute('class')) n.removeAttribute('class');
+  });
+}
+
+function mainRange(src){
+  const s = src.search(/<main[\s>]/i), e = src.lastIndexOf('</main>');
+  return (s < 0 || e < s) ? null : [s, e + '</main>'.length];
+}
+
+function downloadBlob(name, blob){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 8000);
+}
+
+saveBtn.addEventListener('click', async () => {
+  const doc = iframe && iframe.contentDocument;
+  const live = doc && doc.querySelector('main');
+  const src = sources[current.file];
+  if(!live || !src){ setStatus('Страница ещё не загружена', 'err'); return; }
+  const range = mainRange(src);
+  if(!range){ setStatus('В файле не найден блок <main> — сохранить нельзя.', 'err'); return; }
+
+  const v = VALIDATE[current.kind] && VALIDATE[current.kind](doc, current);
+  if(v){
+    alert(v.msg);
+    if(v.focus){ v.focus.scrollIntoView({ block: 'center' }); v.focus.focus(); }
+    return;
   }
 
-  function currentFile(){
-    return select.value;
+  const clone = live.cloneNode(true);
+  const files = [];
+  cleanCommon(clone);
+  if(NORMALIZE[current.kind]) NORMALIZE[current.kind](clone, live, current, files);
+  // браузер сам добавляет <tbody> в таблицы — убираем, если его не было в исходном файле
+  if(!/<tbody[\s>]/i.test(src.slice(range[0], range[1]))){
+    clone.querySelectorAll('tbody').forEach(tb => tb.replaceWith(...tb.childNodes));
   }
 
-  saveBtn.addEventListener('click', ()=>{
-    const doc = iframe.contentDocument;
-    if(!doc || !doc.documentElement){
-      statusText.textContent = 'Страница ещё не загружена';
-      return;
-    }
-    const clone = doc.documentElement.cloneNode(true);
+  // подставляем только новый блок <main>: шапка, счётчик, скрипты и подвал остаются как на сайте
+  const out = src.slice(0, range[0]) + clone.outerHTML + src.slice(range[1]);
+  downloadBlob(current.file, new Blob([out], { type: 'text/html;charset=utf-8' }));
+  for(const f of files){ await sleep(450); downloadBlob(f.name, f.blob); }
 
-    const styleTag = clone.querySelector('#' + EDIT_STYLE_ID);
-    if(styleTag) styleTag.remove();
+  dirty = false;
+  setStatus(files.length
+    ? 'Скачано: ' + current.file + ' и фото (' + files.map(f => f.name).join(', ') + '). Загрузите ВСЕ файлы на хостинг.'
+    : 'Файл скачан: ' + current.file, 'ok');
+});
 
-    clone.querySelectorAll('.adm-edit').forEach(el=>{
-      el.removeAttribute('contenteditable');
-      el.classList.remove('adm-edit');
-      if(el.getAttribute('class') === '') el.removeAttribute('class');
-    });
+/* ---------- выбор страницы, сброс ---------- */
+pages.forEach((p, i) => {
+  let og = select.querySelector('optgroup[label="' + p.group + '"]');
+  if(!og){ og = document.createElement('optgroup'); og.label = p.group; select.appendChild(og); }
+  const o = document.createElement('option'); o.value = p.file; o.textContent = p.label; og.appendChild(o);
+});
+select.value = current.file;
 
-    const html = '<!DOCTYPE html>\n' + clone.outerHTML;
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = currentFile();
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url), 5000);
-    statusText.textContent = 'Файл скачан: ' + currentFile();
-  });
+select.addEventListener('change', () => {
+  if(dirty && !confirm('На этой странице есть несохранённые правки — они пропадут. Перейти на другую страницу?')){ select.value = current.file; return; }
+  loadPage(pages.find(p => p.file === select.value));
+});
+resetBtn.addEventListener('click', () => {
+  if(dirty && !confirm('Отменить все несохранённые правки на этой странице?')) return;
+  loadPage(current);
+});
+window.addEventListener('beforeunload', e => { if(dirty){ e.preventDefault(); e.returnValue = ''; } });
 
-  resetBtn.addEventListener('click', ()=>{
-    loadPage(currentFile());
-  });
-
-  select.addEventListener('change', ()=>{
-    loadPage(select.value);
-  });
-
-  iframe.addEventListener('load', enableEditing);
-
-  loadPage(pages[0].file);
+loadPage(current);
 </script>
 
 </body>
