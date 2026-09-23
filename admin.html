@@ -37,6 +37,7 @@
   }
   .btn-save{background:var(--ok); color:#fff;}
   .btn-save:hover{background:#166b45;}
+  .btn-save:disabled{background:#7fa693; cursor:default;}
   .btn-reset{background:#8b98a3; color:#fff;}
   .btn-reset:hover{background:#6f7a83;}
   .status{font-size:13px; color:#cfe8f5; flex:1 1 200px; min-width:0; text-align:right; line-height:1.35;}
@@ -91,7 +92,7 @@
   <select id="pageSelect" aria-label="Страница для редактирования"></select>
   <span class="status" id="statusText"></span>
   <button class="btn-reset" id="resetBtn" type="button">↺ Отменить изменения</button>
-  <button class="btn-save" id="saveBtn" type="button">💾 Скачать обновлённый файл</button>
+  <button class="btn-save" id="saveBtn" type="button">💾 Сохранить</button>
 </header>
 
 <div class="help" id="help"></div>
@@ -119,6 +120,14 @@
      grid          — таблица «время × дни недели» (зал, аквааэробика)
    ========================================================================== */
 const pages = [
+  { group: "Страницы", file: "index.html", label: "Главная", kind: "text", news: true },
+  { group: "Страницы", file: "akvarena-bassein.html", label: "Бассейн", kind: "text",
+    gallery: { photoPrefix: "akvarena-pool-" } },
+  { group: "Страницы", file: "akvarena-spa.html", label: "СПА-комплекс", kind: "text",
+    gallery: { photoPrefix: "akvarena-spa-" } },
+  { group: "Страницы", file: "akvarena-zal.html", label: "Фитнес-студия", kind: "text",
+    gallery: { photoPrefix: "akvarena-zal-" } },
+
   { group: "Расписание", file: "akvarena-raspisanie-plavanie.html", label: "Бассейн — обучение плаванию", kind: "pool-schedule" },
   { group: "Расписание", file: "akvarena-raspisanie-aqua.html",     label: "Бассейн — аквааэробика",      kind: "grid", cell: "single", timeHint: "например, 19:00–19:45" },
   { group: "Расписание", file: "akvarena-raspisanie-zal.html",      label: "Фитнес-студия (зал)",         kind: "grid", cell: "class",  timeHint: "например, 19:00" },
@@ -140,7 +149,8 @@ const pages = [
 ];
 
 const HELP = {
-  common: `<div class="warnline">Правки попадут на сайт только после того, как вы нажмёте «💾 Скачать обновлённый файл» и загрузите скачанный файл на хостинг вместо старого (с тем же именем).</div>`,
+  common: `<div class="warnline">Кнопка «💾 Сохранить»: если на сервере настроена прямая публикация (save.php) — правки уйдут на сайт сразу, без скачивания.
+         Если нет — редактор скачает обновлённый файл, и его нужно будет самостоятельно загрузить на хостинг вместо старого (с тем же именем).</div>`,
   text: `Значения с <b>пунктирной рамкой</b> — время, имена тренеров, цены, даты — можно редактировать прямо здесь: кликните на текст и напечатайте новый.
          Добавить новую строку или колонку на этой странице нельзя.`,
   trainers: `Кликните по <b>имени</b> или <b>должности</b>, чтобы изменить. Под каждой карточкой: «+ Строка» — добавить должность/разряд (пустая строка при сохранении исчезнет),
@@ -148,7 +158,11 @@ const HELP = {
   'pool-schedule': `Кликните по <b>занятию</b> — откроется форма (время, название, тренер), в ней же можно удалить. «+ Добавить занятие» — под каждым днём.
          Фильтр «Показать расписание тренера» на сайте обновится сам.`,
   grid: `Кликните по <b>ячейке</b> — откроется форма (занятие, тренер, «очистить»). Время в левом столбце правится прямо на месте.
-         «+ Добавить строку» — новое время; справа у строки: «★» — подсветить, «✕» — удалить строку.`
+         «+ Добавить строку» — новое время; справа у строки: «★» — подсветить, «✕» — удалить строку.`,
+  news: `<br>Блок «Новости»: у каждой карточки — только фотография. «📷 Фото» — загрузить/заменить, «✕ Удалить» — убрать новость,
+         «+ Добавить новость» — новая карточка (в неё сразу нужно загрузить фото). Без фото карточка не сохранится.`,
+  gallery: `<br>Галерея фотографий: «📷 Фото» — загрузить/заменить, подпись под фото — кликните и напечатайте, «▬/▭» — переключить размер плитки,
+         «✕ Удалить» — убрать фотографию, «+ Добавить фото» в конце галереи. Фото и подпись обязательны.`
 };
 
 /* ---------- элементы интерфейса ---------- */
@@ -330,12 +344,30 @@ const EDIT_STYLE = `
   td.adm-rowtools .adm-btn{ padding:6px 9px; margin-left:4px; }
   .adm-rowadd{ margin-top:14px; }
   .highlight-row td.adm-rowtools{ background:#E7F3FA; }
+
+  /* Карточки-фото: новости на главной и галереи на страницах бассейна/СПА/зала.
+     Панель инструментов — плашкой поверх фотографии. */
+  .news-card, .gallery-item{ position:relative; }
+  .adm-photocard-tools{
+    position:absolute; top:8px; right:8px; z-index:5;
+    display:flex; gap:6px; background:rgba(11,53,84,.72); padding:6px; border-radius:10px;
+    backdrop-filter:blur(2px);
+  }
+  .adm-photocard-tools .adm-btn{ padding:6px 9px; }
+  .adm-cap-edit{
+    position:relative; z-index:5;
+  }
+  .news-card.adm-addtile, .gallery-item.adm-addtile{
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    min-height:160px; aspect-ratio:auto;
+  }
+  .gallery-item.adm-addtile{ min-height:220px; }
 `;
 
 async function loadPage(page){
   const token = ++loadToken;
   current = page; dirty = false;
-  helpBox.innerHTML = (HELP[page.kind] || '') + HELP.common;
+  helpBox.innerHTML = (HELP[page.kind] || '') + (page.gallery ? HELP.gallery : '') + (page.news ? HELP.news : '') + HELP.common;
   setStatus('Загрузка…');
   let text;
   try{
@@ -370,9 +402,21 @@ async function loadPage(page){
 const TEXT_SELECTORS = [
   'main td', 'main .simple-card .name', 'main .simple-card .meta', 'main .simple-card .price',
   'main .from strong', 'main .day-item .time', 'main .day-item .info',
-  'main .updated', 'main p.sub', 'main p.note'
+  'main .updated', 'main p.sub', 'main p.note',
+  'main h1', 'main h2', 'main h3', 'main strong', 'main p.lede', 'main .section-head p',
+  'main .fact-card > span', 'main .fact-stats .stat', 'main .cap-chip',
+  'main .highlight-grid p', 'main .highlight-list li', 'main .info-note span:last-child',
+  'main .hero-ctas .btn', '.page-hero h1'
 ].join(', ');
 const COMMON_SELECTORS = 'main .updated, main p.sub, main p.note';
+
+// Элемент делаем редактируемым только если внутри него нет вложенных тегов
+// (ссылок, картинок и т.п.) — иначе при правке текста можно случайно стереть
+// вложенную ссылку (так устроен, например, заголовок на главной странице,
+// где «Бассейн», «СПА» и «фитнес-студия» — это ссылки на другие страницы).
+function isPlainLeaf(el){
+  return ![...el.childNodes].some(n => n.nodeType === 1);
+}
 
 function makeEditable(el, opts){
   opts = opts || {};
@@ -390,7 +434,7 @@ function enableEditing(doc, page){
   doc.head.appendChild(style);
 
   if(page.kind === 'text'){
-    doc.querySelectorAll(TEXT_SELECTORS).forEach(el => makeEditable(el));
+    doc.querySelectorAll(TEXT_SELECTORS).forEach(el => { if(isPlainLeaf(el)) makeEditable(el); });
   } else {
     doc.querySelectorAll(COMMON_SELECTORS).forEach(el => makeEditable(el));
   }
@@ -413,6 +457,8 @@ function enableEditing(doc, page){
 
   const setup = SETUP[page.kind];
   if(setup) setup(doc, page);
+  if(page.gallery) setupGallery(doc, page);
+  if(page.news) setupNews(doc, page);
   setStatus('Готово к редактированию');
 }
 
@@ -566,6 +612,216 @@ function normalizeTrainers(clone, live, page, files){
   });
   const grid = clone.querySelector('.trainer-grid');
   if(grid) prettifyNewCards(grid);
+}
+
+/* ==========================================================================
+   НОВОСТИ НА ГЛАВНОЙ (главная страница, блок «Новости клуба»)
+   Каждая карточка — просто одна фотография, без подписи.
+   ========================================================================== */
+function newsPhotoTools(doc, card){
+  const old = card.querySelector('.adm-photocard-tools'); if(old) old.remove();
+  const tools = mk(doc, 'div', { className: 'adm-ui adm-photocard-tools' });
+  tools.append(
+    mkBtn(doc, '📷 Фото', '', () => {
+      const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+      inp.addEventListener('change', async () => {
+        const file = inp.files && inp.files[0]; if(!file) return;
+        try{
+          const { blob, w, h } = await processImage(file);
+          const prev = photoStore.get(card); if(prev) URL.revokeObjectURL(prev.url);
+          const url = URL.createObjectURL(blob);
+          photoStore.set(card, { blob, w, h, url });
+          let img = card.querySelector('img');
+          if(!img){ img = mk(doc, 'img', {}); card.insertBefore(img, card.firstChild); }
+          img.src = url; img.width = w; img.height = h;
+          markDirty(); newsPhotoTools(doc, card);
+        }catch(err){ alert('Не удалось прочитать это изображение. Попробуйте другой файл (JPG или PNG).'); }
+      });
+      inp.click();
+    }, 'Загрузить или заменить фото'),
+    mkBtn(doc, '✕ Удалить', 'danger', () => {
+      if(!confirm('Удалить эту новость (фотографию) из карусели?')) return;
+      const prev = photoStore.get(card); if(prev) URL.revokeObjectURL(prev.url);
+      card.remove(); markDirty();
+    }, 'Удалить эту новость')
+  );
+  card.appendChild(tools);
+}
+
+function setupNews(doc, page){
+  const track = doc.getElementById('newsTrack');
+  if(!track) return;
+  track.querySelectorAll('.news-card').forEach(c => newsPhotoTools(doc, c));
+  const add = mk(doc, 'article', { className: 'adm-ui news-card adm-addtile' });
+  add.textContent = '+ Добавить новость';
+  add.addEventListener('click', () => {
+    const card = mk(doc, 'article', { className: 'news-card' });
+    track.insertBefore(card, add);
+    newsPhotoTools(doc, card);
+    markDirty();
+    card.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+    card.querySelector('.adm-btn').click();
+  });
+  track.appendChild(add);
+}
+
+function validateNews(doc){
+  const bad = [...doc.querySelectorAll('#newsTrack .news-card:not(.adm-addtile)')].find(c => !c.querySelector('img')?.getAttribute('src'));
+  return bad ? { msg: 'Одна из новостей осталась без фотографии.\nЗагрузите фото (📷 Фото) или удалите эту карточку (✕ Удалить).', focus: null } : null;
+}
+
+function normalizeNews(clone, live, page, files){
+  const liveCards = [...live.querySelectorAll('#newsTrack .news-card')];
+  const cloneCards = [...clone.querySelectorAll('#newsTrack .news-card')];
+  const used = new Set([...clone.querySelectorAll('#newsTrack img')].map(i => (i.getAttribute('src') || '').split('/').pop()));
+  let n = 1;
+  cloneCards.forEach((cc, i) => {
+    const ph = photoStore.get(liveCards[i]);
+    const img = cc.querySelector('img');
+    if(ph && img){
+      let fname = 'akvarena-news-' + n + '.jpg';
+      while(used.has(fname)){ n++; fname = 'akvarena-news-' + n + '.jpg'; }
+      used.add(fname); n++;
+      img.setAttribute('src', fname);
+      img.setAttribute('width', ph.w); img.setAttribute('height', ph.h);
+      img.setAttribute('loading', 'lazy');
+      if(!img.getAttribute('alt')) img.setAttribute('alt', 'Новость');
+      files.push({ name: fname, blob: ph.blob });
+    }
+  });
+  const track = clone.querySelector('#newsTrack');
+  if(track) prettifyCards(track, 'news-card', '        ');
+}
+
+/* ==========================================================================
+   ГАЛЕРЕИ ФОТО (страницы «Бассейн», «СПА-комплекс», «Фитнес-студия»)
+   Каждая карточка — фотография с подписью.
+   ========================================================================== */
+function galleryCapText(card){ const c = card.querySelector('.cap'); return c ? norm(c.textContent) : ''; }
+
+function buildGalleryCard(doc){
+  const card = mk(doc, 'div', { className: 'gallery-item' });
+  card.append(mk(doc, 'div', { className: 'cap' }));
+  return card;
+}
+
+function galleryTools(doc, card){
+  const old = card.querySelector('.adm-photocard-tools'); if(old) old.remove();
+  const tools = mk(doc, 'div', { className: 'adm-ui adm-photocard-tools' });
+  tools.append(
+    mkBtn(doc, '📷 Фото', '', () => {
+      const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+      inp.addEventListener('change', async () => {
+        const file = inp.files && inp.files[0]; if(!file) return;
+        try{
+          const { blob, w, h } = await processImage(file);
+          const prev = photoStore.get(card); if(prev) URL.revokeObjectURL(prev.url);
+          const url = URL.createObjectURL(blob);
+          photoStore.set(card, { blob, w, h, url });
+          let img = card.querySelector('img');
+          if(!img){ img = mk(doc, 'img', {}); card.insertBefore(img, card.firstChild); }
+          img.src = url; img.width = w; img.height = h;
+          markDirty(); galleryTools(doc, card);
+        }catch(err){ alert('Не удалось прочитать это изображение. Попробуйте другой файл (JPG или PNG).'); }
+      });
+      inp.click();
+    }, 'Загрузить или заменить фото'),
+    mkBtn(doc, card.classList.contains('wide') ? '▭ Обычная плитка' : '▬ Крупная плитка', '', () => {
+      card.classList.toggle('wide'); markDirty(); galleryTools(doc, card);
+    }, 'Переключить размер плитки в сетке галереи'),
+    mkBtn(doc, '✕ Удалить', 'danger', () => {
+      if(!confirm('Удалить фотографию «' + (galleryCapText(card) || 'без подписи') + '» из галереи?')) return;
+      const prev = photoStore.get(card); if(prev) URL.revokeObjectURL(prev.url);
+      card.remove(); markDirty();
+    }, 'Удалить фотографию')
+  );
+  card.appendChild(tools);
+}
+
+function decorateGalleryCard(doc, card){
+  const cap = card.querySelector('.cap');
+  if(cap) makeEditable(cap, { line: true, ph: 'Подпись к фотографии' });
+  galleryTools(doc, card);
+}
+
+function setupGallery(doc, page){
+  const grid = doc.querySelector('main .gallery');
+  if(!grid) return;
+  grid.querySelectorAll('.gallery-item').forEach(c => decorateGalleryCard(doc, c));
+  const add = mk(doc, 'div', { className: 'adm-ui gallery-item adm-addtile' });
+  add.textContent = '+ Добавить фото';
+  add.addEventListener('click', () => {
+    const card = buildGalleryCard(doc);
+    grid.insertBefore(card, add);
+    decorateGalleryCard(doc, card);
+    markDirty();
+    card.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    card.querySelector('.cap').focus();
+  });
+  grid.appendChild(add);
+}
+
+function validateGallery(doc){
+  const cards = [...doc.querySelectorAll('main .gallery .gallery-item:not(.adm-addtile)')];
+  let bad = cards.find(c => !c.querySelector('img')?.getAttribute('src'));
+  if(bad) return { msg: 'Одна из фотографий в галерее не загружена.\nЗагрузите фото (📷 Фото) или удалите эту плитку (✕ Удалить).', focus: null };
+  bad = cards.find(c => !galleryCapText(c));
+  if(bad) return { msg: 'У одной из фотографий в галерее не заполнена подпись.\nВпишите подпись или удалите эту плитку (✕ Удалить).', focus: bad.querySelector('.cap') };
+  return null;
+}
+
+function normalizeGallery(clone, live, page, files){
+  const liveCards = [...live.querySelectorAll('main .gallery .gallery-item')];
+  const cloneCards = [...clone.querySelectorAll('main .gallery .gallery-item')];
+  const used = new Set([...clone.querySelectorAll('main .gallery img')].map(i => (i.getAttribute('src') || '').split('/').pop()));
+  cloneCards.forEach((cc, i) => {
+    const capEl = cc.querySelector('.cap'); const cap = norm(capEl.textContent); capEl.textContent = cap;
+    const ph = photoStore.get(liveCards[i]);
+    const img = cc.querySelector('img');
+    if(ph && img){
+      let base = page.gallery.photoPrefix + translit(cap), fname = base + '.jpg', n = 2;
+      while(used.has(fname)){ fname = base + '-' + n + '.jpg'; n++; }
+      used.add(fname);
+      img.setAttribute('src', fname);
+      img.setAttribute('width', ph.w); img.setAttribute('height', ph.h);
+      files.push({ name: fname, blob: ph.blob });
+      // alt подставляем только для нового фото — у нетронутых карточек
+      // исходный (более подробный) alt-текст не трогаем.
+      img.setAttribute('alt', cap);
+    }
+  });
+  const grid = clone.querySelector('main .gallery');
+  if(grid) prettifyCards(grid, 'gallery-item', '      ');
+}
+
+/* Аккуратно расставляет отступы у карточек, которые добавил редактор —
+   общая версия для новостей и галерей (для тренеров есть своя, prettifyNewCards,
+   так как у их карточек другая внутренняя структура). indent — отступ
+   уровня самой карточки в исходном файле (у новостей он на 2 пробела
+   глубже, чем у галерей, из-за дополнительной обёртки). */
+function prettifyCards(container, cardClass, indent){
+  indent = indent || '      ';
+  const inner = indent + '  ';
+  const outer = indent.slice(0, -2) || '';
+  const doc = container.ownerDocument;
+  const cards = [...container.children].filter(c => c.classList && c.classList.contains(cardClass));
+  const fresh = cards.filter(c => {
+    const kids = [...c.childNodes].filter(n => n.nodeType === 1);
+    return kids.some(k => k.tagName === 'IMG' || k.classList.contains('cap')) && c.firstChild && c.firstChild.nodeType === 1;
+  });
+  if(!fresh.length) return;
+  fresh.forEach(c => {
+    const kids = [...c.children];
+    c.textContent = '';
+    kids.forEach(k => c.append('\n' + inner, k));
+    c.append('\n' + indent);
+    const prev = c.previousSibling;
+    if(prev && prev.nodeType === 3) prev.textContent = '\n\n' + indent;
+    else container.insertBefore(doc.createTextNode('\n\n' + indent), c);
+  });
+  const next = fresh[fresh.length - 1].nextSibling;
+  if(next && next.nodeType === 3) next.textContent = '\n\n' + outer;
+  else container.insertBefore(doc.createTextNode('\n\n' + outer), next);
 }
 
 /* ==========================================================================
@@ -891,11 +1147,105 @@ function mainRange(src){
   return (s < 0 || e < s) ? null : [s, e + '</main>'.length];
 }
 
+// Заголовок страницы (<h1>) на некоторых страницах стоит СНАРУЖИ <main>
+// (в блоке .page-hero, до подменю). Сохраняется только то, что внутри
+// <main>, поэтому такой заголовок нужно отдельно подставить в кусок
+// исходника ДО <main> — иначе правка заголовка тихо потерялась бы.
+function escapeHtmlText(s){
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function buildPreMain(originalPre, doc){
+  const h1 = doc.querySelector('.page-hero h1');
+  if(!h1) return originalPre;
+  const text = escapeHtmlText(norm(h1.textContent));
+  return originalPre.replace(/(<div class="wrap page-hero">\s*<h1>)[\s\S]*?(<\/h1>)/, (m0, a, b) => a + text + b);
+}
+
 function downloadBlob(name, blob){
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a'); a.href = url; a.download = name;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 8000);
+}
+
+/* ==========================================================================
+   Публикация напрямую на сервер (save.php), без скачивания файлов
+   ==========================================================================
+   Если на сайте есть save.php и он настроен — правки уходят сразу на сервер.
+   Если save.php нет (например, сайт ещё на другом хостинге без него) —
+   редактор молча возвращается к прежнему способу: скачать файл(ы) и
+   загрузить их самостоятельно. Так один и тот же admin.html работает
+   в обоих случаях без настройки.
+   ========================================================================== */
+const EDITOR_KEY_STORAGE = 'akvarenaEditorKey';
+
+function blobToBase64(blob){
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(String(r.result).split(',')[1] || '');
+    r.onerror = () => reject(r.error || new Error('read'));
+    r.readAsDataURL(blob);
+  });
+}
+
+function askForKey(){
+  return new Promise(resolve => {
+    showModal({
+      title: 'Ключ редактора',
+      fields: [
+        { id: 'key', label: 'Введите ключ редактора (задан в файле save.php на сервере)', type: 'text', value: '' }
+      ],
+      actions: [
+        { label: 'Отмена', run: () => { resolve(null); return null; } },
+        { label: 'Продолжить', cls: 'primary', run: v => {
+            if(!v.key) return 'Введите ключ.';
+            resolve(v.key); return null;
+        } }
+      ]
+    });
+  });
+}
+
+async function tryPublish(file, html, files, retried){
+  let photos;
+  try{
+    photos = await Promise.all(files.map(async f => ({ name: f.name, data: await blobToBase64(f.blob) })));
+  }catch(err){ return { ok: false }; }
+
+  const key = sessionStorage.getItem(EDITOR_KEY_STORAGE) || '';
+  let resp;
+  try{
+    resp = await fetch('save.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key, file, html, photos })
+    });
+  }catch(networkErr){
+    return { ok: false }; // save.php недоступен на этом хостинге — тихо переходим на скачивание
+  }
+
+  if(resp.status === 404) return { ok: false }; // публикация здесь не настроена — как раньше, скачиваем
+
+  if(resp.status === 403){
+    const body = await resp.json().catch(() => ({}));
+    if(body.error === 'bad_key' && !retried){
+      const newKey = await askForKey();
+      if(newKey === null) return { ok: false }; // отменили ввод ключа — скачиваем как раньше
+      sessionStorage.setItem(EDITOR_KEY_STORAGE, newKey);
+      return tryPublish(file, html, files, true);
+    }
+    const reason = body.error === 'bad_key' ? 'Неверный ключ редактора.'
+      : body.error === 'key_not_configured' ? 'На сервере не задан ключ редактора (см. save.php).'
+      : 'Сервер отклонил публикацию.';
+    return { ok: false, reason };
+  }
+
+  if(!resp.ok){
+    return { ok: false, reason: 'Ошибка сервера (' + resp.status + ').' };
+  }
+
+  const body = await resp.json().catch(() => null);
+  return (body && body.ok) ? { ok: true } : { ok: false, reason: 'Сервер ответил неожиданно.' };
 }
 
 saveBtn.addEventListener('click', async () => {
@@ -906,31 +1256,55 @@ saveBtn.addEventListener('click', async () => {
   const range = mainRange(src);
   if(!range){ setStatus('В файле не найден блок <main> — сохранить нельзя.', 'err'); return; }
 
-  const v = VALIDATE[current.kind] && VALIDATE[current.kind](doc, current);
-  if(v){
-    alert(v.msg);
-    if(v.focus){ v.focus.scrollIntoView({ block: 'center' }); v.focus.focus(); }
-    return;
+  const validators = [];
+  if(VALIDATE[current.kind]) validators.push(() => VALIDATE[current.kind](doc, current));
+  if(current.gallery) validators.push(() => validateGallery(doc, current));
+  if(current.news) validators.push(() => validateNews(doc, current));
+  for(const check of validators){
+    const v = check();
+    if(v){
+      alert(v.msg);
+      if(v.focus){ v.focus.scrollIntoView({ block: 'center' }); v.focus.focus(); }
+      return;
+    }
   }
 
   const clone = live.cloneNode(true);
   const files = [];
   cleanCommon(clone);
   if(NORMALIZE[current.kind]) NORMALIZE[current.kind](clone, live, current, files);
+  if(current.gallery) normalizeGallery(clone, live, current, files);
+  if(current.news) normalizeNews(clone, live, current, files);
   // браузер сам добавляет <tbody> в таблицы — убираем, если его не было в исходном файле
   if(!/<tbody[\s>]/i.test(src.slice(range[0], range[1]))){
     clone.querySelectorAll('tbody').forEach(tb => tb.replaceWith(...tb.childNodes));
   }
 
-  // подставляем только новый блок <main>: шапка, счётчик, скрипты и подвал остаются как на сайте
-  const out = src.slice(0, range[0]) + clone.outerHTML + src.slice(range[1]);
+  // подставляем только новый блок <main>: шапка, счётчик, скрипты и подвал остаются как на сайте.
+  // Заголовок вне <main> (если есть) тоже подхватываем отдельно.
+  const preMain = buildPreMain(src.slice(0, range[0]), doc);
+  const out = preMain + clone.outerHTML + src.slice(range[1]);
+
+  saveBtn.disabled = true;
+  setStatus('Публикация…');
+  const result = await tryPublish(current.file, out, files);
+  saveBtn.disabled = false;
+
+  if(result.ok){
+    dirty = false;
+    setStatus('Опубликовано на сайте: ' + current.file +
+      (files.length ? ' и фото (' + files.map(f => f.name).join(', ') + ')' : '') + '.', 'ok');
+    return;
+  }
+
   downloadBlob(current.file, new Blob([out], { type: 'text/html;charset=utf-8' }));
   for(const f of files){ await sleep(450); downloadBlob(f.name, f.blob); }
 
   dirty = false;
-  setStatus(files.length
+  const prefix = result.reason ? result.reason + ' ' : '';
+  setStatus(prefix + (files.length
     ? 'Скачано: ' + current.file + ' и фото (' + files.map(f => f.name).join(', ') + '). Загрузите ВСЕ файлы на хостинг.'
-    : 'Файл скачан: ' + current.file, 'ok');
+    : 'Файл скачан: ' + current.file), result.reason ? 'err' : 'ok');
 });
 
 /* ---------- выбор страницы, сброс ---------- */
