@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Расписание — Зал — АквАрена</title>
-<meta name="description" content="Расписание групповых программ фитнес-студии АквАрена в Казани по дням недели. Занятия со значком $ — платные, по записи.">
+<title>Виды тренировок — Фитнес-студия — АквАрена</title>
+<meta name="description" content="Описание групповых тренировок фитнес-студии АквАрена в Казани: интервальная тренировка, супер силовая, мобилити, гибкость и другие занятия расписания.">
 <meta name="theme-color" content="#0B3554">
 <link rel="icon" href="assets/icons/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
@@ -373,13 +373,25 @@
   .edge-glint__streak, .edge-glint__top{ animation:none; }
 }
 
-  .workout-help{ margin:0 0 22px; text-align:center; }
-  .workout-help-link{
+  /* ---------- Виды тренировок ---------- */
+  .workout-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:24px; margin-top:28px;
+  }
+  .workout-card{
+    background:var(--white); border-radius:20px; padding:26px 26px 28px;
+    box-shadow:0 10px 26px rgba(5,15,26,0.10);
+  }
+  .workout-card h3{ font-size:21px; color:var(--deep); margin:0 0 10px; }
+  .workout-card p.sub{
+    font-size:15px; line-height:1.6; color:#3B4A55; margin:0; text-align:left; max-width:none;
+  }
+  .workout-back{ margin-top:32px; text-align:center; }
+  .workout-back-link{
     display:inline-block; font-size:14px; font-weight:700; color:var(--deep);
     background:var(--white); padding:10px 18px; border-radius:999px; text-decoration:none;
     box-shadow:0 2px 8px rgba(5,15,26,0.12);
   }
-  .workout-help-link:hover{ background:var(--mist); }
 </style>
 <link rel="stylesheet" href="assets/css/common.css">
 <!-- Yandex.Metrika counter -->
@@ -443,97 +455,112 @@
 </header>
 
 <div class="wrap page-hero">
-  <h1>Расписание фитнес-студии</h1>
-  <span class="updated">Актуально на сентябрь 2026 — май 2027.</span>
+  <h1>Виды тренировок</h1>
 </div>
 
 <div class="subnav-shell">
   <div class="wrap subnav">
     <a href="akvarena-raspisanie.html">Все расписания</a>
-    <a href="akvarena-raspisanie-zal.html" class="active">Расписание фитнес-студии</a>
+    <a href="akvarena-raspisanie-zal.html">Расписание фитнес-студии</a>
+    <a href="akvarena-trenirovki.html" class="active">Виды тренировок</a>
   </div>
 </div>
 
 <main class="wrap">
 
-  <section class="section" id="fitnes-group">
-    <h2>Групповые программы «Фитнес-студии»</h2>
-    <p class="sub">Актуальное расписание фитнес-студии. Занятия отмеченные значком $ — платные, по записи.</p>
+  <section class="section" id="workouts">
+    <p class="sub">Что означают названия групповых тренировок в расписании фитнес-студии.</p>
 
-    <div class="workout-help">
-      <a class="workout-help-link" href="akvarena-trenirovki.html">Что значат названия занятий? Описание всех тренировок →</a>
+    <div class="workout-grid">
+      <article class="workout-card">
+        <h3>Интервальная тренировка</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Супер силовая</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Мобилити</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Гибкость</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Здоровье</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Фитнесмикс флекс</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Баланс и сила</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Интервальный тренинг</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Пресс+бёдра</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Пилатес</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Силовая тренировка</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Ягодицы и пресс</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Зумба</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Пресс</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Калланетика</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>МФР (самомассаж)</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
+      <article class="workout-card">
+        <h3>Ролл релакс</h3>
+        <p class="sub">Описание скоро появится.</p>
+      </article>
+
     </div>
 
-    <div class="schedule-wrap">
-    <div class="table-scroll week-grid">
-      <table>
-        <tr><th>Время</th><th>Понедельник</th><th>Вторник</th><th>Среда</th><th>Четверг</th><th>Пятница</th><th>Суббота</th><th>Воскресенье</th></tr>
-        <tr>
-          <td class="price">9:00</td><td class="muted">—</td>
-          <td>«Здоровье»<br><span class="muted">Мария</span></td>
-          <td>Фитнесмикс флекс<br><span class="muted">Светлана</span></td>
-          <td>«Здоровье»<br><span class="muted">Мария</span></td>
-          <td>Фитнесмикс флекс<br><span class="muted">Светлана</span></td>
-          <td class="muted">—</td><td class="muted">—</td>
-        </tr>
-        <tr>
-          <td class="price">10:00</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td>
-          <td>Баланс и сила<br><span class="muted">Светлана</span></td>
-          <td>$ Интервальный тренинг<br><span class="muted">Татьяна</span></td>
-        </tr>
-        <tr>
-          <td class="price">11:00</td>
-          <td>Интервальная тренировка<br><span class="muted">Светлана</span></td>
-          <td>Пресс+бёдра<br><span class="muted">Светлана</span></td>
-          <td>Пилатес<br><span class="muted">Светлана</span></td>
-          <td>Силовая тренировка<br><span class="muted">Светлана</span></td>
-          <td>Ягодицы и пресс<br><span class="muted">Светлана</span></td>
-          <td>Гибкость<br><span class="muted">Светлана</span></td>
-          <td>Силовая тренировка<br><span class="muted">Татьяна</span></td>
-        </tr>
-        <tr>
-          <td class="price">12:00</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td>
-          <td>Зумба<br><span class="muted">Татьяна</span></td>
-        </tr>
-        <tr class="highlight-row">
-          <td class="price">18:00</td>
-          <td>Супер силовая<br><span class="muted">Лейсан</span></td>
-          <td>Пресс<br><span class="muted">Татьяна</span></td>
-          <td>Калланетика<br><span class="muted">Екатерина</span></td>
-          <td>Супер силовая<br><span class="muted">Светлана</span></td>
-          <td>Супер силовая<br><span class="muted">Лейсан</span></td>
-          <td class="muted">—</td><td class="muted">—</td>
-        </tr>
-        <tr class="highlight-row">
-          <td class="price">18:00</td>
-          <td>Мобилити<br><span class="muted">Екатерина</span></td>
-          <td>Силовая тренировка<br><span class="muted">Карина</span></td>
-          <td>Супер силовая<br><span class="muted">Лейсан</span></td>
-          <td>Пресс+бёдра<br><span class="muted">Карина</span></td>
-          <td>Гибкость<br><span class="muted">Екатерина</span></td>
-          <td class="muted">—</td><td class="muted">—</td>
-        </tr>
-        <tr>
-          <td class="price">19:00</td>
-          <td>Гибкость<br><span class="muted">Екатерина</span></td>
-          <td>МФР (самомассаж)<br><span class="muted">Татьяна</span></td>
-          <td>Супер силовая<br><span class="muted">Лейсан</span></td>
-          <td>Гибкость<br><span class="muted">Светлана</span></td>
-          <td>Калланетика<br><span class="muted">Екатерина</span></td>
-          <td class="muted">—</td><td class="muted">—</td>
-        </tr>
-        <tr>
-          <td class="price">19:00</td>
-          <td>Супер силовая<br><span class="muted">Лейсан</span></td>
-          <td>Гибкость<br><span class="muted">Карина</span></td>
-          <td>Ролл релакс<br><span class="muted">Екатерина</span></td>
-          <td>Пилатес<br><span class="muted">Надежда</span></td>
-          <td>Супер силовая<br><span class="muted">Лейсан</span></td>
-          <td class="muted">—</td><td class="muted">—</td>
-        </tr>
-      </table>
-    </div>
-    <p class="note">$ — платный урок, по записи: Карина, +7 906 330-92-61. Общие вопросы — фитнес-менеджер Евгений, +7 960 048-80-39.</p>
+    <div class="workout-back">
+      <a class="workout-back-link" href="akvarena-raspisanie-zal.html">← Вернуться к расписанию фитнес-студии</a>
     </div>
   </section>
 
