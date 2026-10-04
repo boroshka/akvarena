@@ -6,9 +6,9 @@
 <title>АквАрена — бассейн, СПА и фитнес-студия в Казани</title>
 <meta name="description" content="АквАрена — бассейн, СПА и фитнес-студия в центре Казани, ул. Короленко, 28а. Абонементы, расписание занятий, тренеры. Тел. +7 (843) 200-10-24.">
 <meta name="theme-color" content="#0B3554">
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="assets/icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -482,36 +482,6 @@
   }
   .map-open-btn:hover{ background:var(--mist); }
 
-  /* ---------- Contact form ---------- */
-  .contact-form{ max-width:640px; }
-  .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  @media (max-width:560px){ .form-row{ grid-template-columns:1fr; } }
-  .form-field{ margin-bottom:16px; }
-  .form-field label{
-    display:block; font-size:13.5px; font-weight:700;
-    color:rgba(255,255,255,0.75); margin-bottom:6px;
-  }
-  .form-field input, .form-field textarea{
-    width:100%; box-sizing:border-box;
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.2);
-    border-radius:12px;
-    padding:12px 14px;
-    font-family:'Manrope', sans-serif;
-    font-size:15px; color:var(--white);
-  }
-  .form-field input::placeholder, .form-field textarea::placeholder{ color:rgba(255,255,255,0.4); }
-  .form-field input:focus, .form-field textarea:focus{
-    outline:none; border-color:var(--amber);
-    background:rgba(255,255,255,0.1);
-  }
-  .contact-form textarea{ resize:vertical; }
-  .form-msg{
-    max-width:640px; margin:0 0 18px; padding:13px 16px; border-radius:12px;
-    font-size:14.5px; font-weight:700; line-height:1.4;
-  }
-  .form-msg.ok{ background:rgba(63,169,218,0.16); border:1px solid rgba(63,169,218,0.4); color:var(--white); }
-  .form-msg.err{ background:rgba(220,80,70,0.16); border:1px solid rgba(220,80,70,0.45); color:var(--white); }
   @media (max-width:560px){ .map-embed iframe{ height:320px; } }
 
   /* ---------- Schedule preview ---------- */
@@ -626,7 +596,7 @@
   .edge-glint__streak, .edge-glint__top{ animation:none; }
 }
 </style>
-<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="assets/css/common.css">
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function(m,e,t,r,i,k,a){
@@ -648,7 +618,7 @@
 <header class="site-header">
   <div class="wrap header-row">
     <a class="logo" href="index.html">
-      <img src="akvarena-logo.png" width="480" height="160" alt="АквАрена" class="logo-img">
+      <img src="assets/img/logo/akvarena-logo.png" width="480" height="160" alt="АквАрена" class="logo-img">
     </a>
     <nav class="site-nav">
       <a class="nav-link" href="akvarena-bassein.html">Бассейн</a>
@@ -692,7 +662,7 @@
 
   <!-- HERO: animated water design -->
   <section class="hero">
-    <img class="hero-photo" src="akvarena-pool-photo.jpg" width="800" height="533" alt="Бассейн АквАрена">
+    <img class="hero-photo" src="assets/img/pool/akvarena-pool-photo.jpg" width="800" height="533" alt="Бассейн АквАрена">
     <div class="hero-water"></div>
     <div class="hero-water2"></div>
     <svg class="hero-bg-waves" viewBox="0 0 1200 900" preserveAspectRatio="none" aria-hidden="true">
@@ -710,7 +680,6 @@
           <p class="lede">АквАрена на улице Короленко — место для плавания, тренировок и полноценного отдыха в центре Казани.</p>
           <div class="hero-ctas">
             <a class="btn btn-primary" href="akvarena-tariffs.html">Выбрать абонемент →</a>
-            <a class="btn btn-ghost" href="#napisat">Написать нам</a>
             <a class="btn btn-ghost" href="tel:+78432001024">Позвонить нам</a>
           </div>
           <div class="hero-meta">
@@ -732,7 +701,7 @@
     <div class="services">
       <a class="service-banner" id="pool-detail" href="akvarena-bassein.html">
         <div class="service-visual">
-          <img src="akvarena-pool-photo.jpg" width="800" height="533" alt="Бассейн АквАрена, 8 дорожек">
+          <img src="assets/img/pool/akvarena-pool-photo.jpg" width="800" height="533" alt="Бассейн АквАрена, 8 дорожек">
         </div>
         <div class="service-body">
           <h3>Бассейн</h3>
@@ -741,7 +710,7 @@
       </a>
       <a class="service-banner" id="spa" href="akvarena-spa.html">
         <div class="service-visual">
-          <img src="akvarena-spa-1.jpg" width="1000" height="750" alt="СПА-комплекс АквАрена">
+          <img src="assets/img/spa/akvarena-spa-1.jpg" width="1000" height="750" alt="СПА-комплекс АквАрена">
         </div>
         <div class="service-body">
           <h3>СПА-комплекс</h3>
@@ -750,7 +719,7 @@
       </a>
       <a class="service-banner" id="fitness" href="akvarena-zal.html">
         <div class="service-visual">
-          <img src="akvarena-zal-1.jpg" width="1000" height="750" alt="Фитнес-студия АквАрена">
+          <img src="assets/img/zal/akvarena-zal-1.jpg" width="1000" height="750" alt="Фитнес-студия АквАрена">
         </div>
         <div class="service-body">
           <h3>Фитнес-студия</h3>
@@ -771,13 +740,13 @@
       </button>
       <div class="news-track" id="newsTrack">
         <article class="news-card">
-          <img src="akvarena-news-1.jpg" alt="Новость 1" loading="lazy">
+          <img src="assets/img/news/akvarena-news-1.jpg" alt="Новость 1" loading="lazy">
         </article>
         <article class="news-card">
-          <img src="akvarena-news-2.jpg" width="1200" height="675" alt="Новость 2" loading="lazy">
+          <img src="assets/img/news/akvarena-news-2.jpg" width="1200" height="675" alt="Новость 2" loading="lazy">
         </article>
         <article class="news-card">
-          <img src="akvarena-news-3.jpg" alt="Новость 3" loading="lazy">
+          <img src="assets/img/news/akvarena-news-3.jpg" alt="Новость 3" loading="lazy">
         </article>
       </div>
       <button class="news-arrow next" type="button" aria-label="Следующая новость">
@@ -812,33 +781,6 @@
         Открыть в Яндекс Картах
       </a>
     </div>
-  </section>
-
-  <!-- FEEDBACK FORM -->
-  <section class="section wrap" id="napisat">
-    <div class="section-head">
-      <h2>Написать нам</h2>
-      <p>Вопрос по абонементу, расписанию или что-то не работает на сайте — напишите, ответим на почту или перезвоним.</p>
-    </div>
-    <div id="formMsg"></div>
-    <form class="contact-form" action="send.php" method="POST">
-      <div class="form-row">
-        <div class="form-field">
-          <label for="cf-name">Имя</label>
-          <input type="text" id="cf-name" name="name" required>
-        </div>
-        <div class="form-field">
-          <label for="cf-phone">Телефон</label>
-          <input type="tel" id="cf-phone" name="phone" required>
-        </div>
-      </div>
-      <div class="form-field">
-        <label for="cf-message">Сообщение</label>
-        <textarea id="cf-message" name="message" rows="4" required></textarea>
-      </div>
-      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
-      <button type="submit" class="btn btn-primary">Отправить</button>
-    </form>
   </section>
 
 </main>
@@ -910,24 +852,6 @@
     });
   });
 
-  // Результат отправки формы «Написать нам» (send.php перенаправляет сюда
-  // с ?sent=1 при успехе или ?sent=0 при ошибке). Показываем сообщение
-  // и убираем параметр из адресной строки, чтобы он не оставался при обновлении.
-  (() => {
-    const params = new URLSearchParams(location.search);
-    const sent = params.get('sent');
-    if(sent === null) return;
-    const box = document.getElementById('formMsg');
-    if(box){
-      box.className = 'form-msg ' + (sent === '1' ? 'ok' : 'err');
-      box.textContent = sent === '1'
-        ? 'Спасибо! Сообщение отправлено, скоро ответим на почту или перезвоним.'
-        : 'Не получилось отправить сообщение. Проверьте, что все поля заполнены, и попробуйте ещё раз — или позвоните нам напрямую.';
-    }
-    params.delete('sent');
-    const rest = params.toString();
-    history.replaceState(null, '', location.pathname + (rest ? '?' + rest : '') + location.hash);
-  })();
 </script>
 
 <script>

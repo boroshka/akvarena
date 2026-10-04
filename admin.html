@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>АквАрена — редактор сайта</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="assets/icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 
 <style>
   :root{
@@ -127,10 +127,12 @@ const pages = [
     gallery: { photoPrefix: "akvarena-spa-" } },
   { group: "Страницы", file: "akvarena-zal.html", label: "Фитнес-студия", kind: "text",
     gallery: { photoPrefix: "akvarena-zal-" } },
+  { group: "Страницы", file: "akvarena-pravila.html", label: "Правила", kind: "text" },
 
   { group: "Расписание", file: "akvarena-raspisanie-plavanie.html", label: "Бассейн — обучение плаванию", kind: "pool-schedule" },
   { group: "Расписание", file: "akvarena-raspisanie-aqua.html",     label: "Бассейн — аквааэробика",      kind: "grid", cell: "single", timeHint: "например, 19:00–19:45" },
   { group: "Расписание", file: "akvarena-raspisanie-zal.html",      label: "Фитнес-студия (зал)",         kind: "grid", cell: "class",  timeHint: "например, 19:00" },
+  { group: "Расписание", file: "akvarena-raspisanie.html",            label: "Расписание — общая страница", kind: "text" },
 
   { group: "Тренеры", file: "akvarena-trener-bassein.html", label: "Тренеры бассейна",
     kind: "trainers", photoPrefix: "akvarena-trener-bassein-", altSuffix: "тренер бассейна", newRole: true },
@@ -150,11 +152,11 @@ const pages = [
 
 const HELP = {
   common: `<div class="warnline">Кнопка «💾 Сохранить»: если на сервере настроена прямая публикация (save.php) — правки уйдут на сайт сразу, без скачивания.
-         Если нет — редактор скачает обновлённый файл, и его нужно будет самостоятельно загрузить на хостинг вместо старого (с тем же именем).</div>`,
+         Если нет — редактор скачает обновлённый файл, и его нужно будет самостоятельно загрузить на хостинг вместо старого (с тем же именем).<br>Плашка «Актуально на …» под заголовком страницы (если она есть) тоже правится кликом по тексту.</div>`,
   text: `Значения с <b>пунктирной рамкой</b> — время, имена тренеров, цены, даты — можно редактировать прямо здесь: кликните на текст и напечатайте новый.
          Добавить новую строку или колонку на этой странице нельзя.`,
   trainers: `Кликните по <b>имени</b> или <b>должности</b>, чтобы изменить. Под каждой карточкой: «+ Строка» — добавить должность/разряд (пустая строка при сохранении исчезнет),
-         «📷 Фото» — загрузить фото, «✕ Удалить» — убрать тренера. Новый тренер — плитка «+ Добавить тренера» в конце списка.`,
+         «📷 Фото» — загрузить фото (пока фото нет, показывается серая заглушка), «✕ Удалить» — убрать тренера. Новый тренер — плитка «+ Добавить тренера» в конце списка.`,
   'pool-schedule': `Кликните по <b>занятию</b> — откроется форма (время, название, тренер), в ней же можно удалить. «+ Добавить занятие» — под каждым днём.
          Фильтр «Показать расписание тренера» на сайте обновится сам.`,
   grid: `Кликните по <b>ячейке</b> — откроется форма (занятие, тренер, «очистить»). Время в левом столбце правится прямо на месте.
@@ -402,13 +404,13 @@ async function loadPage(page){
 const TEXT_SELECTORS = [
   'main td', 'main .simple-card .name', 'main .simple-card .meta', 'main .simple-card .price',
   'main .from strong', 'main .day-item .time', 'main .day-item .info',
-  'main .updated', 'main p.sub', 'main p.note',
+  'main .updated', '.page-hero .updated', 'main p.sub', 'main p.note',
   'main h1', 'main h2', 'main h3', 'main strong', 'main p.lede', 'main .section-head p',
   'main .fact-card > span', 'main .fact-stats .stat', 'main .cap-chip',
   'main .highlight-grid p', 'main .highlight-list li', 'main .info-note span:last-child',
   'main .hero-ctas .btn', '.page-hero h1'
 ].join(', ');
-const COMMON_SELECTORS = 'main .updated, main p.sub, main p.note';
+const COMMON_SELECTORS = 'main .updated, .page-hero .updated, main p.sub, main p.note';
 
 // Элемент делаем редактируемым только если внутри него нет вложенных тегов
 // (ссылок, картинок и т.п.) — иначе при правке текста можно случайно стереть
@@ -481,6 +483,24 @@ function processImage(file){
   });
 }
 
+const TRAINER_PLACEHOLDER = 'assets/img/trainers/trainer-placeholder.jpg';
+const TRAINER_PH_SIZE = 458;
+function photoDir(fname){
+  if(/^akvarena-trener-/.test(fname)) return 'assets/img/trainers/';
+  if(/^akvarena-news-/.test(fname)) return 'assets/img/news/';
+  if(/^akvarena-pool-/.test(fname)) return 'assets/img/pool/';
+  if(/^akvarena-spa-/.test(fname)) return 'assets/img/spa/';
+  if(/^akvarena-zal-/.test(fname)) return 'assets/img/zal/';
+  return '';
+}
+function placeholderImg(doc){
+  return mk(doc, 'img', { src: TRAINER_PLACEHOLDER, width: TRAINER_PH_SIZE, height: TRAINER_PH_SIZE, alt: '', loading: 'lazy' });
+}
+function hasCustomPhoto(card){
+  const img = card.querySelector('.photo img');
+  return !!img && img.getAttribute('src') !== TRAINER_PLACEHOLDER;
+}
+
 function cardName(card){ const h = card.querySelector('h3'); return h ? norm(h.textContent) : ''; }
 
 function buildCard(doc, page){
@@ -488,7 +508,9 @@ function buildCard(doc, page){
   const info = mk(doc, 'div', { className: 'info' });
   info.appendChild(mk(doc, 'h3'));
   if(page.newRole) info.appendChild(mk(doc, 'div', { className: 'role' }));
-  card.append(mk(doc, 'div', { className: 'photo' }), info);
+  const photoEl = mk(doc, 'div', { className: 'photo' });
+  photoEl.appendChild(placeholderImg(doc));
+  card.append(photoEl, info);
   return card;
 }
 
@@ -521,10 +543,10 @@ function buildTools(doc, card, page){
       inp.click();
     }, 'Загрузить или заменить фото')
   );
-  if(card.querySelector('.photo img')){
+  if(hasCustomPhoto(card)){
     tools.append(mkBtn(doc, 'Убрать фото', '', () => {
       const prev = photoStore.get(card); if(prev){ URL.revokeObjectURL(prev.url); photoStore.delete(card); }
-      card.querySelector('.photo').textContent = ''; markDirty(); buildTools(doc, card, page);
+      const ph = card.querySelector('.photo'); ph.textContent = ''; ph.appendChild(placeholderImg(doc)); markDirty(); buildTools(doc, card, page);
     }));
   }
   tools.append(mkBtn(doc, '✕ Удалить', 'danger', () => {
@@ -604,7 +626,7 @@ function normalizeTrainers(clone, live, page, files){
       let base = page.photoPrefix + translit(name), fname = base + '.jpg', n = 2;
       while(used.has(fname)){ fname = base + '-' + n + '.jpg'; n++; }
       used.add(fname);
-      img.setAttribute('src', fname);
+      img.setAttribute('src', photoDir(fname) + fname);
       img.setAttribute('width', ph.w); img.setAttribute('height', ph.h);
       files.push({ name: fname, blob: ph.blob });
     }
@@ -682,7 +704,7 @@ function normalizeNews(clone, live, page, files){
       let fname = 'akvarena-news-' + n + '.jpg';
       while(used.has(fname)){ n++; fname = 'akvarena-news-' + n + '.jpg'; }
       used.add(fname); n++;
-      img.setAttribute('src', fname);
+      img.setAttribute('src', photoDir(fname) + fname);
       img.setAttribute('width', ph.w); img.setAttribute('height', ph.h);
       img.setAttribute('loading', 'lazy');
       if(!img.getAttribute('alt')) img.setAttribute('alt', 'Новость');
@@ -782,7 +804,7 @@ function normalizeGallery(clone, live, page, files){
       let base = page.gallery.photoPrefix + translit(cap), fname = base + '.jpg', n = 2;
       while(used.has(fname)){ fname = base + '-' + n + '.jpg'; n++; }
       used.add(fname);
-      img.setAttribute('src', fname);
+      img.setAttribute('src', photoDir(fname) + fname);
       img.setAttribute('width', ph.w); img.setAttribute('height', ph.h);
       files.push({ name: fname, blob: ph.blob });
       // alt подставляем только для нового фото — у нетронутых карточек
@@ -1155,10 +1177,20 @@ function escapeHtmlText(s){
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 function buildPreMain(originalPre, doc){
+  let out = originalPre;
   const h1 = doc.querySelector('.page-hero h1');
-  if(!h1) return originalPre;
-  const text = escapeHtmlText(norm(h1.textContent));
-  return originalPre.replace(/(<div class="wrap page-hero">\s*<h1>)[\s\S]*?(<\/h1>)/, (m0, a, b) => a + text + b);
+  if(h1){
+    const text = escapeHtmlText(norm(h1.textContent));
+    out = out.replace(/(<div class="wrap page-hero">\s*<h1>)[\s\S]*?(<\/h1>)/, (m0, a, b) => a + text + b);
+  }
+  // Плашка «Актуально на …» тоже стоит вне <main> — подставляем её текст отдельно.
+  // Пустую плашку не сохраняем (оставляем прежний текст), чтобы не получить пустой «пузырь».
+  const upd = doc.querySelector('.page-hero .updated');
+  if(upd){
+    const u = norm(upd.textContent);
+    if(u) out = out.replace(/(<span class="updated">)[\s\S]*?(<\/span>)/, (m0, a, b) => a + escapeHtmlText(u) + b);
+  }
+  return out;
 }
 
 function downloadBlob(name, blob){

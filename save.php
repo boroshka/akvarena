@@ -25,6 +25,7 @@ const ALLOWED_FILES = [
     'akvarena-bassein.html', 'akvarena-spa.html', 'akvarena-zal.html',
     'akvarena-raspisanie-plavanie.html', 'akvarena-raspisanie-aqua.html', 'akvarena-raspisanie-zal.html',
     'akvarena-trener-bassein.html', 'akvarena-trener-zal.html',
+    'akvarena-raspisanie.html', 'akvarena-pravila.html',
     'akvarena-tariffs.html', 'akvarena-tariff-bassein.html', 'akvarena-tariff-klub.html',
     'akvarena-tariff-semya.html', 'akvarena-tariff-fitnes.html', 'akvarena-tariff-fitnes-spa.html',
     'akvarena-tariff-spa.html', 'akvarena-tariff-obuchenie.html', 'akvarena-tariff-dop.html',
@@ -33,12 +34,12 @@ const ALLOWED_FILES = [
 // Разрешённые имена файлов для фотографий — по одному шаблону на раздел.
 // Никакое другое имя (и тем более путь) сохранить не получится.
 const PHOTO_PATTERNS = [
-    '/^akvarena-trener-bassein-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/',
-    '/^akvarena-trener-zal-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/',
-    '/^akvarena-news-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/',
-    '/^akvarena-pool-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/',
-    '/^akvarena-spa-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/',
-    '/^akvarena-zal-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/',
+    '/^akvarena-trener-bassein-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/' => 'assets/img/trainers',
+    '/^akvarena-trener-zal-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/'     => 'assets/img/trainers',
+    '/^akvarena-news-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/'           => 'assets/img/news',
+    '/^akvarena-pool-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/'           => 'assets/img/pool',
+    '/^akvarena-spa-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/'            => 'assets/img/spa',
+    '/^akvarena-zal-[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/'            => 'assets/img/zal',
 ];
 
 header('Content-Type: application/json; charset=utf-8');
@@ -140,8 +141,9 @@ foreach ($photos as $p) {
     // Имя должно совпасть с одним из разрешённых шаблонов целиком —
     // никаких "/", "\", ".." или прочих сюрпризов в имени файла.
     $okName = false;
-    foreach (PHOTO_PATTERNS as $re) {
-        if (preg_match($re, $name)) { $okName = true; break; }
+    $subdir = '';
+    foreach (PHOTO_PATTERNS as $re => $dirName) {
+        if (preg_match($re, $name)) { $okName = true; $subdir = $dirName; break; }
     }
     if (!$okName) {
         fail(403, 'bad_photo_name');
@@ -153,7 +155,11 @@ foreach ($photos as $p) {
         fail(400, 'bad_photo_data');
     }
 
-    if (!safe_write($dir . '/' . $name, $bin)) {
+    $targetDir = $dir . '/' . $subdir;
+    if (!is_dir($targetDir) && !@mkdir($targetDir, 0755, true)) {
+        fail(500, 'photo_write_failed');
+    }
+    if (!safe_write($targetDir . '/' . $name, $bin)) {
         fail(500, 'photo_write_failed');
     }
     $savedPhotos[] = $name;
