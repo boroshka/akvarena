@@ -372,6 +372,8 @@
   }
 
   /* ---------- News carousel (dynamic 1–3 windows, no squish, no glitches) ---------- */
+  /* Нет ни одной карточки новости — блок скрыт целиком (в редакторе admin.html показывается кнопка «+ Добавить новость») */
+  #news[hidden], #news:not(:has(.news-card)){ display:none; }
   .news-carousel{ position:relative; }
   .news-track{
     display:flex; gap:18px;
@@ -882,8 +884,9 @@
     const n = validCards.length;
 
     if(n === 0){
-      track.innerHTML = '<article class="news-card news-empty">Пока новостей нет</article>';
-      carousel.classList.add('no-news');
+      // Новостей нет (или ни одна картинка не загрузилась) — блок «Новости клуба» не показываем совсем
+      const newsSection = document.getElementById('news');
+      if(newsSection) newsSection.hidden = true;
       return;
     }
 
